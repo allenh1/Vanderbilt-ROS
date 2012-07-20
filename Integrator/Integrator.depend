@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1306950764 source:/home/allenh1/Desktop/Dropbox/PlayerStage/CodeBlocks/Integrator/main.cpp
+	<iostream>
+	<math.h>
+
