@@ -1,0 +1,18 @@
+<package>
+  <description brief="tcp_command">
+
+     This package allows for tcp commands (as strings) to be 
+     recieved and converts them to ROS string messages. 
+
+  </description>
+  <author>Hunter Allen</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>https://hmtcomp-16.vuse.vanderbilt.edu/allenh1/svn/tcp_command</url>
+  <depend package="roscpp"/>
+  <depend package="tf"/>
+  <rosdep name="qt4"/>
+
+</package>
+
+
