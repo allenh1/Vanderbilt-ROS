@@ -28,7 +28,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #rosbuild_link_boost(${PROJECT_NAME} thread)
 #rosbuild_add_executable(example examples/example.cpp)
 #target_link_libraries(example ${PROJECT_NAME})
-rosbuild_add_executable(laser_test src/laser_test.cc)
+rosbuild_add_executable(geometric_mapping src/laser_test.cc)
 
 set(sources
         src/laser_test.cc
