@@ -1,0 +1,49 @@
+Instructions:
+
+ click on cells to select the live cells.
+
+ r = reset cells to dead
+	
+ c = change color of alive cells randomly
+
+ v = reset the color of the cells
+
+*g = glider
+
+*n = glider Gun
+
+*w = switch to windows theme
+
+*m = switch to mac theme
+
+*o = switch to the origional theme
+
+*d = change color of dead cells randomly
+
+*q = change color of the dead and alive cells randomly & refresh
+
+ TAB = random selection of live cells
+
+ f = flip the live and dead cells
+
+ f12 = random colors of dead and alive cells
+
+An astrik indecates a new addition to the program.
+
+More new features include support for Linux and Mac OSX!
+
+For linux install, you will need to add the executable to the menue manually.
+This is because, I haven't written a post install script. I do appologize for the inconvinience.
+
+On Ubuntu:
+1) Go to System->Preferences->Main Menu
+2) Click Games
+3) Click + New Item
+4) Enter the following settings:
+Type: Application
+Name: The Game Of Life
+Command: /usr/games/GameOfLife
+Comment: A clone of the classic "Conway's Game Of Life"
+5) Click on the picture of the spring board thing.
+6) Find logo.png (Should be under /usr/share/icons/hicolor/scalable/apps/logo.png)
+7) Finished! Click close and enjoy Conway's Game Of Life

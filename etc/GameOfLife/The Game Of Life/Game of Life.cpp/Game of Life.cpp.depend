@@ -1,0 +1,454 @@
+# depslib dependency file v1.0
+1278096640 source:c:\documents and settings\student\my documents\code\the game of life\game of life.cpp\main.cpp
+	<cstdlib>
+	<stdlib.h>
+	<SDL/SDL.h>
+	<SDL.h>
+	"cells.h"
+
+1278011453 
+
+1255800449 c:\documents and settings\student\my documents\code\the game of life\include\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_audio.h"
+	"SDL_cdrom.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_loadso.h"
+	"SDL_mutex.h"
+	"SDL_rwops.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_video.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 e.h"
+
+1255800450 c:\documents and settings\student\my documents\code\the game of life\include\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\documents and settings\student\my documents\code\the game of life\include\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1255800464 c:\documents and settings\student\my documents\code\the game of life\include\sdl_config.h
+	"SDL_platform.h"
+	<stdarg.h>
+
+1255800450 c:\documents and settings\student\my documents\code\the game of life\include\sdl_platform.h
+
+1255800450 c:\documents and settings\student\my documents\code\the game of life\include\begin_code.h
+
+1255800450 c:\documents and settings\student\my documents\code\the game of life\include\close_code.h
+
+1255800449 c:\documents and settings\student\my documents\code\the game of life\include\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\documents and settings\student\my documents\code\the game of life\include\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\documents and settings\student\my documents\code\the game of life\include\sdl_endian.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\documents and settings\student\my documents\code\the game of life\include\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\documents and settings\student\my documents\code\the game of life\include\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1255800450 c:\documents and settings\student\my documents\code\the game of life\include\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\documents and settings\student\my documents\code\the game of life\include\sdl_cdrom.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\documents and settings\student\my documents\code\the game of life\include\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\documents and settings\student\my documents\code\the game of life\include\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_active.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_quit.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\documents and settings\student\my documents\code\the game of life\include\sdl_active.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\documents and settings\student\my documents\code\the game of life\include\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keysym.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\documents and settings\student\my documents\code\the game of life\include\sdl_keysym.h
+
+1255800450 c:\documents and settings\student\my documents\code\the game of life\include\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\documents and settings\student\my documents\code\the game of life\include\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\documents and settings\student\my documents\code\the game of life\include\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\documents and settings\student\my documents\code\the game of life\include\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1255800450 .h"
+
+1255800450 c:\documents and settings\student\my documents\code\the game of life\include\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\documents and settings\student\my documents\code\the game of life\include\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\documents and settings\student\my documents\code\the game of life\include\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1278011453 c:\documents and settings\student\my documents\code\the game of life\game of life.cpp\classes.h
+	<iostream>
+	<string>
+	<cstdlib>
+	<stdlib.h>
+	<SDL.h>
+
+1278097500 c:\documents and settings\student\my documents\code\the game of life\game of life.cpp\cells.h
+	<iostream>
+	<string>
+	<cstdlib>
+	<stdlib.h>
+	<SDL.h>
+	<ctime>
+	<sstream>
+	<cmath>
+
+1278098733 source:c:\documents and settings\student\my documents\code\the game of life\game of life.cpp\cells.cpp
+	"cells.h"
+
+1278091534 source:/media/OS/Users/Owner/Desktop/The Game of Life/The Game Of Life/Game of Life.cpp/cells.cpp
+	"cells.h"
+
+1278960407 /media/OS/Users/Owner/Desktop/The Game of Life/The Game Of Life/Game of Life.cpp/cells.h
+	<iostream>
+	<string>
+	<cstdlib>
+	<stdlib.h>
+	</usr/local/include/SDL/SDL.h>
+	<ctime>
+	<sstream>
+	<cmath>
+
+1294527837 /usr/local/include/SDL/SDL.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_audio.h"
+	"SDL_cdrom.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_loadso.h"
+	"SDL_mutex.h"
+	"SDL_rwops.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_video.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_config.h
+	"SDL_platform.h"
+	<stdarg.h>
+
+1294527837 /usr/local/include/SDL/SDL_platform.h
+
+1294527837 /usr/local/include/SDL/begin_code.h
+
+1294527837 /usr/local/include/SDL/close_code.h
+
+1294527837 /usr/local/include/SDL/SDL_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_endian.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_cdrom.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_cpuinfo.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_active.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_quit.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_active.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keysym.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_keysym.h
+
+1294527837 /usr/local/include/SDL/SDL_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_video.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1294527837 /usr/local/include/SDL/SDL_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1294527837 /usr/local/include/SDL/SDL_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1278960424 source:/media/OS/Users/Owner/Desktop/The Game of Life/The Game Of Life/Game of Life.cpp/main.cpp
+	<cstdlib>
+	<stdlib.h>
+	<SDL/SDL.h>
+	</usr/local/include/SDL/SDL.h>
+	"cells.h"
+
+1296077222 source:/home/allenkids/Desktop/Dropbox/The Game of Life/The Game Of Life/Game of Life.cpp/cells.cpp
+	"cells.h"
+
+1296077277 /home/allenkids/Desktop/Dropbox/The Game of Life/The Game Of Life/Game of Life.cpp/cells.h
+	<iostream>
+	<string>
+	<cstdlib>
+	<stdlib.h>
+	</usr/local/include/SDL/SDL.h>
+	<ctime>
+	<sstream>
+	<cmath>
+
+1296065808 source:/home/allenkids/Desktop/Dropbox/The Game of Life/The Game Of Life/Game of Life.cpp/main.cpp
+	<cstdlib>
+	<stdlib.h>
+	<SDL/SDL.h>
+	</usr/local/include/SDL/SDL.h>
+	"cells.h"
+
+1296077222 source:/home/allenkids/Desktop/Dropbox/GameOfLife/The Game Of Life/Game of Life.cpp/cells.cpp
+	"cells.h"
+
+1296079022 /home/allenkids/Desktop/Dropbox/GameOfLife/The Game Of Life/Game of Life.cpp/cells.h
+	<iostream>
+	<string>
+	<cstdlib>
+	<stdlib.h>
+	</usr/local/include/SDL/SDL.h>
+	<ctime>
+	<sstream>
+	<cmath>
+
+1296065808 source:/home/allenkids/Desktop/Dropbox/GameOfLife/The Game Of Life/Game of Life.cpp/main.cpp
+	<cstdlib>
+	<stdlib.h>
+	<SDL/SDL.h>
+	</usr/local/include/SDL/SDL.h>
+	"cells.h"
+

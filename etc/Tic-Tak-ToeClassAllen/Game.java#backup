@@ -1,0 +1,53 @@
+
+/**
+ * All code related to a tic-tac-toe game.
+ * You can play a game person vs person
+ * or a game cpu vs. cpu.
+ * 
+ * @author Hunter Allen
+ * @version November 17, 2010
+ */
+public class Game
+{
+    private int gameType;
+    
+    public Keyboard input = new Keyboard();
+    
+    public Game()
+    {
+       Board brd = new Board();
+    }
+    
+    public void pregameStuff()
+    {
+        System.out.println("Welcome to Hunter's Tic-Tac-Toe game.");
+        System.out.println("-------------------------------------");
+        System.out.println();
+        System.out.println("1. Human vs. Human");
+        System.out.println("2. Cpu vs Cpu");
+        System.out.println();
+        System.out.print("Please enter your game type: ");
+        gameType = input.readInt();
+    }//all the pregame stuff.
+    
+    public void showBoardKey()
+    {
+        System.out.println();
+        System.out.println("Move Key: ");
+        System.out.println();
+        System.out.println("|0|1|2|");
+        System.out.println("|3|4|5|");
+        System.out.println("|6|7|8|");
+        System.out.println();
+    }//shows the key.
+    
+    public void playOneGame()
+    {
+        System.out.println("Player 1 will go first.");
+        System.out.println("Player 1 is X's.");
+        System.out.println("Player 2. is O's.");
+        showBoardKey();
+        Board.showBoard();
+    }//play one game.
+        
+}

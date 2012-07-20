@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Game of Life.cpp" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Game of Life" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Game of Life" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="C:/Documents and Settings/Student/My Documents/Code/The Game Of Life/include" />
+		</Compiler>
+		<Linker>
+			<Add library="../../../../../../../../usr/local/lib/libSDLmain.a" />
+			<Add library="../../../../../../../../usr/local/lib/libSDL.a" />
+			<Add library="../../../../../../../../usr/local/lib/libSDL.so" />
+			<Add library="../../../../../../../../usr/local/include/SDL/begin_code.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/close_code.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_active.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_audio.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_byteorder.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_cdrom.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_config.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_cpuinfo.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_endian.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_error.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_events.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_getenv.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_joystick.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_keyboard.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_keysym.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_loadso.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_main.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_mouse.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_mutex.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_name.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_opengl.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_platform.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_quit.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_rwops.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_stdinc.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_syswm.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_thread.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_timer.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_types.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_version.h" />
+			<Add library="../../../../../../../../usr/local/include/SDL/SDL_video.h" />
+			<Add directory="C:/Documents and Settings/Student/My Documents/Code/The Game Of Life/lib" />
+		</Linker>
+		<Unit filename="cells.cpp" />
+		<Unit filename="cells.h" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

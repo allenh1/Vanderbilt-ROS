@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Square()
+comment1.params=
+comment1.target=java.lang.String\ getVal()
+comment2.params=
+comment2.target=void\ makeX()
+comment3.params=
+comment3.target=void\ makeO()
+comment4.params=
+comment4.target=void\ makeBLANK()
+comment5.params=
+comment5.target=boolean\ isX()
+comment6.params=
+comment6.target=boolean\ isO()
+comment7.params=
+comment7.target=boolean\ isOccupied()
+numComments=8

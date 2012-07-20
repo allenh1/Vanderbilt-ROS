@@ -1,0 +1,23 @@
+Instructions:
+
+ click on cells to select the live cells.
+
+ r = reset cells to dead
+
+ c = change color of alive cells randomly
+
+ v = reset the color of the cells
+
+*g = glider
+
+*n = glider Gun
+
+ TAB = random selection of live cells
+
+ f = flip the live and dead cells
+
+ f12 = random colors of dead and alive cells
+
+An astrik indecates a new addition to the program.
+
+More new features include support for Linux!

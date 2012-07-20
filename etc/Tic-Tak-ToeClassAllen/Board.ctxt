@@ -1,0 +1,23 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Board()
+comment1.params=cell
+comment1.target=void\ setX(int)
+comment2.params=square
+comment2.target=void\ setO(int)
+comment3.params=
+comment3.target=void\ showBoard()
+comment4.params=Side\ a\ b\ c
+comment4.target=boolean\ hasSameThree(java.lang.String,\ int,\ int,\ int)
+comment5.params=
+comment5.target=boolean\ isFull()
+comment6.params=side
+comment6.target=boolean\ checkRowsWin(java.lang.String)
+comment6.text=\n\ The\ following\ booleans\ check\n\ for\ a\ winning\ situation.\n\ The\ layout\ for\ the\ board\ is\ as\ follows\:\n\ \n\ |0|1|2|\n\ -------\n\ |3|4|5|\n\ -------\n\ |6|7|8|\n
+comment7.params=side
+comment7.target=boolean\ checkColsWin(java.lang.String)
+comment8.params=side
+comment8.target=boolean\ checkDiagWin(java.lang.String)
+comment9.params=side
+comment9.target=boolean\ checkForWin(java.lang.String)
+numComments=10

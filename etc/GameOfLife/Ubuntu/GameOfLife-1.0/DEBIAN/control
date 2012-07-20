@@ -1,0 +1,21 @@
+Package: GameOfLife
+Version: 1.0
+Section: Games
+Priority: optional
+Architecture: amd64
+Essential: no
+Depends: libsdl1.2debian
+Pre-Depends: g++, gcc
+Recommends: mozilla | netscape  
+Suggests: google-chrome-beta 
+Installed-Size: 1024
+Maintainer: Hunter Allen [hunterallen40@gmail.com]
+Conflicts:
+Replaces: 
+Provides: GameOfLife
+Description: This package contains the install files
+						 for a clone of Conway's Game of Life.
+						 
+						 Software is open source, so shoot me an email.
+						 **Written by Hunter Allen and Morgan Jones
+						 **Maintained and created for ubuntu by Hunter Allen.
