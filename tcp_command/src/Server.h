@@ -20,7 +20,8 @@ class Server : public QObject {
 
 public:
     Server(int argc, char** argv, QObject* pParent = NULL);
-    virtual ~Server();
+    ~Server();
+    void writeData();
     bool init();
 
 private Q_SLOTS:

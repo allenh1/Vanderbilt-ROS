@@ -4,11 +4,11 @@
 
 #include "Server.h"
 
-Server::Server(int arc, char** argv, QObject* pParent)
+Server::Server(int argc, char** argv, QObject* pParent)
     :	QObject(pParent)
     {
-    init_argc(argc);
-    init_argv(argv);
+    init_argc = argc;
+    init_argv = argv;
 
     init();
     m_pTcpServer = new QTcpServer(this);
@@ -41,11 +41,11 @@ Server::~Server()
 
 bool Server::init()
 {
-    ros::init(init_argc, initargv, "tcp_command");
+    ros::init(init_argc, init_argv, "tcp_command");
     ros::NodeHandle nh;
 
     pub = nh.advertise<std_msgs::String>("command", 1000);
-    start();
+    //start();
     return true;
 }//begin the ros server.
 
@@ -59,11 +59,11 @@ void Server::NewClientConnection() {
 
 void Server::writeData()
 {
-	QTcpSocket *pClientSocket = qobject_cast<QTcpSocket*>(sender());
+    /*QTcpSocket *pClientSocket = qobject_cast<QTcpSocket*>(sender());
 	const QRegExp rxlen("^(\\w+)\\s+(-*\\d*\\.?\\d*)\\s+(-*\\d*\\.?\\d*)$");
 	QString text(pClientSocket->read(length));
 	
-    //pClientSocket->write(m_RobotThread.getForwardSpeed());
+    //pClientSocket->write(m_RobotThread.getForwardSpeed());*/
 }
 
 void Server::NewClientCommand() {
@@ -87,7 +87,6 @@ void Server::NewClientCommand() {
 			
 			std::cout << "Command: " << command.toStdString();
 			if(command == "SetSpeed") {
-				m_RobotThread.SetSpeed(speed, changeInAngle);
 				std::cout << "\tX m/sec: " << speed << "\t radians/sec: " << 
 changeInAngle;
 			}

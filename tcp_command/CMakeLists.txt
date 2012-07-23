@@ -31,7 +31,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #rosbuild_include(qt_build qt-ros)
 #rosbuild_prepare_qt4(QtCore QtGui)
 
-rosbuild_add_executable(tcp_command src/main.cpp)
+
 
 set(sources
 	src/main.cpp
@@ -41,6 +41,8 @@ set(sources
 set(headers
 	src/Server.h
 )
+
+rosbuild_add_executable(tcp_command ${sources})
 
 #############################
 # Qt ########################
