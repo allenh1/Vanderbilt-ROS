@@ -10,7 +10,7 @@
 #include<fstream>
 
 #define Z 1
-#define getMin(a, b) a<b?a:b
+#define getMin(a, b) a < b ? a:b
 #define lessThan(a, b) a<b?1:0
 #define distance(a, b, c, d) sqrt(pow(b - a, 2) + pow(d - c, 2))
 #define PI 3.1415926542
@@ -37,11 +37,11 @@ inline double getSlope(pcl::PointXYZ a, pcl::PointXYZ b)
 inline double getPerp(double m)
 { return ( - 1.0) / (m); }
 
-inline double getAverage(unsigned int a, unsigned int b, QList<double> list)
+inline double getAverage(int a, int b, QList<double> list)
 {
     double sum = 0;
 
-    for (unsigned int x = a; x < b; ++x)
+    for (int x = a; x < b; ++x)
         sum += list.at(x);
 
     return sum / (b - a);

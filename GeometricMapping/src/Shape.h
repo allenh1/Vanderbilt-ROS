@@ -12,10 +12,10 @@
 #include "MathLibrary.h"
 
 const float PHIe =  PI / 8.0; // ~ 18 degrees
-const double SLOPE_TOLERATION = 0.5; // difference is less than 0.25
-const double DIST_TOLERANCE = 0.5; //70 cm distance tolerance.
-const double DIST_TOL = 0.3;
-const double MAXRAD = 0.75; //maximum radius of 2.0 meters
+const double SLOPE_TOLERATION = 0.1; // difference is less than 0.1
+const double DIST_TOLERANCE = 0.3; //50 cm distance tolerance.
+const double DIST_TOL = 0.2;
+const double MAXRAD = 0.75; //maximum radius of .75 meters
 const double R2TOLL = 0.9995;
 const double R2TOLL2 = 1.01;
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
@@ -217,7 +217,7 @@ void Shape::correct_circle()
     }//end for
 
     pcl::PointCloud<pcl::PointXYZ> circlized;
-    circlized.header.frame_id = "XY_Z_is1";
+    circlized.header.frame_id = "/cloud";
     circlized.header.stamp = ros::Time::now();
 
     for (int x = 0; x < newPoints.size(); ++x)
@@ -228,7 +228,7 @@ void Shape::correct_circle()
 
 void Shape::correct_segment()
 {
-    std::vector<pcl::PointXYZ> newPoints;
+    QList<pcl::PointXYZ> newPoints;
 
     /** Now we have the max and the min on the interval above! **/
     //y = mx + b -> y - mx = b
@@ -268,11 +268,11 @@ void Shape::correct_segment()
     S_b = b;
 
     PointCloud Segmetized;
-    Segmetized.header.frame_id = "SegmentCloud";
+    Segmetized.header.frame_id = "/cloud";
     Segmetized.header.stamp = ros::Time::now();
 
 
-    for (unsigned int x = 0; x < newPoints.size(); ++x)
+    for (int x = 0; x < newPoints.size(); ++x)
         Segmetized.points.push_back(newPoints.at(x));
 
     correctedSegment = Segmetized;
@@ -280,24 +280,28 @@ void Shape::correct_segment()
 
 void Shape::updateSegment()
 {
-    std::vector<pcl::PointXYZ> newPoints;
+    QList<pcl::PointXYZ> newPoints;
 
     for (unsigned int iter = 0; iter < uncorrected.points.size(); ++iter)
     {
         float px = correctedSegment.points.at(iter).x;
         float py = S_m * px + S_b;
+
+
+        if (sqrt( pow(px - uncorrected.points.at(iter).x, 2) + pow(py - uncorrected.points.at(iter).y, 2)) > DIST_TOL)
+        {	px = uncorrected.points.at(iter).x; py = uncorrected.points.at(iter).y; }
+
         pcl::PointXYZ toPush;
         toPush.x = px; toPush.y = py; toPush.z = Z;
-
         newPoints.push_back(toPush);
     }//end for.
 
     PointCloud Segmetized;
-    Segmetized.header.frame_id = "XY_Z_is1";
+    Segmetized.header.frame_id = "/cloud";
     Segmetized.header.stamp = ros::Time::now();
 
 
-    for (unsigned int x = 0; x < newPoints.size(); ++x)
+    for (int x = 0; x < newPoints.size(); ++x)
         Segmetized.points.push_back(newPoints.at(x));
 
     correctedSegment = Segmetized;
