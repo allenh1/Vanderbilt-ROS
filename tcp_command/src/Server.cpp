@@ -4,12 +4,8 @@
 
 #include "Server.h"
 
-Server::Server(int argc, char** argv, QObject* pParent)
-    :	QObject(pParent)
-    {
-    init_argc = argc;
-    init_argv = argv;
-
+Server::Server()
+{
     init();
     m_pTcpServer = new QTcpServer(this);
     if (!m_pTcpServer->listen(QHostAddress::Any, 5512)) {
