@@ -177,7 +177,7 @@ void makeOneCloud()
             double pZ = Z;
             //calculate the projeciton
             pcl::PointXYZ toPush;
-            toPush.x = py; toPush.y = pZ; toPush.z = px;
+            toPush.x = -py; toPush.y = pZ; toPush.z = px;
 
             combined.points.push_back(toPush);
             scores.push_back(scans.at(x).bestMatch());

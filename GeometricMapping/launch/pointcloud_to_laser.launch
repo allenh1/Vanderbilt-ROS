@@ -10,7 +10,7 @@
   <node pkg="nodelet" type="nodelet" name="LaserReadOut" args="load pointcloud_to_laserscan/CloudToScan openni_manager">
     <param name="output_frame_id" value="/laser"/>
     <!-- heights are in the (optical?) frame of the kinect -->
-    <param name="min_height" value="-20"/>
+    <param name="min_height" value="-8"/>
     <param name="max_height" value="8"/>
     <remap from="cloud" to="/cloud_pcl"/>
     <remap from="scan" to="/laserOut/filtered"/>
