@@ -73,13 +73,13 @@ void defineLists()
 void defineObjects()
 {
     defineLists();
-    int lastBreak = 0;
+    int lastBreak = 1;
     //ROS_INFO("In defineObjects()");
     //ROS_INFO("Angles.size() = %i", Angles.size());
 
     for (int x = 0; x < Angles.size(); x++)
     {
-        if (Angles.at(x) >= PHIe && x - lastBreak > 1)
+        if (Angles.at(x) >= PHIe && x - lastBreak > 2)
         {
             //ROS_INFO("Angle violated.");
 
