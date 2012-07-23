@@ -11,7 +11,7 @@
 #include "laser_geometry.h"
 #include "MathLibrary.h"
 
-const float PHIe =  PI / 8.0; // ~ 18 degrees
+const float PHIe =  PI / 12.0; // ~ 18 degrees
 const double SLOPE_TOLERATION = 0.5; // difference is less than 0.25
 const double DIST_TOLERANCE = 0.5; //70 cm distance tolerance.
 const double DIST_TOL = 0.3;
@@ -228,7 +228,7 @@ void Shape::correct_circle()
 
 void Shape::correct_segment()
 {
-    std::vector<pcl::PointXYZ> newPoints;
+    QList<pcl::PointXYZ> newPoints;
 
     /** Now we have the max and the min on the interval above! **/
     //y = mx + b -> y - mx = b
@@ -272,7 +272,7 @@ void Shape::correct_segment()
     Segmetized.header.stamp = ros::Time::now();
 
 
-    for (unsigned int x = 0; x < newPoints.size(); ++x)
+    for (int x = 0; x < newPoints.size(); ++x)
         Segmetized.points.push_back(newPoints.at(x));
 
     correctedSegment = Segmetized;
@@ -280,7 +280,7 @@ void Shape::correct_segment()
 
 void Shape::updateSegment()
 {
-    std::vector<pcl::PointXYZ> newPoints;
+    QList<pcl::PointXYZ> newPoints;
 
     for (unsigned int iter = 0; iter < uncorrected.points.size(); ++iter)
     {
@@ -297,7 +297,7 @@ void Shape::updateSegment()
     Segmetized.header.stamp = ros::Time::now();
 
 
-    for (unsigned int x = 0; x < newPoints.size(); ++x)
+    for (int x = 0; x < newPoints.size(); ++x)
         Segmetized.points.push_back(newPoints.at(x));
 
     correctedSegment = Segmetized;

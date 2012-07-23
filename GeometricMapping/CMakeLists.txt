@@ -29,9 +29,13 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #rosbuild_add_executable(example examples/example.cpp)
 #target_link_libraries(example ${PROJECT_NAME})
 rosbuild_add_executable(geometric_mapping src/laser_test.cc)
+rosbuild_add_library(geometric_mapping src/Shape.h)
+rosbuild_add_library(geometric_mapping src/MathLibrary.h)
 
 set(sources
         src/laser_test.cc
+        src/Shape.h
+        src/MathLibrary.h
 )
 
 set(headers
@@ -49,7 +53,7 @@ include(${QT_USE_FILE})
 qt4_wrap_cpp(moc_sources ${headers})
 include_directories(${CMAKE_BINARY_DIR})
 include_directories(${QT_INCLUDE_DIR})
-target_link_libraries(laser_test ${QT_LIBRARIES})
+target_link_libraries(geometric_mapping ${QT_LIBRARIES})
 
 #TARGET_LINK_LIBRARIES(
 #   ${QT_LIBRARIES}
