@@ -49,7 +49,7 @@ include(${QT_USE_FILE})
 qt4_wrap_cpp(moc_sources ${headers})
 include_directories(${CMAKE_BINARY_DIR})
 include_directories(${QT_INCLUDE_DIR})
-target_link_libraries(laser_test ${QT_LIBRARIES})
+target_link_libraries(geometric_mapping ${QT_LIBRARIES})
 
 #TARGET_LINK_LIBRARIES(
 #   ${QT_LIBRARIES}
