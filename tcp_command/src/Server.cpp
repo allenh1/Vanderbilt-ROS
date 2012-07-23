@@ -55,11 +55,11 @@ void Server::NewClientConnection() {
 
 void Server::writeData()
 {
-    /*QTcpSocket *pClientSocket = qobject_cast<QTcpSocket*>(sender());
+    QTcpSocket *pClientSocket = qobject_cast<QTcpSocket*>(sender());
 	const QRegExp rxlen("^(\\w+)\\s+(-*\\d*\\.?\\d*)\\s+(-*\\d*\\.?\\d*)$");
 	QString text(pClientSocket->read(length));
 	
-    //pClientSocket->write(m_RobotThread.getForwardSpeed());*/
+    //pClientSocket->write(m_RobotThread.getForwardSpeed());
 }
 
 void Server::NewClientCommand() {
