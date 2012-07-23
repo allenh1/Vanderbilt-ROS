@@ -13,8 +13,8 @@
 
 const float PHIe =  PI / 8.0; // ~ 18 degrees
 const double SLOPE_TOLERATION = 0.1; // difference is less than 0.1
-const double DIST_TOLERANCE = 0.5; //50 cm distance tolerance.
-const double DIST_TOL = 0.3;
+const double DIST_TOLERANCE = 0.3; //50 cm distance tolerance.
+const double DIST_TOL = 0.2;
 const double MAXRAD = 0.75; //maximum radius of .75 meters
 const double R2TOLL = 0.9995;
 const double R2TOLL2 = 1.01;
@@ -217,7 +217,7 @@ void Shape::correct_circle()
     }//end for
 
     pcl::PointCloud<pcl::PointXYZ> circlized;
-    circlized.header.frame_id = "XY_Z_is1";
+    circlized.header.frame_id = "/cloud";
     circlized.header.stamp = ros::Time::now();
 
     for (int x = 0; x < newPoints.size(); ++x)
@@ -268,7 +268,7 @@ void Shape::correct_segment()
     S_b = b;
 
     PointCloud Segmetized;
-    Segmetized.header.frame_id = "SegmentCloud";
+    Segmetized.header.frame_id = "/cloud";
     Segmetized.header.stamp = ros::Time::now();
 
 
@@ -286,14 +286,18 @@ void Shape::updateSegment()
     {
         float px = correctedSegment.points.at(iter).x;
         float py = S_m * px + S_b;
+
+
+        if (sqrt( pow(px - uncorrected.points.at(iter).x, 2) + pow(py - uncorrected.points.at(iter).y, 2)) > DIST_TOL)
+        {	px = uncorrected.points.at(iter).x; py = uncorrected.points.at(iter).y; }
+
         pcl::PointXYZ toPush;
         toPush.x = px; toPush.y = py; toPush.z = Z;
-
         newPoints.push_back(toPush);
     }//end for.
 
     PointCloud Segmetized;
-    Segmetized.header.frame_id = "XY_Z_is1";
+    Segmetized.header.frame_id = "/cloud";
     Segmetized.header.stamp = ros::Time::now();
 
 
