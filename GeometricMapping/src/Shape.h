@@ -11,9 +11,9 @@
 #include "laser_geometry.h"
 #include "MathLibrary.h"
 
-const float PHIe =  PI / 12.0; // ~ 18 degrees
-const double SLOPE_TOLERATION = 0.5; // difference is less than 0.25
-const double DIST_TOLERANCE = 0.5; //70 cm distance tolerance.
+const float PHIe =  PI / 8.0; // ~ 18 degrees
+const double SLOPE_TOLERATION = 0.1; // difference is less than 0.25
+const double DIST_TOLERANCE = 0.5; //50 cm distance tolerance.
 const double DIST_TOL = 0.3;
 const double MAXRAD = 0.75; //maximum radius of 2.0 meters
 const double R2TOLL = 0.9995;

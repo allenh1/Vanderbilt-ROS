@@ -17,7 +17,6 @@
 #include <qt4/QtCore/QtGlobal>
 #include <qt4/QtCore/QList>
 
-unsigned int iterator = 0;
 double prevPhiE = PI/2;
 int matchIndex = 0;
 int runNumber = 1;
@@ -38,29 +37,8 @@ QList<double> AnglesStored;
 QList<pcl::PointXYZ> projections;
 QList<double> scores;
 
-bool objectsExist()
-{ 
-    //ROS_INFO("Iterator: %i \t Size: %i", iterator, cloud.points.size());
-    return iterator < cloud.points.size() - 2;
-}
-
 inline double abs(double num)
-{ return (num < 0) ? num * -1 : num; }
-
-inline float getAngle(float x1, float x2, float dist)
-{
-    double xDiff = (x2 > x1) ? x2 - x1 : x1 - x2;
-    float returning;
-
-    if (xDiff > dist)
-        return PI;
-
-    returning = acos((float) (xDiff / dist)) * 180 / PI;
-
-    if (runNumber == 1)
-        Slopes.push_back(returning);
-    return acos(xDiff / dist); // adjacent / hypotenuse
-}//returns the angle made between two differentials. 
+{ return (num < 0) ? num * -1 : num; }//returns the absolute value of a double, num.
 
 void defineLists()
 {
@@ -69,14 +47,14 @@ void defineLists()
         double num = cloud.points.at(x).y - cloud.points.at(x - 1).y;
         double den = cloud.points.at(x).x - cloud.points.at(x - 1).x;
         double slope = num / den;
-        Slopes.push_back(slope);
+        Slopes.push_back(slope);//push back the current slope
 
         pcl::PointXYZ projection;
 
         projection.x = cloud.points.at(x + 1).x;
         projection.y = slope * cloud.points.at(x + 1).x + (cloud.points.at(x).y - slope * cloud.points.at(x).x);
         projection.z = 0;
-        projections.push_back(projection);
+        projections.push_back(projection);//store the predicted next value
 
         //calculate the angle difference
         double num1 = cloud.points.at(x + 1).x - cloud.points.at(x).x;
@@ -87,7 +65,7 @@ void defineLists()
         double angle1 = acos(num1 / den1); double angle2 = acos(num2 / den2);
         double angle = abs(angle1 - angle2);
 
-        Angles.push_back(angle);
+        Angles.push_back(angle);//store the angle between the actual and the predicted y values.
         AnglesStored.push_back((angle * 180) / PI);
     }//end for x.
 }//define the slopes and phi measurements.
@@ -107,14 +85,25 @@ void defineObjects()
 
             PointCloud toPush;
 
-            for (int i = lastBreak; i <  x + 2; i++)
+            for (int i = lastBreak; i <  x; i += 2)
             {
                 //ROS_INFO("In Assignment Loop: i = %i, x = %i, size = %i", i, x, cloud.points.size() - 1);
-                pcl::PointXYZ p;
-                p.x = cloud.points.at(i).x; p.y = cloud.points.at(i).y;
-                p.z = 0;
+                pcl::PointXYZ p1;
+                p1.x = cloud.points.at(i - 1).x; p1.y = cloud.points.at(i - 1).y;
+                p1.z = 0;
 
-                toPush.points.push_back(p);
+
+                pcl::PointXYZ p2;
+                p2.x = cloud.points.at(i).x; p2.y = cloud.points.at(i).y;
+                p2.z = 0;
+
+                pcl::PointXYZ p3;
+                p3.x = cloud.points.at(i + 1).x; p3.y = cloud.points.at(i + 1).y;
+                p3.z = 0;
+
+                toPush.points.push_back(p1);
+                toPush.points.push_back(p2);
+                toPush.points.push_back(p3);
             }//end for i
 
             Shapes.push_back(toPush);
@@ -201,7 +190,6 @@ void scanCallBack(const sensor_msgs::LaserScan::ConstPtr& scan_in)
 {
     PointCloud original;
 
-    iterator = 0;
     Shapes.clear();
     scores.clear();
     Segments.clear();
