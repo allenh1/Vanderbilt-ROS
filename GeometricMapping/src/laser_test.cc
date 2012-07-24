@@ -81,11 +81,10 @@ void defineObjects()
     {
         if (Angles.at(x) >= PHIe && x - lastBreak > 2)
         {
-            //ROS_INFO("Angle violated.");
 
             PointCloud toPush;
 
-            for (int i = lastBreak; i <  x; i += 2)
+            for (int i = lastBreak; i + 1 <  x; i += 2)
             {
                 //ROS_INFO("In Assignment Loop: i = %i, x = %i, size = %i", i, x, cloud.points.size() - 1);
                 pcl::PointXYZ p1;
@@ -107,7 +106,7 @@ void defineObjects()
             }//end for i
 
             Shapes.push_back(toPush);
-            lastBreak = x + 2;
+            lastBreak = x;
         }//add to cloud
     }//end for
 }//get a single object
