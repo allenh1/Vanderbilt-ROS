@@ -11,7 +11,7 @@
 #include "laser_geometry.h"
 #include "MathLibrary.h"
 
-const float PHIe =  PI / 8.0; // ~ 18 degrees
+const float PHIe =  PI / 10.0; // ~ 18 degrees
 const double SLOPE_TOLERATION = 0.1; // difference is less than 0.1
 const double DIST_TOLERANCE = 0.3; //50 cm distance tolerance.
 const double DIST_TOL = 0.2;
