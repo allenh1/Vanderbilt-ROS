@@ -77,14 +77,15 @@ void defineObjects()
     //ROS_INFO("In defineObjects()");
     //ROS_INFO("Angles.size() = %i", Angles.size());
 
-    for (int x = 0; x < Angles.size(); x++)
+    for (int x = 0; x < Angles.size() - 1; x++)
     {
-        if (Angles.at(x) >= PHIe && x - lastBreak > 2)
+        if ((Angles.at(x) >= PHIe && x - lastBreak > 2) ||
+            (x - lastBreak > 2 && getDistance(toPCLPoint(cloud.points.at(x)), toPCLPoint(cloud.points.at(x + 1))) > DIST_TOLERANCE))
         {
 
             PointCloud toPush;
 
-            for (int i = lastBreak; i + 1 <  x; i += 2)
+            for (int i = lastBreak; i + 1 <  x; i += 2 )
             {
                 //ROS_INFO("In Assignment Loop: i = %i, x = %i, size = %i", i, x, cloud.points.size() - 1);
                 pcl::PointXYZ p1;
@@ -106,7 +107,7 @@ void defineObjects()
             }//end for i
 
             Shapes.push_back(toPush);
-            lastBreak = x;
+            lastBreak = x + 1;
         }//add to cloud
     }//end for
 }//get a single object
