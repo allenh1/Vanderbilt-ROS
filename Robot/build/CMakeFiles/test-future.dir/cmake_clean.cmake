@@ -1,4 +1,6 @@
 FILE(REMOVE_RECURSE
+  "../chatter.eep"
+  "../chatter.hex"
   "CMakeFiles/test-future"
 )
 

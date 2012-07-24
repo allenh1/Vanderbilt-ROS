@@ -20,6 +20,11 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #rosbuild_genmsg()
 #uncomment if you have defined services
 #rosbuild_gensrv()
+rosbuild_find_ros_package(rosserial_arduino)
+set(ARDUINO_SDK_PATH /usr/share/arduino)
+set(ARDUINO_SDK_VERSION 1.0)
+
+include(${rosserial_arduino_PACKAGE_PATH}/cmake_scripts/rosserial.cmake)
 
 #common commands for building c++ executables and libraries
 #rosbuild_add_library(${PROJECT_NAME} src/example.cpp)
@@ -34,3 +39,10 @@ include(${QT_USE_FILE})
 qt4_wrap_cpp(moc_sources ${headers})
 include_directories(${CMAKE_BINARY_DIR})
 include_directories(${QT_INCLUDE_DIR})
+
+set(FIRMWARE_NAME chatter)
+
+set(${FIRMWARE_NAME}_BOARD atmega328)         # Arduino Target board
+set(${FIRMWARE_NAME}_SRCS src/chatter.cpp)
+set(${FIRMWARE_NAME}_PORT /dev/ttyUSB0)            # Serial upload port
+generate_ros_firmware(${FIRMWARE_NAME})

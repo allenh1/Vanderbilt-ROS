@@ -21,10 +21,13 @@ SET(CMAKE_C_INCLUDE_PATH
   "/opt/ros/fuerte/stacks/rosserial/rosserial_arduino/msg_gen/cpp/include"
   "/opt/ros/fuerte/stacks/rosserial/rosserial_msgs/msg_gen/cpp/include"
   "/opt/ros/fuerte/stacks/rosserial/rosserial_msgs/srv_gen/cpp/include"
+  "../src/ros_lib"
   "/usr/include/qt4"
   "/usr/include/qt4/QtGui"
   "/usr/include/qt4/QtCore"
   "."
+  "/usr/share/arduino/hardware/arduino/cores/arduino"
+  "/usr/share/arduino/libraries"
   )
 SET(CMAKE_CXX_INCLUDE_PATH ${CMAKE_C_INCLUDE_PATH})
 SET(CMAKE_Fortran_INCLUDE_PATH ${CMAKE_C_INCLUDE_PATH})
