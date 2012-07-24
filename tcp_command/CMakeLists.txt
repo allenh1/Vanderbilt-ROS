@@ -35,11 +35,11 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 set(sources
 	src/main.cpp
-	src/Server.cpp
+        src/Server.cpp
 )
 
 set(headers
-	src/Server.h
+        src/Server.h
 )
 
 rosbuild_add_executable(tcp_command ${sources})

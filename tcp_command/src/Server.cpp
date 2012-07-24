@@ -6,8 +6,8 @@
 
 Server::Server()
 {
-    init();
-    m_pTcpServer = new QTcpServer(this);
+    /*init();
+    m_pTcpServer = new QTcpServer();
     if (!m_pTcpServer->listen(QHostAddress::Any, 5512)) {
 		std::cerr << tr("TCP Server").toStdString(),
                               tr("Unable to start the server: %1.\n")
@@ -21,49 +21,20 @@ Server::Server()
                             "Run the Client now.")
 							.arg(ipAddress).arg(m_pTcpServer->serverPort()).toStdString() << std::endl;
 
-	connect(m_pTcpServer, SIGNAL(newConnection()), SLOT(NewClientConnection()));
-}
-
-Server::~Server()
-{
-    if(ros::isStarted())
-    {
-        ros::shutdown();
-        ros::waitForShutdown();
-    }//end if
-
-    wait();
-}//destructor for the server.
-
-bool Server::init()
-{
-    ros::init(init_argc, init_argv, "tcp_command");
-    ros::NodeHandle nh;
-
-    pub = nh.advertise<std_msgs::String>("command", 1000);
-    //start();
-    return true;
-}//begin the ros server.
-
-void Server::NewClientConnection() {
-	QTcpSocket * pClientSocket = m_pTcpServer->nextPendingConnection();
-	if(pClientSocket) {
-		connect(pClientSocket, SIGNAL(disconnected()), pClientSocket, SLOT(deleteLater()));
-		connect(pClientSocket, SIGNAL(readyRead()), SLOT(NewClientCommand()));
-	}
+    connect(m_pTcpServer, SIGNAL(newConnection()), SLOT(NewClientConnection()));*/
 }
 
 void Server::writeData()
 {
-    QTcpSocket *pClientSocket = qobject_cast<QTcpSocket*>(sender());
+    /*QTcpSocket *pClientSocket = qobject_cast<QTcpSocket*>(sender());
 	const QRegExp rxlen("^(\\w+)\\s+(-*\\d*\\.?\\d*)\\s+(-*\\d*\\.?\\d*)$");
 	QString text(pClientSocket->read(length));
 	
-    //pClientSocket->write(m_RobotThread.getForwardSpeed());
+    //pClientSocket->write(m_RobotThread.getForwardSpeed());*/
 }
 
-void Server::NewClientCommand() {
-	// "\w": match a word character
+/*void Server::NewClientCommand() {
+    // "\w": match a word character
 	// "\s": match a whitespace character
 	// "\d": match a digit
 	const QRegExp rxlen("^(\\w+)\\s+(-*\\d*\\.?\\d*)\\s+(-*\\d*\\.?\\d*)$");
@@ -88,5 +59,12 @@ changeInAngle;
 			}
 			std::cout << std::endl;
 		}
-	}
+    }
+}*/
+
+QString Server::getCommand()
+{
+    QString toReturn;
+    toReturn = "test";
+    return toReturn;
 }

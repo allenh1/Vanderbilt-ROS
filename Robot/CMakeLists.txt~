@@ -21,6 +21,9 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #uncomment if you have defined services
 #rosbuild_gensrv()
 rosbuild_find_ros_package(rosserial_arduino)
+set(ARDUINO_SDK_PATH /usr/share/arduino)
+set(ARDUINO_SDK_VERSION 1.0)
+
 include(${rosserial_arduino_PACKAGE_PATH}/cmake_scripts/rosserial.cmake)
 
 #common commands for building c++ executables and libraries

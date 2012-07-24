@@ -17,9 +17,11 @@ public:
     Server();
     void writeData();
     bool init();
+    QString getCommand();
 
 private:
 
+    QTcpServer m_pTcpServer;
     std_msgs::String str;
     ros::Publisher pub;
 };

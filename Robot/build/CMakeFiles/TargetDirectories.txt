@@ -2,10 +2,10 @@
 /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles/ROSBUILD_genmsg_lisp.dir
 /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles/ROSBUILD_gensrv_cpp.dir
 /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles/ROSBUILD_gensrv_lisp.dir
-/home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles/atmega328_CORE.dir
 /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles/chatter.dir
 /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles/chatter-upload.dir
 /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles/clean-test-results.dir
+/home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles/mega2560_CORE.dir
 /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles/rosbuild_precompile.dir
 /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles/rosbuild_premsgsrvgen.dir
 /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles/rospack_genmsg.dir

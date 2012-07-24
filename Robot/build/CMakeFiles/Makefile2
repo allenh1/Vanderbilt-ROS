@@ -174,48 +174,13 @@ clean: CMakeFiles/ROSBUILD_gensrv_lisp.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/atmega328_CORE.dir
-
-# All Build rule for target.
-CMakeFiles/atmega328_CORE.dir/all:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/depend
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
-	@echo "Built target atmega328_CORE"
-.PHONY : CMakeFiles/atmega328_CORE.dir/all
-
-# Include target in all.
-all: CMakeFiles/atmega328_CORE.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/atmega328_CORE.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles 18
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/atmega328_CORE.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles 0
-.PHONY : CMakeFiles/atmega328_CORE.dir/rule
-
-# Convenience name for target.
-atmega328_CORE: CMakeFiles/atmega328_CORE.dir/rule
-.PHONY : atmega328_CORE
-
-# clean rule for target.
-CMakeFiles/atmega328_CORE.dir/clean:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/clean
-.PHONY : CMakeFiles/atmega328_CORE.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/atmega328_CORE.dir/clean
-.PHONY : clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/chatter.dir
 
 # All Build rule for target.
-CMakeFiles/chatter.dir/all: CMakeFiles/atmega328_CORE.dir/all
+CMakeFiles/chatter.dir/all: CMakeFiles/mega2560_CORE.dir/all
 	$(MAKE) -f CMakeFiles/chatter.dir/build.make CMakeFiles/chatter.dir/depend
 	$(MAKE) -f CMakeFiles/chatter.dir/build.make CMakeFiles/chatter.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles  19 20 21 22
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles  1 2 3 4
 	@echo "Built target chatter"
 .PHONY : CMakeFiles/chatter.dir/all
 
@@ -303,6 +268,41 @@ CMakeFiles/clean-test-results.dir/clean:
 
 # clean rule for target.
 clean: CMakeFiles/clean-test-results.dir/clean
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/mega2560_CORE.dir
+
+# All Build rule for target.
+CMakeFiles/mega2560_CORE.dir/all:
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/depend
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles  5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22
+	@echo "Built target mega2560_CORE"
+.PHONY : CMakeFiles/mega2560_CORE.dir/all
+
+# Include target in all.
+all: CMakeFiles/mega2560_CORE.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/mega2560_CORE.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles 18
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/mega2560_CORE.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/allenh1/ros/Vanderbilt-ROS/Robot/build/CMakeFiles 0
+.PHONY : CMakeFiles/mega2560_CORE.dir/rule
+
+# Convenience name for target.
+mega2560_CORE: CMakeFiles/mega2560_CORE.dir/rule
+.PHONY : mega2560_CORE
+
+# clean rule for target.
+CMakeFiles/mega2560_CORE.dir/clean:
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/clean
+.PHONY : CMakeFiles/mega2560_CORE.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/mega2560_CORE.dir/clean
 .PHONY : clean
 
 #=============================================================================

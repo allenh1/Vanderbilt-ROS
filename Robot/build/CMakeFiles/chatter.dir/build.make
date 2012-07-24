@@ -152,7 +152,7 @@ chatter_EXTERNAL_OBJECTS =
 ../bin/chatter.elf: CMakeFiles/chatter.dir/src/ros_lib/duration.cpp.o
 ../bin/chatter.elf: CMakeFiles/chatter.dir/src/ros_lib/time.cpp.o
 ../bin/chatter.elf: CMakeFiles/chatter.dir/opt/ros/fuerte/stacks/rosserial/rosserial_arduino/cmake_scripts/cc_support.cpp.o
-../bin/chatter.elf: ../lib/libatmega328_CORE.a
+../bin/chatter.elf: ../lib/libmega2560_CORE.a
 ../bin/chatter.elf: CMakeFiles/chatter.dir/build.make
 ../bin/chatter.elf: CMakeFiles/chatter.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable ../bin/chatter.elf"

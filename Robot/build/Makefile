@@ -148,19 +148,6 @@ ROSBUILD_gensrv_lisp/fast:
 .PHONY : ROSBUILD_gensrv_lisp/fast
 
 #=============================================================================
-# Target rules for targets named atmega328_CORE
-
-# Build rule for target.
-atmega328_CORE: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 atmega328_CORE
-.PHONY : atmega328_CORE
-
-# fast build rule for target.
-atmega328_CORE/fast:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/build
-.PHONY : atmega328_CORE/fast
-
-#=============================================================================
 # Target rules for targets named chatter
 
 # Build rule for target.
@@ -198,6 +185,19 @@ clean-test-results: cmake_check_build_system
 clean-test-results/fast:
 	$(MAKE) -f CMakeFiles/clean-test-results.dir/build.make CMakeFiles/clean-test-results.dir/build
 .PHONY : clean-test-results/fast
+
+#=============================================================================
+# Target rules for targets named mega2560_CORE
+
+# Build rule for target.
+mega2560_CORE: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 mega2560_CORE
+.PHONY : mega2560_CORE
+
+# fast build rule for target.
+mega2560_CORE/fast:
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/build
+.PHONY : mega2560_CORE/fast
 
 #=============================================================================
 # Target rules for targets named rosbuild_precompile
@@ -443,7 +443,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/CDC.o: usr/share/arduino/hardwa
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/CDC.cpp.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/CDC.cpp.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/CDC.cpp.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/CDC.cpp.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/CDC.i: usr/share/arduino/hardware/arduino/cores/arduino/CDC.cpp.i
@@ -451,7 +451,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/CDC.i: usr/share/arduino/hardwa
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/CDC.cpp.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/CDC.cpp.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/CDC.cpp.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/CDC.cpp.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/CDC.s: usr/share/arduino/hardware/arduino/cores/arduino/CDC.cpp.s
@@ -459,7 +459,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/CDC.s: usr/share/arduino/hardwa
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/CDC.cpp.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/CDC.cpp.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/CDC.cpp.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/CDC.cpp.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/HID.o: usr/share/arduino/hardware/arduino/cores/arduino/HID.cpp.o
@@ -467,7 +467,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/HID.o: usr/share/arduino/hardwa
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/HID.cpp.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/HID.cpp.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/HID.cpp.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/HID.cpp.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/HID.i: usr/share/arduino/hardware/arduino/cores/arduino/HID.cpp.i
@@ -475,7 +475,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/HID.i: usr/share/arduino/hardwa
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/HID.cpp.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/HID.cpp.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/HID.cpp.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/HID.cpp.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/HID.s: usr/share/arduino/hardware/arduino/cores/arduino/HID.cpp.s
@@ -483,7 +483,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/HID.s: usr/share/arduino/hardwa
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/HID.cpp.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/HID.cpp.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/HID.cpp.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/HID.cpp.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.o: usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.cpp.o
@@ -491,7 +491,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.o: usr/share/ard
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.cpp.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.cpp.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.cpp.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.cpp.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.i: usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.cpp.i
@@ -499,7 +499,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.i: usr/share/ard
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.cpp.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.cpp.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.cpp.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.cpp.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.s: usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.cpp.s
@@ -507,7 +507,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.s: usr/share/ard
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.cpp.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.cpp.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.cpp.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/HardwareSerial.cpp.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.o: usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.cpp.o
@@ -515,7 +515,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.o: usr/share/arduino/
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.cpp.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.cpp.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.cpp.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.cpp.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.i: usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.cpp.i
@@ -523,7 +523,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.i: usr/share/arduino/
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.cpp.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.cpp.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.cpp.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.cpp.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.s: usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.cpp.s
@@ -531,7 +531,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.s: usr/share/arduino/
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.cpp.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.cpp.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.cpp.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/IPAddress.cpp.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/Print.o: usr/share/arduino/hardware/arduino/cores/arduino/Print.cpp.o
@@ -539,7 +539,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/Print.o: usr/share/arduino/hard
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/Print.cpp.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Print.cpp.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Print.cpp.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/Print.cpp.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/Print.i: usr/share/arduino/hardware/arduino/cores/arduino/Print.cpp.i
@@ -547,7 +547,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/Print.i: usr/share/arduino/hard
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/Print.cpp.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Print.cpp.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Print.cpp.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/Print.cpp.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/Print.s: usr/share/arduino/hardware/arduino/cores/arduino/Print.cpp.s
@@ -555,7 +555,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/Print.s: usr/share/arduino/hard
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/Print.cpp.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Print.cpp.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Print.cpp.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/Print.cpp.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/Stream.o: usr/share/arduino/hardware/arduino/cores/arduino/Stream.cpp.o
@@ -563,7 +563,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/Stream.o: usr/share/arduino/har
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/Stream.cpp.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Stream.cpp.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Stream.cpp.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/Stream.cpp.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/Stream.i: usr/share/arduino/hardware/arduino/cores/arduino/Stream.cpp.i
@@ -571,7 +571,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/Stream.i: usr/share/arduino/har
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/Stream.cpp.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Stream.cpp.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Stream.cpp.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/Stream.cpp.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/Stream.s: usr/share/arduino/hardware/arduino/cores/arduino/Stream.cpp.s
@@ -579,7 +579,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/Stream.s: usr/share/arduino/har
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/Stream.cpp.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Stream.cpp.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Stream.cpp.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/Stream.cpp.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/Tone.o: usr/share/arduino/hardware/arduino/cores/arduino/Tone.cpp.o
@@ -587,7 +587,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/Tone.o: usr/share/arduino/hardw
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/Tone.cpp.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Tone.cpp.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Tone.cpp.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/Tone.cpp.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/Tone.i: usr/share/arduino/hardware/arduino/cores/arduino/Tone.cpp.i
@@ -595,7 +595,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/Tone.i: usr/share/arduino/hardw
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/Tone.cpp.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Tone.cpp.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Tone.cpp.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/Tone.cpp.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/Tone.s: usr/share/arduino/hardware/arduino/cores/arduino/Tone.cpp.s
@@ -603,7 +603,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/Tone.s: usr/share/arduino/hardw
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/Tone.cpp.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Tone.cpp.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/Tone.cpp.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/Tone.cpp.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/USBCore.o: usr/share/arduino/hardware/arduino/cores/arduino/USBCore.cpp.o
@@ -611,7 +611,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/USBCore.o: usr/share/arduino/ha
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/USBCore.cpp.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/USBCore.cpp.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/USBCore.cpp.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/USBCore.cpp.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/USBCore.i: usr/share/arduino/hardware/arduino/cores/arduino/USBCore.cpp.i
@@ -619,7 +619,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/USBCore.i: usr/share/arduino/ha
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/USBCore.cpp.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/USBCore.cpp.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/USBCore.cpp.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/USBCore.cpp.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/USBCore.s: usr/share/arduino/hardware/arduino/cores/arduino/USBCore.cpp.s
@@ -627,7 +627,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/USBCore.s: usr/share/arduino/ha
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/USBCore.cpp.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/USBCore.cpp.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/USBCore.cpp.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/USBCore.cpp.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.o: usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.c.o
@@ -635,7 +635,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.o: usr/share/arduin
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.c.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.c.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.c.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.c.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.i: usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.c.i
@@ -643,7 +643,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.i: usr/share/arduin
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.c.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.c.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.c.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.c.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.s: usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.c.s
@@ -651,7 +651,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.s: usr/share/arduin
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.c.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.c.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.c.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/WInterrupts.c.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/WMath.o: usr/share/arduino/hardware/arduino/cores/arduino/WMath.cpp.o
@@ -659,7 +659,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/WMath.o: usr/share/arduino/hard
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/WMath.cpp.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WMath.cpp.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WMath.cpp.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/WMath.cpp.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/WMath.i: usr/share/arduino/hardware/arduino/cores/arduino/WMath.cpp.i
@@ -667,7 +667,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/WMath.i: usr/share/arduino/hard
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/WMath.cpp.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WMath.cpp.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WMath.cpp.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/WMath.cpp.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/WMath.s: usr/share/arduino/hardware/arduino/cores/arduino/WMath.cpp.s
@@ -675,7 +675,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/WMath.s: usr/share/arduino/hard
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/WMath.cpp.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WMath.cpp.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WMath.cpp.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/WMath.cpp.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/WString.o: usr/share/arduino/hardware/arduino/cores/arduino/WString.cpp.o
@@ -683,7 +683,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/WString.o: usr/share/arduino/ha
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/WString.cpp.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WString.cpp.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WString.cpp.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/WString.cpp.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/WString.i: usr/share/arduino/hardware/arduino/cores/arduino/WString.cpp.i
@@ -691,7 +691,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/WString.i: usr/share/arduino/ha
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/WString.cpp.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WString.cpp.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WString.cpp.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/WString.cpp.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/WString.s: usr/share/arduino/hardware/arduino/cores/arduino/WString.cpp.s
@@ -699,7 +699,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/WString.s: usr/share/arduino/ha
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/WString.cpp.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WString.cpp.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/WString.cpp.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/WString.cpp.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/main.o: usr/share/arduino/hardware/arduino/cores/arduino/main.cpp.o
@@ -707,7 +707,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/main.o: usr/share/arduino/hardw
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/main.cpp.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/main.cpp.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/main.cpp.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/main.cpp.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/main.i: usr/share/arduino/hardware/arduino/cores/arduino/main.cpp.i
@@ -715,7 +715,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/main.i: usr/share/arduino/hardw
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/main.cpp.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/main.cpp.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/main.cpp.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/main.cpp.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/main.s: usr/share/arduino/hardware/arduino/cores/arduino/main.cpp.s
@@ -723,7 +723,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/main.s: usr/share/arduino/hardw
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/main.cpp.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/main.cpp.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/main.cpp.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/main.cpp.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/new.o: usr/share/arduino/hardware/arduino/cores/arduino/new.cpp.o
@@ -731,7 +731,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/new.o: usr/share/arduino/hardwa
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/new.cpp.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/new.cpp.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/new.cpp.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/new.cpp.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/new.i: usr/share/arduino/hardware/arduino/cores/arduino/new.cpp.i
@@ -739,7 +739,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/new.i: usr/share/arduino/hardwa
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/new.cpp.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/new.cpp.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/new.cpp.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/new.cpp.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/new.s: usr/share/arduino/hardware/arduino/cores/arduino/new.cpp.s
@@ -747,7 +747,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/new.s: usr/share/arduino/hardwa
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/new.cpp.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/new.cpp.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/new.cpp.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/new.cpp.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/wiring.o: usr/share/arduino/hardware/arduino/cores/arduino/wiring.c.o
@@ -755,7 +755,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/wiring.o: usr/share/arduino/har
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/wiring.c.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring.c.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring.c.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/wiring.c.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/wiring.i: usr/share/arduino/hardware/arduino/cores/arduino/wiring.c.i
@@ -763,7 +763,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/wiring.i: usr/share/arduino/har
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/wiring.c.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring.c.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring.c.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/wiring.c.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/wiring.s: usr/share/arduino/hardware/arduino/cores/arduino/wiring.c.s
@@ -771,7 +771,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/wiring.s: usr/share/arduino/har
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/wiring.c.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring.c.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring.c.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/wiring.c.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.o: usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.c.o
@@ -779,7 +779,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.o: usr/share/ardu
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.c.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.c.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.c.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.c.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.i: usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.c.i
@@ -787,7 +787,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.i: usr/share/ardu
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.c.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.c.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.c.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.c.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.s: usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.c.s
@@ -795,7 +795,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.s: usr/share/ardu
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.c.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.c.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.c.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/wiring_analog.c.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.o: usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.c.o
@@ -803,7 +803,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.o: usr/share/ard
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.c.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.c.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.c.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.c.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.i: usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.c.i
@@ -811,7 +811,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.i: usr/share/ard
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.c.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.c.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.c.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.c.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.s: usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.c.s
@@ -819,7 +819,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.s: usr/share/ard
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.c.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.c.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.c.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/wiring_digital.c.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.o: usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.c.o
@@ -827,7 +827,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.o: usr/share/ardui
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.c.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.c.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.c.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.c.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.i: usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.c.i
@@ -835,7 +835,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.i: usr/share/ardui
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.c.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.c.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.c.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.c.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.s: usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.c.s
@@ -843,7 +843,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.s: usr/share/ardui
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.c.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.c.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.c.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/wiring_pulse.c.s
 
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.o: usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.c.o
@@ -851,7 +851,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.o: usr/share/ardui
 
 # target to build an object file
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.c.o:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.c.o
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.c.o
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.c.o
 
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.i: usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.c.i
@@ -859,7 +859,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.i: usr/share/ardui
 
 # target to preprocess a source file
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.c.i:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.c.i
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.c.i
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.c.i
 
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.s: usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.c.s
@@ -867,7 +867,7 @@ usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.s: usr/share/ardui
 
 # target to generate assembly for a file
 usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.c.s:
-	$(MAKE) -f CMakeFiles/atmega328_CORE.dir/build.make CMakeFiles/atmega328_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.c.s
+	$(MAKE) -f CMakeFiles/mega2560_CORE.dir/build.make CMakeFiles/mega2560_CORE.dir/usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.c.s
 .PHONY : usr/share/arduino/hardware/arduino/cores/arduino/wiring_shift.c.s
 
 # Help Target
@@ -880,11 +880,11 @@ help:
 	@echo "... ROSBUILD_genmsg_lisp"
 	@echo "... ROSBUILD_gensrv_cpp"
 	@echo "... ROSBUILD_gensrv_lisp"
-	@echo "... atmega328_CORE"
 	@echo "... chatter"
 	@echo "... chatter-upload"
 	@echo "... clean-test-results"
 	@echo "... edit_cache"
+	@echo "... mega2560_CORE"
 	@echo "... rebuild_cache"
 	@echo "... rosbuild_precompile"
 	@echo "... rosbuild_premsgsrvgen"

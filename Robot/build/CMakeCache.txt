@@ -855,6 +855,9 @@ USERCONFIG:FILEPATH=USERCONFIG-NOTFOUND
 //Dependencies for target
 atmega328_CORE_LIB_DEPENDS:STATIC=
 
+//Dependencies for target
+mega2560_CORE_LIB_DEPENDS:STATIC=
+
 
 ########################
 # INTERNAL cache entries

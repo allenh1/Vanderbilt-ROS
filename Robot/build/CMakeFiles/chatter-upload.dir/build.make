@@ -43,7 +43,7 @@ CMAKE_BINARY_DIR = /home/allenh1/ros/Vanderbilt-ROS/Robot/build
 include CMakeFiles/chatter-upload.dir/progress.make
 
 CMakeFiles/chatter-upload: ../bin/chatter.elf
-	stty -F /dev/ttyUSB0 hupcl && /usr/share/arduino/hardware/tools/avrdude -U flash:w:chatter.hex:i -V -F -C /usr/share/arduino/hardware/tools/avrdude.conf -p atmega328p -c arduino -b 57600 -P /dev/ttyUSB0
+	stty -F /dev/ttyUSB0 hupcl && /usr/share/arduino/hardware/tools/avrdude -U flash:w:chatter.hex:i -V -F -C /usr/share/arduino/hardware/tools/avrdude.conf -p atmega2560 -c stk500v2 -b 115200 -P /dev/ttyUSB0
 
 chatter-upload: CMakeFiles/chatter-upload
 chatter-upload: CMakeFiles/chatter-upload.dir/build.make
