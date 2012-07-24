@@ -16,6 +16,8 @@
   <url>http://ros.org/wiki/Robot</url>
   <depend package="roscpp"/>
   <depend package="tf"/>
+  <depend package="roboard_roboio"/>
+  <depend package="rosserial"/>
   <rosdep name="qt4" />
 
 </package>
