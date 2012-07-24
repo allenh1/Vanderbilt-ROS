@@ -42,7 +42,7 @@ include_directories(${QT_INCLUDE_DIR})
 
 set(FIRMWARE_NAME chatter)
 
-set(${FIRMWARE_NAME}_BOARD atmega328)         # Arduino Target board
+set(${FIRMWARE_NAME}_BOARD mega2560)         # Arduino Target board
 set(${FIRMWARE_NAME}_SRCS src/chatter.cpp)
 set(${FIRMWARE_NAME}_PORT /dev/ttyUSB0)            # Serial upload port
 generate_ros_firmware(${FIRMWARE_NAME})
