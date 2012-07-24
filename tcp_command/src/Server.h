@@ -1,29 +1,32 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-//ros include files
-#include "ros/ros.h"
-#include "std_msgs/String.h"
-
-//Qt4 related includes
 #include <QObject>
 #include <QStringList>
-#include <qt4/QtNetwork/QTcpServer>
-#include <qt4/QtNetwork/QTcpSocket>
 
-class Server
-{
+#include "RobotThread.h"
+
+QT_BEGIN_NAMESPACE
+class QTcpServer;
+QT_END_NAMESPACE
+
+class Server : public QObject {
+    Q_OBJECT
+
 public:
-    Server();
+    Server(int argc,char ** argv, QObject* pParent = NULL);
+    virtual ~Server();
+
     void writeData();
-    bool init();
-    QString getCommand();
+
+private Q_SLOTS:
+	void NewClientConnection();
+	void NewClientCommand();
 
 private:
+    QTcpServer* m_pTcpServer;
 
-    QTcpServer m_pTcpServer;
-    std_msgs::String str;
-    ros::Publisher pub;
+    RobotThread m_RobotThread;
 };
 
 #endif

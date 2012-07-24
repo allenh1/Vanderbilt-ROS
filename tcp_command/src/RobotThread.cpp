@@ -1,49 +1,72 @@
 #include "RobotThread.h"
 
-RobotThread::RobotThread(QObject* pParent)
-:	QThread(pParent),
-	m_Speed(0),
-	m_Angle(0),
-	m_IsStopped(true),
-	m_Continue(true),
-	m_Robot("127.0.0.1"),	// Connect to robot using a default standard port
-	m_Position(&m_Robot, 0) {	// Create a position 2d proxy
+RobotThread::RobotThread(int argc, char** argv)
+    :	init_argc(argc),
+        init_argv(argv)
+{/*Constructor*/}
 
-	// Enable the motors
-	m_Position.SetMotorEnable(true);
-}
+RobotThread::~RobotThread()
+{
+    if (ros::isStarted())
+    {
+        ros::shutdown();
+        ros::waitForShutdown();
+    }//end if
 
-void RobotThread::run() {
-		
-	while(m_Continue) {
-		m_Robot.Read();
-		
-		if((m_IsStopped && (m_Speed != 0 && m_Angle !=0)) || !m_IsStopped) {
-			m_Position.SetSpeed(m_Speed, m_Angle);
-		}
+    wait();
+}//end destructor
 
-		// Update IsStopped
-		m_IsStopped = m_Speed == 0 && m_Angle == 0;
-	}
+bool RobotThread::init()
+{
+    ros::init(init_argc, init_argv, "tcp_command");
 
-	m_Position.SetSpeed(0, 0);
+    if (!ros::master::check())
+        return false;//do not start without ros.
+
+    ros::start();
+    ros::NodeHandle nh;
+    cmd_publisher = nh.advertise<std_msgs::String>("/tcp_cmd", 1000);
+    start();
+    return true;
+}//set up the ros toys.
+
+void RobotThread::run()
+{
+    ros::Rate loop_rate(1);
+
+    while (ros::ok())
+    {
+        std_msgs::String msg;
+        std::stringstream ss;
+        ss << command.toStdString();
+
+        msg.data = ss.str();
+        cmd_publisher.publish(msg);
+        ros::spinOnce();
+        loop_rate.sleep();
+    }//do ros things.
 }
 
 void RobotThread::SetSpeed(double speed, double angle) {
-	m_Speed = speed;
-	m_Angle = angle;
+    m_Speed = speed;
+    m_Angle = angle;
 }
 
-double RobotThread::getForwardSpeed()
+/*double RobotThread::getForwardSpeed()
 {
-	return m_Speed;
+    return m_Speed;
 }
 
 double RobotThread::getTurnSpeed()
 {
-	return m_Angle;
-}
+    return m_Angle;
+}*/
+
+void RobotThread::setCommand(QString cmd)
+{
+    command = cmd;
+}//get a command from another thread.
 
 void RobotThread::EndControl() {
-	m_Continue = false;
+    m_Continue = false;
 }

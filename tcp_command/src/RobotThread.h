@@ -2,17 +2,19 @@
 #define ___ROBOTTHREAD_H___
 
 #include <QThread>
-#include <libplayerc++/playerc++.h>
-#include <libplayerc++/playerclient.h>
+#include <ros/ros.h>
+#include <ros/network.h>
+#include <std_msgs/String.h>
 
 class RobotThread : public QThread {
 	Q_OBJECT
 public:
-	RobotThread(int port, QObject* pParent = NULL);
-
+    RobotThread(int argc, char** argv);
+    virtual ~RobotThread();
 	void run();
-
+    bool init();
 	void SetSpeed(double speed, double angle);
+    void setCommand(QString cmd);
 
 	//get speed in forward/backward direction
 	double getXSpeed();
@@ -23,7 +25,7 @@ public:
 	double getApos();
 
 	//built in goto command to a goal position x
-	void goTo(player_pose2d_t x);
+    //void goTo(player_pose2d_t x);
 
 
 
@@ -42,6 +44,7 @@ private:
 	/** degrees per second */
 	double m_Angle;
 
+    QString command;
 	/** the robot is not moving */
 	bool m_IsStopped;
 
@@ -49,16 +52,12 @@ private:
 	bool m_Continue;
 
 	int m_port;
-
-	PlayerCc::PlayerClient m_Robot;
-
-	player_pose2d_t goal_Pose;
 	
-	/** a position 2d proxy */
-	PlayerCc::Position2dProxy m_Position;
-	PlayerCc::Position2dProxy m_Position_1;
+    int init_argc;
+    char** init_argv;
 
-	PlayerCc::LaserProxy m_Laser;
+    ros::Publisher cmd_publisher;
+	/** a position 2d proxy */
 
 	
 };
