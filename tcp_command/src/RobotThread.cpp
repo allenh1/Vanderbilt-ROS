@@ -25,6 +25,7 @@ bool RobotThread::init()
         return false;//do not start without ros.
 
     ros::start();
+    ros::Time::init();
     ros::NodeHandle nh;
     cmd_publisher = nh.advertise<std_msgs::String>("/tcp_cmd", 1000);
     start();
@@ -34,7 +35,7 @@ bool RobotThread::init()
 void RobotThread::run()
 {
     ros::Rate loop_rate(1);
-
+    command = "empty";
     while (ros::ok())
     {
         std_msgs::String msg;
