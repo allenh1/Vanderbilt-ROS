@@ -38,11 +38,11 @@ void Server::NewClientConnection() {
 void Server::writeData()
 {
     //QTcpSocket *pClientSocket = qobject_cast<QTcpSocket*>(sender());
-   // Q_UNUSED(pClientSocket);
+    //Q_UNUSED(pClientSocket);
     //const QRegExp rxlen("^(\\w+)\\s+(-*\\d*\\.?\\d*)\\s+(-*\\d*\\.?\\d*)$");
-//	QString text(pClientSocket->read(length));
+    //QString text(pClientSocket->read(length));
 	
-//	pClientSocket->write(m_RobotThread.getForwardSpeed());
+    //pClientSocket->write(m_RobotThread.getForwardSpeed());
 }
 
 void Server::NewClientCommand() {
@@ -71,7 +71,7 @@ void Server::NewClientCommand() {
             m_RobotThread.setCommand(toRos);
 
 			if(command == "SetSpeed") {
-                //m_RobotThread.SetSpeed(speed, changeInAngle);
+                m_RobotThread.SetSpeed(speed, changeInAngle);
 				std::cout << "\tX m/sec: " << speed << "\t radians/sec: " << 
 changeInAngle;
 			}

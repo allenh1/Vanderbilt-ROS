@@ -11,6 +11,7 @@
 #include <ros/ros.h>
 #include <ros/network.h>
 #include <std_msgs/String.h>
+#include <geometry_msgs/Twist.h>
 
 namespace server {
 class RobotThread : public QThread {
@@ -29,7 +30,11 @@ private:
     int m_Init_argc;
     char** m_pInit_argv;
 
+    double m_speed;
+    double m_angle;
+
     ros::Publisher cmd_publisher;
+    ros::Publisher sim_velocity;
 	/** a position 2d proxy */
 
 	
