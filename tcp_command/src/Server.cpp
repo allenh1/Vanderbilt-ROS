@@ -3,9 +3,10 @@
 #include "Server.h"
 namespace server {
 
-Server::Server(int argc, char **argv, QObject* pParent)
+Server::Server(int argc, char** argv, QObject* pParent)
     :	QObject(pParent),
-        m_RobotThread(argc, argv) {
+        m_RobotThread(argc, argv)
+{
 
     m_pTcpServer = new QTcpServer(this);
     if (!m_pTcpServer->listen(QHostAddress::Any, 5512)) {
@@ -23,7 +24,7 @@ Server::Server(int argc, char **argv, QObject* pParent)
 
 	connect(m_pTcpServer, SIGNAL(newConnection()), SLOT(NewClientConnection()));
 
-	m_RobotThread.start();
+    m_RobotThread.start();
 }
 
 void Server::NewClientConnection() {
@@ -36,8 +37,9 @@ void Server::NewClientConnection() {
 
 void Server::writeData()
 {
-	QTcpSocket *pClientSocket = qobject_cast<QTcpSocket*>(sender());
-	const QRegExp rxlen("^(\\w+)\\s+(-*\\d*\\.?\\d*)\\s+(-*\\d*\\.?\\d*)$");
+    //QTcpSocket *pClientSocket = qobject_cast<QTcpSocket*>(sender());
+   // Q_UNUSED(pClientSocket);
+    //const QRegExp rxlen("^(\\w+)\\s+(-*\\d*\\.?\\d*)\\s+(-*\\d*\\.?\\d*)$");
 //	QString text(pClientSocket->read(length));
 	
 //	pClientSocket->write(m_RobotThread.getForwardSpeed());
@@ -66,7 +68,7 @@ void Server::NewClientCommand() {
             m_RobotThread.setCommand(command);
 
 			if(command == "SetSpeed") {
-				m_RobotThread.SetSpeed(speed, changeInAngle);
+                //m_RobotThread.SetSpeed(speed, changeInAngle);
 				std::cout << "\tX m/sec: " << speed << "\t radians/sec: " << 
 changeInAngle;
 			}

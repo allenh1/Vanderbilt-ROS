@@ -1,3 +1,8 @@
+if(ROSBUILD)
+    include(rosbuild.cmake OPTIONAL)
+    return()
+endif()
+
 cmake_minimum_required(VERSION 2.4.6)
 include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
@@ -7,7 +12,7 @@ include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 #  Release        : w/o debug symbols, w/ optimization
 #  RelWithDebInfo : w/ debug symbols, w/ optimization
 #  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
-set(ROS_BUILD_TYPE RelWithDebInfo)
+#set(ROS_BUILD_TYPE RelWithDebInfo)
 
 rosbuild_init()
 
@@ -15,6 +20,14 @@ rosbuild_init()
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 #set the default path for built libraries to the "lib" directory
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+
+rosbuild_include(qt_build qt-ros)
+rosbuild_prepare_qt4(QtCore QtGui)
+
+file(GLOB_RECURSE QT_MOC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS src/*.h)
+QT4_WRAP_CPP(QT_MOC_HPP ${QT_MOC})
+
+file(GLOB_RECURSE QT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS src/*.cpp)
 
 #uncomment if you have defined messages
 #rosbuild_genmsg()
@@ -31,22 +44,8 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #rosbuild_include(qt_build qt-ros)
 #rosbuild_prepare_qt4(QtCore QtGui)
 
-
-
-set(sources
-	src/main.cpp
-        src/Server.cpp
-        src/RobotThread.cpp
-        src/Server.h
-        src/RobotThread.h
-)
-
-set(headers
-        src/Server.h
-        src/RobotThread.h
-)
-
-rosbuild_add_executable(tcp_command ${sources})
+rosbuild_add_executable(tcp_command ${QT_SOURCES} ${QT_MOC_HPP})
+target_link_libraries(tcp_command ${QT_LIBRARIES})
 
 #############################
 # Qt ########################

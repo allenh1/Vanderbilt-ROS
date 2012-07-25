@@ -9,6 +9,7 @@
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>https://hmtcomp-16.vuse.vanderbilt.edu/allenh1/svn/tcp_command</url>
+  <depend package="qt_build"/>
   <depend package="roscpp"/>
   <depend package="tf"/>
   <rosdep name="qt4"/>

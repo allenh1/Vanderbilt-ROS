@@ -1,9 +1,9 @@
 #include "RobotThread.h"
 
 namespace server {
-RobotThread::RobotThread(int argc, char** argv)
-    :	init_argc(argc),
-        init_argv(argv)
+RobotThread::RobotThread(int argc, char** pArgv)
+    :	m_Init_argc(argc),
+        m_pInit_argv(pArgv)
 {}
 
 RobotThread::~RobotThread()
@@ -19,7 +19,7 @@ RobotThread::~RobotThread()
 
 bool RobotThread::init()
 {
-    ros::init(init_argc, init_argv, "tcp_command");
+    ros::init(m_Init_argc, m_pInit_argv, "tcp_command");
 
     if (!ros::master::check())
         return false;//do not start without ros.
@@ -48,28 +48,9 @@ void RobotThread::run()
     }//do ros things.
 }
 
-void RobotThread::SetSpeed(double speed, double angle) {
-    m_Speed = speed;
-    m_Angle = angle;
-}
-
-/*double RobotThread::getForwardSpeed()
-{
-    return m_Speed;
-}
-
-double RobotThread::getTurnSpeed()
-{
-    return m_Angle;
-}*/
-
 void RobotThread::setCommand(QString cmd)
 {
     command = cmd;
 }//get a command from another thread.
-
-void RobotThread::EndControl() {
-    m_Continue = false;
-}
 
 }//end namespace
