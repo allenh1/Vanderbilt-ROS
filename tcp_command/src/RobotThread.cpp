@@ -1,9 +1,10 @@
 #include "RobotThread.h"
 
+namespace server {
 RobotThread::RobotThread(int argc, char** argv)
     :	init_argc(argc),
         init_argv(argv)
-{/*Constructor*/}
+{}
 
 RobotThread::~RobotThread()
 {
@@ -70,3 +71,5 @@ void RobotThread::setCommand(QString cmd)
 void RobotThread::EndControl() {
     m_Continue = false;
 }
+
+}//end namespace

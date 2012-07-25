@@ -1,10 +1,7 @@
 #include <qt4/QtNetwork/QtNetwork>
 
-#include <stdlib.h>
-#include <iostream>
-#include "assert.h"
-
 #include "Server.h"
+namespace server {
 
 Server::Server(int argc, char **argv, QObject* pParent)
     :	QObject(pParent),
@@ -28,9 +25,6 @@ Server::Server(int argc, char **argv, QObject* pParent)
 
 	m_RobotThread.start();
 }
-
-Server::~Server()
-{}
 
 void Server::NewClientConnection() {
 	QTcpSocket * pClientSocket = m_pTcpServer->nextPendingConnection();
@@ -80,3 +74,4 @@ changeInAngle;
 		}
 	}
 }
+}//namespace
