@@ -237,8 +237,10 @@ void Shape::correct_segment()
             ((double) uncorrected.points.at(uncorrected.points.size() - 1).x - uncorrected.points.at(0).x) ;
 
     if (isnan(slope))
-        undefined = true; // arbitrary constant
-    float b = uncorrected.points.at(0).y - slope * uncorrected.points.at(0).y;
+        undefined = true; // the slope is a nan value.
+
+    //y = mx + b -> y - mx = b
+    float b = uncorrected.points.at(0).y - slope * uncorrected.points.at(0).x;
 
     for (unsigned int iter = 0; iter < uncorrected.points.size(); ++iter)
     {

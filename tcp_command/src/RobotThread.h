@@ -12,6 +12,7 @@
 #include <ros/network.h>
 #include <std_msgs/String.h>
 #include <geometry_msgs/Twist.h>
+#include <nav_msgs/Odometry.h>
 
 namespace server {
 class RobotThread : public QThread {
@@ -35,6 +36,7 @@ private:
 
     ros::Publisher cmd_publisher;
     ros::Publisher sim_velocity;
+    ros::Subscriber pose_listener;
 	/** a position 2d proxy */
 
 	
