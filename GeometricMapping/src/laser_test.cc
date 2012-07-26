@@ -51,17 +51,19 @@ void defineLists()
 
         pcl::PointXYZ projection;
 
-        projection.x = cloud.points.at(x + 1).x;
-        projection.y = slope * cloud.points.at(x + 1).x + (cloud.points.at(x).y - slope * cloud.points.at(x).x);
+        double x2 = cloud.points.at(x + 1).x; double x1 = cloud.points.at(x).x;
+        double y2; double y1 = cloud.points.at(x).y;
+
+        projection.x = x2;
+        projection.y = slope * x2 + (y1 - slope * x1);
         projection.z = 0;
         projections.push_back(projection);//store the predicted next value
 
         //calculate the angle difference
-        double num1 = cloud.points.at(x + 1).x - cloud.points.at(x).x;
-        double den1 = sqrt(pow(projection.y - cloud.points.at(x).y, 2) + pow(projection.x - cloud.points.at(x).x, 2));
+        double num1 = x2 - x1;
+        double den1 = sqrt(pow(projection.y - y1, 2) + pow(projection.x - x1, 2));
         double num2 = num1;
-        double den2 = sqrt(pow(cloud.points.at(x + 1).y - cloud.points.at(x).y, 2) + pow(cloud.points.at(x + 1).x - cloud.points.at(x).x, 2));
-
+        double den2 = sqrt(pow(y2 - y1, 2) + pow(x2 - x1, 2));
         double angle1 = acos(num1 / den1); double angle2 = acos(num2 / den2);
         double angle = abs(angle1 - angle2);
 
