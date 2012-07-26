@@ -22,6 +22,8 @@ public:
     virtual ~RobotThread();
 
     double getXPos();
+    double getXSpeed();
+    double getASpeed();
     double getYPos();
     double getAPos();
 
@@ -29,6 +31,7 @@ public:
 
     void callback(nav_msgs::Odometry msg);
 	void SetSpeed(double speed, double angle);
+    void setPose(QList<double> to_set);
     void setCommand(QString cmd);
     void run();
 

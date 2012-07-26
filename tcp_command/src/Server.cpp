@@ -70,13 +70,14 @@ void Server::NewClientCommand() {
             std::cout << "Command: " << command.toStdString();
             m_RobotThread.setCommand(toRos);
 
-            if(command == "SetSpeed") {
+            if (command == "SetSpeed")
+            {
                 m_RobotThread.SetSpeed(speed, changeInAngle);
                 std::cout << "\tX m/sec: " << speed << "\t radians/sec: " <<
 changeInAngle;
             }
 
-            else if(command == "getPosition")
+            else if (command == "getPosition")
             {
                 std::stringstream stm;
                 stm << "("; stm << m_RobotThread.getXPos();
@@ -88,6 +89,30 @@ changeInAngle;
 
                 pClientSocket->write(pos.c_str());
             }//if the command is a get position.
+
+            else if (command == "getXSpeed")
+            {
+                std::stringstream stm;
+                stm << m_RobotThread.getXSpeed();
+                pClientSocket->write(stm.str().c_str());
+            }//returns the linear speed of the robot to tcp.
+
+            else if (command == "getASpeed")
+            {
+                std::stringstream stm;
+                stm << m_RobotThread.getASpeed();
+                pClientSocket->write(stm.str().c_str());
+            }//returns the angular speed of the robot to tcp.
+
+            else if (command == "setPosition") {
+                double xPos = speed;
+                double yPos = changeInAngle;
+
+                QList<double> pose;
+                pose.push_back(xPos);
+                pose.push_back(yPos);
+                m_RobotThread.setPose(pose);
+            }//end else if
 
             std::cout << std::endl;
         }
@@ -113,30 +138,18 @@ changeInAngle;
 
             m_RobotThread.setCommand(command);
 
-            /*else if(command == "getGoalDirObDist") {
+            else if(command == "getGoalDirObDist") {
                 //std::cout << "before read is good. " << std::endl;
                 //m_RobotThread.Read();
                 //std::cout << "after read is good. " << std::endl;
                 std::string pos = stringify(m_RobotThread.goalDirObDist());
                 pClientSocket->write(pos.c_str());
             }
-            else if(command == "getXSpeed") {
-                std::string xspeed = stringify(m_RobotThread.getXSpeed());
-                pClientSocket->write(xspeed.c_str());
-                //std::cout << "\t m/sec: " << m_RobotThread.getXSpeed();
-                //std::cout << std::endl;
-            }
             else if(command == "setGoal") {
                 double xPos = speed,yPos = changeInAngle;
 
                 player_pose2d_t pos = {xPos,yPos,0};
                 m_RobotThread.setGoal(pos);
-            }//end else if
-            else if(command == "setPosition") {
-                double xPos = speed,yPos = changeInAngle;
-
-                player_pose2d_t pose = {xPos,yPos,par4};
-                m_RobotThread.setPosition(pose);
             }//end else if
             else if(command == "goTo") {
                 double xPos = speed,yPos = changeInAngle;

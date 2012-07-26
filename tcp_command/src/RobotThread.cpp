@@ -50,7 +50,6 @@ void RobotThread::run()
     command = "empty";
     while (ros::ok())
     {
-        ROS_INFO("Inside loop");
         std_msgs::String msg;
         std::stringstream ss;
         ss << command.toStdString();
@@ -81,7 +80,19 @@ void RobotThread::setCommand(QString cmd)
     command = cmd;
 }//get a command from another thread.
 
-double RobotThread::getXPos(){ return xPos; }
-double RobotThread::getYPos(){ return yPos; }
-double RobotThread::getAPos(){ return aPos; }
+void RobotThread::setPose(QList<double> to_set)
+{
+    if (to_set.size() > 1)
+    {
+        m_xPos = to_set.at(0);//x coordinate
+        m_yPos = to_set.at(1);//y coordinate
+    }//end if
+}//end void
+
+double RobotThread::getXSpeed(){ return m_speed; }
+double RobotThread::getASpeed(){ return m_angle; }
+
+double RobotThread::getXPos(){ return m_xPos; }
+double RobotThread::getYPos(){ return m_yPos; }
+double RobotThread::getAPos(){ return m_aPos; }
 }//end namespace
