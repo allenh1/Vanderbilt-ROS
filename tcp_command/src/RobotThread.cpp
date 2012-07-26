@@ -30,10 +30,19 @@ bool RobotThread::init()
     //rostopic pub p2os_driver/MotorState cmd_motor_state -- 1.0
     cmd_publisher = nh.advertise<std_msgs::String>("/tcp_cmd", 1000);
     sim_velocity  = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 100);
-
+    pose_listener = nh.subscribe("/pose", 10, &RobotThread::callback, this);
     start();
     return true;
 }//set up the ros toys.
+
+void RobotThread::callback(nav_msgs::Odometry msg)
+{
+    m_xPos = msg.pose.pose.position.x;
+    m_yPos = msg.pose.pose.position.y;
+    m_aPos = msg.pose.pose.orientation.w;
+
+    ROS_INFO("Pose: (%f, %f, %f)", m_xPos, m_yPos, m_aPos);
+}//callback method to update the robot's position.
 
 void RobotThread::run()
 {
@@ -41,6 +50,7 @@ void RobotThread::run()
     command = "empty";
     while (ros::ok())
     {
+        ROS_INFO("Inside loop");
         std_msgs::String msg;
         std::stringstream ss;
         ss << command.toStdString();
@@ -60,6 +70,7 @@ void RobotThread::run()
 
 void RobotThread::SetSpeed(double speed, double angle)
 {
+    ROS_INFO("SetSpeed recieved)");
     m_speed = speed;
     m_angle = angle;
     //rostopic pub -1 /turtle1/command_velocity turtlesim/Velocity  --2.0 --0.0
@@ -70,4 +81,7 @@ void RobotThread::setCommand(QString cmd)
     command = cmd;
 }//get a command from another thread.
 
+double RobotThread::getXPos(){ return xPos; }
+double RobotThread::getYPos(){ return yPos; }
+double RobotThread::getAPos(){ return aPos; }
 }//end namespace

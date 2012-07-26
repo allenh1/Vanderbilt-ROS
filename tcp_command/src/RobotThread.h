@@ -20,7 +20,14 @@ class RobotThread : public QThread {
 public:
     RobotThread(int argc, char **pArgv);
     virtual ~RobotThread();
+
+    double getXPos();
+    double getYPos();
+    double getAPos();
+
     bool init();
+
+    void callback(nav_msgs::Odometry msg);
 	void SetSpeed(double speed, double angle);
     void setCommand(QString cmd);
     void run();
@@ -33,13 +40,13 @@ private:
 
     double m_speed;
     double m_angle;
+    double m_xPos;
+    double m_yPos;
+    double m_aPos;
 
     ros::Publisher cmd_publisher;
     ros::Publisher sim_velocity;
     ros::Subscriber pose_listener;
-	/** a position 2d proxy */
-
-	
 };
 }//end namespace
 #endif

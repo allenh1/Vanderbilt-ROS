@@ -236,7 +236,7 @@ int main(int argc, char **argv)
 
     ros::NodeHandle handler;
 
-    ros::Subscriber laserReader = handler.subscribe("scan", 10000, scanCallBack);
+    ros::Subscriber laserReader = handler.subscribe("/scan", 10000, scanCallBack);
     laserOutput = handler.advertise<pcl::PointCloud<pcl::PointXYZ> >("/cloud_pcl", 100);
 
     ros::spin();
