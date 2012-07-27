@@ -11,6 +11,7 @@
   <url>https://hmtcomp-16.vuse.vanderbilt.edu/allenh1/svn/tcp_command</url>
   <depend package="qt_build"/>
   <depend package="roscpp"/>
+  <depend package="move_base"/>
   <depend package="tf"/>
   <rosdep name="qt4"/>
 

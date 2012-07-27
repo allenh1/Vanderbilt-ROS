@@ -52,7 +52,7 @@ void defineLists()
         pcl::PointXYZ projection;
 
         double x2 = cloud.points.at(x + 1).x; double x1 = cloud.points.at(x).x;
-        double y2; double y1 = cloud.points.at(x).y;
+        double y2 = cloud.points.at(x + 1).y; double y1 = cloud.points.at(x).y;
 
         projection.x = x2;
         projection.y = slope * x2 + (y1 - slope * x1);
