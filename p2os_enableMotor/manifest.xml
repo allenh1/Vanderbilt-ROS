@@ -1,0 +1,18 @@
+<package>
+  <description brief="p2os_enableMotor">
+
+     p2os_enableMotor
+
+  </description>
+  <author>Sayan36055</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/p2os_enableMotor</url>
+  <depend package="rospy"/>
+  <depend package="roscpp"/>
+  <depend package="std_msgs"/>
+  <depend package="p2os_driver"/>
+
+</package>
+
+

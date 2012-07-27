@@ -1,0 +1,19 @@
+<package>
+  <description brief="p2os_master_launch">
+
+     p2os_master_launch
+
+  </description>
+  <author>Sayan36055</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/p2os_master_launch</url>
+  <depend package="rospy"/>
+  <depend package="roscpp"/>
+  <depend package="std_msgs"/>
+  <depend package="p2os_driver"/>
+  <depend package="p2os_dashboard"/>
+  <depend package="p2os_enableMotor"/>	  	
+</package>
+
+
