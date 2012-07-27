@@ -114,6 +114,17 @@ changeInAngle;
                 m_RobotThread.setPose(pose);
             }//end else if
 
+            else if (command == "setGoal")
+            {
+                double xPos = speed, yPos = changeInAngle;
+
+                geometry_msgs::Point goal;
+                goal.x = xPos;
+                goal.y = yPos;
+                goal.z = PI/2;
+                m_RobotThread.goToXYZ(goal);
+            }//end else if
+
             std::cout << std::endl;
         }
     }
@@ -145,12 +156,6 @@ changeInAngle;
                 std::string pos = stringify(m_RobotThread.goalDirObDist());
                 pClientSocket->write(pos.c_str());
             }
-            else if(command == "setGoal") {
-                double xPos = speed,yPos = changeInAngle;
-
-                player_pose2d_t pos = {xPos,yPos,0};
-                m_RobotThread.setGoal(pos);
-            }//end else if
             else if(command == "goTo") {
                 double xPos = speed,yPos = changeInAngle;
 
