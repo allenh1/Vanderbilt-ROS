@@ -13,7 +13,7 @@
 
 const float PHIe =  PI / 10.0; // ~ 18 degrees
 const double SLOPE_TOLERATION = 0.1; // difference is less than 0.1
-const double DIST_TOLERANCE = 0.3; //50 cm distance tolerance.
+const double DIST_TOLERANCE = 0.2; //50 cm distance tolerance.
 const double DIST_TOL = 0.1;
 const double MAXRAD = 0.75; //maximum radius of .75 meters
 const double R2TOLL = 0.995;

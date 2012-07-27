@@ -109,7 +109,7 @@ void defineObjects()
             }//end for i
 
             Shapes.push_back(toPush);
-            lastBreak = x + 1;
+            lastBreak = x;
         }//add to cloud
     }//end for
 }//get a single object
