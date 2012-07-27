@@ -21,7 +21,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #uncomment if you have defined services
 #rosbuild_gensrv()
 set(sources
-        src/laser_test.cc
+        src/laser_test.cpp
         src/Shape.h
         src/MathLibrary.h
 )
