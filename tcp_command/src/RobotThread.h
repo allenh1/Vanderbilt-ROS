@@ -11,6 +11,7 @@
 #include <ros/ros.h>
 #include <ros/network.h>
 #include <std_msgs/String.h>
+#include <sensor_msgs/LaserScan.h>
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
 
@@ -30,6 +31,8 @@ public:
     bool init();
 
     void callback(nav_msgs::Odometry msg);
+    void scanCallBack(sensor_msgs::LaserScan scan);
+
 	void SetSpeed(double speed, double angle);
     void setPose(QList<double> to_set);
     void setCommand(QString cmd);
@@ -43,13 +46,21 @@ private:
 
     double m_speed;
     double m_angle;
+
     double m_xPos;
     double m_yPos;
     double m_aPos;
 
+    double m_maxRange;
+    double m_minRange;
+
+    QList<double> ranges;
+
     ros::Publisher cmd_publisher;
     ros::Publisher sim_velocity;
+
     ros::Subscriber pose_listener;
+    ros::Subscriber scan_listener;
 };
 }//end namespace
 #endif

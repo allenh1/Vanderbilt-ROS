@@ -31,6 +31,7 @@ bool RobotThread::init()
     cmd_publisher = nh.advertise<std_msgs::String>("/tcp_cmd", 1000);
     sim_velocity  = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 100);
     pose_listener = nh.subscribe("/pose", 10, &RobotThread::callback, this);
+    scan_listener = nh.subscribe("/scan", 1000, &RobotThread::scanCallBack, this);
     start();
     return true;
 }//set up the ros toys.
@@ -43,6 +44,15 @@ void RobotThread::callback(nav_msgs::Odometry msg)
 
     ROS_INFO("Pose: (%f, %f, %f)", m_xPos, m_yPos, m_aPos);
 }//callback method to update the robot's position.
+
+void RobotThread::scanCallBack(sensor_msgs::LaserScan scan)
+{
+    m_maxRange = scan.range_max;
+    m_minRange = scan.range_min;
+
+    for (int x = 0; x < scan.ranges.size(); x++)
+        ranges.push_back(ranges.at(x));
+}//callback method for updating the laser scan data.
 
 void RobotThread::run()
 {
