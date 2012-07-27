@@ -39,6 +39,7 @@ public:
 
 	void SetSpeed(double speed, double angle);
     void setPose(QList<double> to_set);
+    void goToXYZ(geometry_msgs::Point goTo);
     void setCommand(QString cmd);
     void run();
 

@@ -50,9 +50,38 @@ void RobotThread::scanCallBack(sensor_msgs::LaserScan scan)
     m_maxRange = scan.range_max;
     m_minRange = scan.range_min;
 
-    for (int x = 0; x < scan.ranges.size(); x++)
+    for (unsigned int x = 0; x < scan.ranges.size(); x++)
         ranges.push_back(ranges.at(x));
 }//callback method for updating the laser scan data.
+
+void RobotThread::goToXYZ(geometry_msgs::Point goTo)
+{
+    MoveBaseClient ac("move_base", true);
+
+    while(!ac.waitForServer(ros::Duration(5.0))){
+      ROS_INFO("Waiting for the move_base action server to come up");
+    }
+
+    move_base_msgs::MoveBaseGoal goal;
+
+    //we'll send a goal to the robot to move 1 meter forward
+    goal.target_pose.header.frame_id = "base_link";
+    goal.target_pose.header.stamp = ros::Time::now();
+
+    goal.target_pose.pose.position.x = goTo.x;
+    goal.target_pose.pose.position.y = goTo.y;
+    goal.target_pose.pose.orientation.w = goTo.z; // the angle will be on z.
+
+    ROS_INFO("Sending goal");
+    ac.sendGoal(goal);
+
+    ac.waitForResult();
+
+    if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
+      ROS_INFO("Hooray, the base moved 1 meter forward");
+    else
+      ROS_INFO("The base failed to move forward 1 meter for some reason");
+}//go to pose
 
 void RobotThread::run()
 {
