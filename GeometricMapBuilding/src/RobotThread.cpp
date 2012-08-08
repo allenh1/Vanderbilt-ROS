@@ -4,7 +4,7 @@ namespace server {
 RobotThread::RobotThread(int argc, char** pArgv)
     :	m_Init_argc(argc),
         m_pInit_argv(pArgv)
-{ ROS_INFO("Robot thread constructed"); }
+{ lockedIndex = 0; m_locked = false; ROS_INFO("Robot thread constructed"); }
 
 RobotThread::~RobotThread()
 {
@@ -29,6 +29,7 @@ bool RobotThread::init()
     ros::NodeHandle nh;
     //rostopic pub p2os_driver/MotorState cmd_motor_state -- 1.0
     cmd_publisher = nh.advertise<std_msgs::String>("/tcp_cmd", 1000);
+    map_publisher = nh.advertise<nav_msgs::OccupancyGrid>("/map", 1000);
     pose_listener = nh.subscribe("/odom", 10, &RobotThread::callback, this);
     scan_listener = nh.subscribe("/scan", 1000, &RobotThread::scanCallBack, this);
     start();
@@ -66,9 +67,9 @@ void RobotThread::scanCallBack(sensor_msgs::LaserScan scan)
 
 void RobotThread::breakPointList()
 {
-    QList<globalPoint> currentSet;
+    std::vector<globalPoint, Eigen::aligned_allocator<globalPoint> > currentSet;
 
-    for (int x = 1; x < m_scanned.size() - 1; x++)
+    for (unsigned int x = 1; x < m_scanned.size() - 1; x++)
     {
         bool canAdd = true;
 
@@ -81,12 +82,12 @@ void RobotThread::breakPointList()
         if (canAdd)
             currentSet.push_back(m_scanned.at(x));
 
-        if (!canAdd)
+        if (currentSet.size() > 1 && !canAdd)
         {
             segment toPush;
             toPush.m_length = getDistance(currentSet.at(0), currentSet.at(currentSet.size() - 1));
 
-            for (int y = 0; y < currentSet.size(); y++)
+            for (unsigned int y = 0; y < currentSet.size(); y++)
                 toPush.m_points.push_back(currentSet.at(y));
 
             m_segments.push_back(toPush);
@@ -100,7 +101,7 @@ void RobotThread::constructSegments()
     breakPointList();
     //This method constructs the segments through the collection of points.
 
-    for (int x = 0; x < m_segments.size(); x++)
+    for (unsigned int x = 0; x < m_segments.size(); x++)
     {
         double Rx = 0; double Ry = 0; double Rxx = 0;
         double Ryy = 0; double Rxy = 0; double N1 = 0; double N2 = 0; double T = 0;
@@ -108,7 +109,7 @@ void RobotThread::constructSegments()
 
         QList<double> xVals; QList<double> yVals;
 
-        for (int y = 0; y < m_segments.at(x).m_points.size(); y++)
+        for (unsigned int y = 0; y < m_segments.at(x).m_points.size(); y++)
         {
             xVals.push_back(m_segments.at(x).m_points.at(y).m_x);
             yVals.push_back(m_segments.at(x).m_points.at(y).m_y);
@@ -126,15 +127,15 @@ void RobotThread::constructSegments()
 
         m = T / N1;
 
-        q = (Ry - m * Rx) / m_points.size();
+        q = (Ry - m * Rx) / m_segments.at(x).m_points.size();
 
         s = T / N2;
 
-        t = (Rx - s * Ry) / m_points.size();
+        t = (Rx - s * Ry) / m_segments.at(x).m_points.size();
 
         if (N1 <= N2)
         {
-            for (int z = 0; z < m_segments.at(x).m_points.size(); z++)
+            for (unsigned int z = 0; z < m_segments.at(x).m_points.size(); z++)
             {
                 globalPoint p = m_segments.at(x).m_points.at(z);
                 p.m_x = s * p.m_y + t;
@@ -145,7 +146,7 @@ void RobotThread::constructSegments()
 
         else
         {
-            for (int z = 0; z < m_segments.at(x).m_points.size(); z++)
+            for (unsigned int z = 0; z < m_segments.at(x).m_points.size(); z++)
             {
                 globalPoint p = m_segments.at(x).m_points.at(z);
                 p.m_y = m * p.m_x + q;
@@ -155,6 +156,25 @@ void RobotThread::constructSegments()
         }//case: y = mx + q
     }//end for x
 }//construct the segments, apply correction.
+
+void RobotThread::publishMap()
+{
+    nav_msgs::OccupancyGrid myMap;
+
+    //Message Header
+    myMap.header.stamp = ros::Time::now();
+    myMap.header.frame_id = "/map";
+
+    //Map Meta Data Info
+    myMap.info.resolution = 0.050000; //standard resolution
+    myMap.info.width = 100;
+    myMap.info.height = 100;
+
+    geometry_msgs::Pose origin;
+    origin.position.x = -100;
+    origin.position.y = -100;
+    origin.position.z = 0;
+}
 
 void RobotThread::doMath(sensor_msgs::LaserScan scan)
 {
@@ -209,12 +229,28 @@ void RobotThread::doMath(sensor_msgs::LaserScan scan)
 
         toPush.Cp = mult2 + mult4; // store the uncertainty here.
 
+        if (!TryLockMutex(1000)){
+            m_lockedPoint = toPush;
+        }
+        //unlock in the event that TryLockMutex returns true
+        UnlockMutex();
         m_scanned.push_back(toPush);
         alpha += scan.angle_increment;
+        Q_EMIT NewPoint();
     }//iterate for all scans
 
+    m_Map.clear();
     constructSegments();
 }//calculate matrices for each scan reading.
+
+double RobotThread::getFData(int index1, int index2){ return m_lockedPoint.F(index1, index2); }
+double RobotThread::getGData(int index1, int index2){ return m_lockedPoint.G(index1, index2); }
+double RobotThread::getCpData(int index1, int index2){ return m_lockedPoint.Cp(index1, index2); }
+double RobotThread::getCxrData(int index1, int index2){ return m_lockedPoint.Cxr(index1, index2); }
+globalPoint RobotThread::getPoint(int index) { return m_scanned.at(index); }//returns the newest point to the gui
+bool RobotThread::locked(){ return m_locked; }
+void RobotThread::unlock(){ m_locked = false; }
+//void RobotThread::lock(){ m_locked = true; }
 
 void RobotThread::goToXYZ(geometry_msgs::Point goTo)
 {
@@ -251,6 +287,8 @@ void RobotThread::run()
     command = "empty";
     while (ros::ok())
     {
+        if (m_Map.size() > 1000)
+            m_Map.clear();
         std_msgs::String msg;
         std::stringstream ss;
         ss << command.toStdString();
@@ -261,11 +299,12 @@ void RobotThread::run()
         cmd_msg.linear.x = m_speed;
         cmd_msg.angular.z = m_angle;
 
-        cmd_publisher.publish(msg);
+        //cmd_publisher.publish(msg);
         //sim_velocity.publish(cmd_msg);
         ros::spinOnce();
         loop_rate.sleep();
     }//do ros things.
+    Q_EMIT rosShutdown();
 }
 
 void RobotThread::SetSpeed(double speed, double angle)

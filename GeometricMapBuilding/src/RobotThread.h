@@ -8,6 +8,7 @@
 #include <QGenericMatrix>
 #include <iostream>
 #include "assert.h"
+#include <QMutex>
 
 #include <ros/ros.h>
 #include <Eigen/Core>
@@ -17,6 +18,7 @@
 #include <sensor_msgs/LaserScan.h>
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
+#include <nav_msgs/OccupancyGrid.h>
 #include <actionlib/client/simple_action_client.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <QGenericMatrix>
@@ -53,7 +55,7 @@ struct segment
 {
     double m_length;
 
-    QList<globalPoint> m_points;
+    std::vector<globalPoint, Eigen::aligned_allocator<globalPoint> > m_points;
 };
 
 inline double getAverage(int a, int b, QList<double> list)
@@ -137,6 +139,10 @@ public:
     double getASpeed();
     double getYPos();
     double getAPos();
+    double getFData(int index1, int index2);
+    double getGData(int index1, int index2);
+    double getCpData(int index1, int index2);
+    double getCxrData(int index1, int index2);
 
     bool init();
 
@@ -149,12 +155,30 @@ public:
     void setCommand(QString cmd);
     void doMath(sensor_msgs::LaserScan scan);//does the matrix stuff
     void run();
+    Q_SIGNAL void NewPoint();
+
+    globalPoint getPoint(int index);
+
+    // Mutex accessor methods
+    void LockMutex(){m_Mutex.lock();}
+    void UnlockMutex(){m_Mutex.unlock();}
+    bool TryLockMutex(int timeOut = 0){if(timeOut) return m_Mutex.tryLock(); else return m_Mutex.tryLock(timeOut);}
 
 private:
+    Q_SIGNAL void rosShutdown();
+    Q_SLOT void unlock();
+
     QString command;
+
+    QMutex m_Mutex;
 
     int m_Init_argc;
     char** m_pInit_argv;
+
+    int lockedIndex;
+
+    bool m_locked;
+    bool locked();
 
     double m_speed;
     double m_angle;
@@ -168,18 +192,22 @@ private:
 
     void constructSegments();
     void breakPointList();
+    void publishMap();
 
     QList<double> ranges;
     QList<double> map_cloud;
 
-    QList<globalPoint> m_scanned;
-    QList<globalPoint> m_Map;
-    QList<segment> m_segments;
+    std::vector<globalPoint, Eigen::aligned_allocator<globalPoint> > m_scanned;
+    std::vector<globalPoint, Eigen::aligned_allocator<globalPoint> > m_Map;
+    std::vector<segment, Eigen::aligned_allocator<segment> > m_segments;
 
     Matrix6x6d m_covariance;
 
+    globalPoint m_lockedPoint;
+
     ros::Publisher cmd_publisher;
     ros::Publisher sim_velocity;
+    ros::Publisher map_publisher;
 
     ros::Subscriber pose_listener;
     ros::Subscriber scan_listener;

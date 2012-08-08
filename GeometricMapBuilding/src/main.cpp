@@ -3,16 +3,18 @@
 #include "sensor_msgs/LaserScan.h"
 #include "laserHandle.h"
 #include "RobotThread.h"
+#include "MainWindow.h"
 #include "Server.h"
 #include <QCoreApplication>
+#include <QApplication>
 
 using namespace server;
 
 int main(int argc, char** argv){
-
-    QCoreApplication app(argc, argv);
-
-    Server s(argc, argv);
+    QApplication app(argc, argv);
+    server::MainWindow w(argc,argv);
+    w.show();
+    app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
     //for(;;)
     //	;
     //system("pause");

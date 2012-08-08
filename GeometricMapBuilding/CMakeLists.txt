@@ -19,11 +19,11 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 rosbuild_include(qt_build qt-ros)
 rosbuild_prepare_qt4(QtCore QtGui)
 
+file(GLOB QT_FORMS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ui/*.ui)
 file(GLOB_RECURSE QT_MOC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS src/*.h)
 QT4_WRAP_CPP(QT_MOC_HPP ${QT_MOC})
-
+QT4_WRAP_UI(QT_FORMS_HPP ${QT_FORMS})
 file(GLOB_RECURSE QT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS src/*.cpp)
-
 #uncomment if you have defined messages
 #rosbuild_genmsg()
 #uncomment if you have defined services
@@ -39,7 +39,7 @@ file(GLOB_RECURSE QT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINK
 #rosbuild_include(qt_build qt-ros)
 #rosbuild_prepare_qt4(QtCore QtGui)
 
-rosbuild_add_executable(geomap_building ${QT_SOURCES} ${QT_MOC_HPP})
+rosbuild_add_executable(geomap_building ${QT_SOURCES} ${QT_MOC_HPP} ${QT_FORMS_HPP} )
 target_link_libraries(geomap_building ${QT_LIBRARIES})
 
 #############################

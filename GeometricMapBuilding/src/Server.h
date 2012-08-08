@@ -2,6 +2,7 @@
 #define SERVER_H
 
 #include "RobotThread.h"
+#include <QtGui/QMainWindow>
 #include <geometry_msgs/Point.h>
 #include <QObject>
 
@@ -26,6 +27,11 @@ private:
 
     RobotThread m_RobotThread;
 };
+
+
+/*****************************************************************************
+** Interface [MainWindow]
+*****************************************************************************/
 
 }//end namespace
 #endif
