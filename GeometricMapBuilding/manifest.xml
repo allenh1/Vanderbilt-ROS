@@ -1,0 +1,21 @@
+<package>
+  <description brief="GeometricMapBuilding">
+
+     GeometricMapBuilding
+
+  </description>
+  <author>Hunter Allen</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/GeometricMapBuilding</url>
+  <depend package="qt_build"/>
+  <depend package="roscpp"/>
+  <depend package="actionlib"/>
+  <depend package="actionlib_msgs"/>
+  <depend package="move_base_msgs"/>
+  <depend package="tf"/>
+  <rosdep name="qt4"/>
+  <rosdep name="eigen"/>
+</package>
+
+
