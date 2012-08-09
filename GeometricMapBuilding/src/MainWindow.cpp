@@ -38,11 +38,13 @@ MainWindow::~MainWindow() {}
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    robot.finish();
 	QMainWindow::closeEvent(event);
 }
 
 void MainWindow::updateDisplay() {
     robot.LockMutex();
+    double currentTime = robot.getRosTime();
     Matrix2x3d F; Matrix3x3d Cxr;
     Matrix2x2d G; Matrix2x2d Cp;
 
@@ -72,6 +74,12 @@ void MainWindow::updateDisplay() {
     QString Cp00; QString Cp01;
     QString Cp10; QString Cp11;
 
+    QString numberOfSegments;
+
+    QString rosTime; rosTime.setNum(currentTime - m_lastRosTime);
+
+    numberOfSegments.setNum(robot.numSegments());
+
     F00.setNum(F(0, 0)); F01.setNum(F(0, 1)); F02.setNum(F(0, 2));
     F10.setNum(F(1, 0)); F11.setNum(F(1, 1)); F12.setNum(F(1, 2));
 
@@ -97,7 +105,11 @@ void MainWindow::updateDisplay() {
 
     ui.Cp00->setText(Cp00); ui.Cp01->setText(Cp01);
     ui.Cp10->setText(Cp10); ui.Cp11->setText(Cp11);
+
+    ui.numSegs->setText(numberOfSegments);
+    ui.rosTime->setText(rosTime);
     //Q_EMIT unlockPoint();
+    m_lastRosTime = currentTime;
     robot.UnlockMutex();
 }//update the GUI Matrix.
 }//end namespace

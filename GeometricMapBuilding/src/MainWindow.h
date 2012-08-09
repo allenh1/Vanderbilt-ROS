@@ -37,11 +37,13 @@ public:
     //const Foo& v
     Q_SLOT void updateDisplay();
     Q_SIGNAL void unlockPoint();
+
     void readFromRobot();
 	void closeEvent(QCloseEvent *event); // Overloaded function
 
 private:
 
+    double m_lastRosTime;
     Ui::MainWindow ui;
     RobotThread robot;
     QTimer * m_pRefreshTimer;

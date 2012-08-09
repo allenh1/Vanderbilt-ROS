@@ -46,6 +46,8 @@ struct globalPoint
 {
     double m_x;
     double m_y;
+    double m_rho;
+    double m_theta;
 
     Matrix2x2d Cp; //covariance
     Matrix2x2d Cs; //covariance
@@ -55,9 +57,32 @@ struct globalPoint
     Matrix2x2d G;//Jacobian
 };//structure for a laser point.
 
+struct V
+{
+    double m_m;
+    double m_q;
+};
+
 struct segment
 {
     double m_length;
+    double Rx;
+    double Ry;
+    double Rxx;
+    double Ryy;
+    double Rxy;
+    double N1;
+    double N2;
+    double T;
+    double m;
+    double q;
+    double s;
+    double t;
+
+    V line;
+
+    Matrix2x2d Cv;
+    Matrix2x2d J;
 
     std::vector<globalPoint, Eigen::aligned_allocator<globalPoint> > m_points;
 };
@@ -85,6 +110,40 @@ inline double stdDev(QList<double> list)
 
 inline double getDistance(globalPoint p1, globalPoint p2)
 { return sqrt(pow(p2.m_x - p1.m_x, 2) + pow(p2.m_y - p1.m_y, 2)); }
+
+inline double getMaxError(segment s1)
+{ return s1.m_points.at(s1.m_points.size() - 1).m_x * 0.3 - s1.m_points.at(0).m_x * .3; }
+
+inline double getLineError(segment s1, segment s2)
+{
+    if (getDistance(s1.m_points.at(0), s1.m_points.at(0)) > s1.m_length)
+        return getMaxError(s1);
+    if (s1.m_length > s2.m_length)
+    {
+        double x1 = s1.m_points.at(s1.m_points.size() - 1).m_x;
+        double x2 = s1.m_points.at(0).m_x;
+        double delta_m = sqrt(pow(s1.m - s2.m, 2));
+        double delta_q = sqrt(pow(s1.q - s2.q, 2));
+
+        double upper = (delta_m * pow(x1, 2)) / 2.0 + delta_q * x1;
+        double lower = (delta_m * pow(x2, 2)) / 2.0 + delta_q * x2;
+
+        return sqrt(pow(upper - lower, 2));
+    }//end if.
+
+    else
+    {
+        double x1 = s2.m_points.at(s2.m_points.size() - 1).m_x;
+        double x2 = s2.m_points.at(0).m_x;
+        double delta_m = sqrt(pow(s2.m - s1.m, 2));
+        double delta_q = sqrt(pow(s2.q - s1.q, 2));
+
+        double upper = (delta_m * pow(x1, 2)) / 2.0 + delta_q * x1;
+        double lower = (delta_m * pow(x2, 2)) / 2.0 + delta_q * x2;
+
+        return sqrt(pow(upper - lower, 2));
+    }//end else
+}//get the error between segments
 
 inline double summation(QList<double> toSum)
 {
@@ -143,6 +202,7 @@ public:
     double getASpeed();
     double getYPos();
     double getAPos();
+    double numSegments();
     double getFData(int index1, int index2);
     double getGData(int index1, int index2);
     double getCpData(int index1, int index2);
@@ -158,11 +218,13 @@ public:
     void goToXYZ(geometry_msgs::Point goTo);
     void setCommand(QString cmd);
     void doMath(sensor_msgs::LaserScan scan);//does the matrix stuff
+    void matchSegments();
+    void finish();
     void run();
     Q_SIGNAL void NewPoint();
 
     globalPoint getPoint(int index);
-
+    double getRosTime();
     // Mutex accessor methods
     void LockMutex(){m_Mutex.lock();}
     void UnlockMutex(){m_Mutex.unlock();}
@@ -182,6 +244,7 @@ private:
     int lockedIndex;
 
     bool m_locked;
+    bool m_isDone;
     bool locked();
 
     double m_speed;
@@ -202,7 +265,7 @@ private:
     QList<double> map_cloud;
 
     std::vector<globalPoint, Eigen::aligned_allocator<globalPoint> > m_scanned;
-    std::vector<globalPoint, Eigen::aligned_allocator<globalPoint> > m_Map;
+    std::vector<segment, Eigen::aligned_allocator<segment> > m_Map;
     std::vector<segment, Eigen::aligned_allocator<segment> > m_segments;
 
     Matrix6x6d m_covariance;
@@ -210,6 +273,9 @@ private:
     globalPoint m_lockedPoint;
 
     PointCloud m_map;
+
+    ros::Time m_lastLock;
+    ros::Time m_thisLock;
 
     ros::Publisher cmd_publisher;
     ros::Publisher sim_velocity;

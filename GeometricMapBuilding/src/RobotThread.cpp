@@ -4,7 +4,7 @@ namespace server {
 RobotThread::RobotThread(int argc, char** pArgv)
     :	m_Init_argc(argc),
         m_pInit_argv(pArgv)
-{ lockedIndex = 0; m_locked = false; ROS_INFO("Robot thread constructed"); }
+{ lockedIndex = 0; ROS_INFO("Robot thread constructed"); }
 
 RobotThread::~RobotThread()
 {
@@ -32,6 +32,7 @@ bool RobotThread::init()
     map_publisher = nh.advertise<pcl::PointCloud<pcl::PointXYZ> >("/map", 1000);
     pose_listener = nh.subscribe("/odom", 10, &RobotThread::callback, this);
     scan_listener = nh.subscribe("/scan", 1000, &RobotThread::scanCallBack, this);
+    m_thisLock = ros::Time::now();
     start();
     return true;
 }//set up the ros toys.
@@ -133,56 +134,95 @@ void RobotThread::constructSegments()
 
         t = (Rx - s * Ry) / m_segments.at(x).m_points.size();
 
-        if (N1 <= N2 && m_segments.at(x).m_length > 0.3)
+        m_segments.at(x).line.m_m = m;
+        m_segments.at(x).line.m_q = q;
+        m_segments.at(x).Rx = Rx; m_segments.at(x).Rxx = Rxx;
+        m_segments.at(x).Ry = Ry; m_segments.at(x).Ryy = Ryy;
+        m_segments.at(x).Rxy = Rxy; m_segments.at(x).N1 = N1;
+        m_segments.at(x).N2 = N2; m_segments.at(x).T = T;
+        m_segments.at(x).m = m; m_segments.at(x).q = q;
+        m_segments.at(x).s = s; m_segments.at(x).t = t;
+
+        if (N1 < N2)
         {
-            for (unsigned int z = 0; z < m_segments.at(x).m_points.size(); z++)
-            {
-                globalPoint p = m_segments.at(x).m_points.at(z);
-                p.m_x = s * p.m_y + t;
+            //case: x = sy + t
+            for (unsigned int y = 0; y < m_segments.at(x).m_points.size(); y++)
+                m_segments.at(x).m_points.at(y).m_x = s * m_segments.at(x).m_points.at(y).m_y + t;
+        }
 
-                m_Map.push_back(p);
-            }//end for z
-        }//case: x = sy + t
-
-        if (N1 > N2 && m_segments.at(x).m_length > 0.3)
+        if (N1 >= N2)
         {
-            for (unsigned int z = 0; z < m_segments.at(x).m_points.size(); z++)
-            {
-                globalPoint p = m_segments.at(x).m_points.at(z);
-                p.m_y = m * p.m_x + q;
+            //case: y = mx + q
+            for (unsigned int y = 0; y < m_segments.at(x).m_points.size(); y++)
+                m_segments.at(x).m_points.at(y).m_y = m * m_segments.at(x).m_points.at(y).m_x + q;
+        }
 
-                m_Map.push_back(p);
-            }//end for z.
-        }//case: y = mx + q
+        if (m_segments.at(x).m_length < 0.3)
+        { m_segments.erase(m_segments.begin() + x); x--; }
     }//end for x
 
+    matchSegments();
     publishMap();
 }//construct the segments, apply correction.
 
+void RobotThread::matchSegments()
+{
+    for (unsigned int x = 0; x < m_segments.size(); x++)
+    {
+        for (unsigned int y = 0; y < m_Map.size(); y++)
+        {
+            if (getLineError(m_Map.at(y), m_segments.at(x)) < getMaxError(m_segments.at(x)))
+            {   m_segments.erase(m_segments.begin() + x); x--; break; }//end if
+        }//end for y
+    }//end for x
+
+    for (unsigned int z = 0; z < m_segments.size(); z++)
+    {
+        m_Map.push_back(m_segments.at(z));
+    }//update z map.
+}//match segments to the ones on the map.
+
 void RobotThread::publishMap()
 {
-    PointCloud currentMap;
-    currentMap.header.frame_id = "/map";
-    currentMap.header.stamp = ros::Time::now();
-
-    for (unsigned int i = 0; i < m_Map.size(); i++)
+    if (m_Map.size() > 0)
     {
-        pcl::PointXYZ point;
-        point.x = m_Map.at(i).m_x;
-        point.y = m_Map.at(i).m_y;
+        PointCloud currentMap = m_map;
+        currentMap.header.frame_id = "/map";
+        currentMap.header.stamp = ros::Time::now();
 
-        currentMap.points.push_back(point);
-    }//end for i
+        for (unsigned int x = 0; x < m_Map.size(); x++)
+        {
+            for (unsigned int y = 0; y < m_Map.at(x).m_points.size(); y++)
+            {
+                pcl::PointXYZ point;
+                point.x = m_Map.at(x).m_points.at(y).m_x;
+                point.y = m_Map.at(x).m_points.at(y).m_y;
+                point.z = 0;
 
-    m_map = currentMap;
-    currentMap.height = 1;
-    currentMap.width = currentMap.points.size();
+                currentMap.points.push_back(point);
+            }//end for y.
+        }//end for x.
 
-    pcl::PCDWriter writer;
-    writer.write<pcl::PointXYZ> ("Map.pcd", currentMap, false);
+        m_map = currentMap;
+        currentMap.height = 1;
+        currentMap.width = currentMap.points.size();
 
-    map_publisher.publish(currentMap.makeShared());
+        pcl::PCDWriter writer;
+        writer.write<pcl::PointXYZ> ("Map.pcd", currentMap, false);
+
+        if (m_Map.size() > 5000)
+            m_Map.clear();//clear if the map is getting full
+        m_segments.clear();
+        m_scanned.clear();
+        map_publisher.publish(currentMap.makeShared());
+    }
 }
+
+double RobotThread::getRosTime()
+{
+    double time = ros::Time::now().toSec();
+    return time;
+}//get the time as a string
 
 void RobotThread::doMath(sensor_msgs::LaserScan scan)
 {
@@ -192,8 +232,8 @@ void RobotThread::doMath(sensor_msgs::LaserScan scan)
     for (double y = 0; y < scan.angle_max; y += scan.angle_increment)
         alphas.push_back(y);
 
-     double rangeDev = 0.001;
-     double alphaDev = 0.001;
+     double rangeDev = 0.00031;//sick estimate
+     double alphaDev = 0.00047;//for covariance
 
     for (unsigned int x = 0; x < scan.ranges.size(); x++)
     {
@@ -237,8 +277,11 @@ void RobotThread::doMath(sensor_msgs::LaserScan scan)
 
         toPush.Cp = mult2 + mult4; // store the uncertainty here.
 
-        if (!TryLockMutex(1000)){
+        if (!TryLockMutex(1000))
+        {
+            m_lastLock = m_thisLock;
             m_lockedPoint = toPush;
+            m_thisLock = ros::Time::now();
         }
         //unlock in the event that TryLockMutex returns true
         UnlockMutex();
@@ -247,7 +290,6 @@ void RobotThread::doMath(sensor_msgs::LaserScan scan)
         Q_EMIT NewPoint();
     }//iterate for all scans
 
-    m_Map.clear();
     constructSegments();
 }//calculate matrices for each scan reading.
 
@@ -255,6 +297,7 @@ double RobotThread::getFData(int index1, int index2){ return m_lockedPoint.F(ind
 double RobotThread::getGData(int index1, int index2){ return m_lockedPoint.G(index1, index2); }
 double RobotThread::getCpData(int index1, int index2){ return m_lockedPoint.Cp(index1, index2); }
 double RobotThread::getCxrData(int index1, int index2){ return m_lockedPoint.Cxr(index1, index2); }
+double RobotThread::numSegments(){ return m_Map.size(); }
 globalPoint RobotThread::getPoint(int index) { return m_scanned.at(index); }//returns the newest point to the gui
 bool RobotThread::locked(){ return m_locked; }
 void RobotThread::unlock(){ m_locked = false; }
@@ -289,14 +332,15 @@ void RobotThread::goToXYZ(geometry_msgs::Point goTo)
       ROS_INFO("The base failed to move forward 1 meter for some reason");
 }//go to pose
 
+void RobotThread::finish(){ m_isDone = true; }
+
 void RobotThread::run()
 {
     ros::Rate loop_rate(1);
     command = "empty";
-    while (ros::ok())
+    m_isDone = false;
+    while (ros::ok() && !m_isDone)
     {
-        if (m_Map.size() > 1000)
-            m_Map.clear();
         std_msgs::String msg;
         std::stringstream ss;
         ss << command.toStdString();
