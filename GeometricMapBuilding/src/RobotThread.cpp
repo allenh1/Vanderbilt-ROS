@@ -29,7 +29,7 @@ bool RobotThread::init()
     ros::NodeHandle nh;
     //rostopic pub p2os_driver/MotorState cmd_motor_state -- 1.0
     cmd_publisher = nh.advertise<std_msgs::String>("/tcp_cmd", 1000);
-    map_publisher = nh.advertise<nav_msgs::OccupancyGrid>("/map", 1000);
+    map_publisher = nh.advertise<pcl::PointCloud<pcl::PointXYZ> >("/map", 1000);
     pose_listener = nh.subscribe("/odom", 10, &RobotThread::callback, this);
     scan_listener = nh.subscribe("/scan", 1000, &RobotThread::scanCallBack, this);
     start();
@@ -133,7 +133,7 @@ void RobotThread::constructSegments()
 
         t = (Rx - s * Ry) / m_segments.at(x).m_points.size();
 
-        if (N1 <= N2)
+        if (N1 <= N2 && m_segments.at(x).m_length > 0.3)
         {
             for (unsigned int z = 0; z < m_segments.at(x).m_points.size(); z++)
             {
@@ -144,7 +144,7 @@ void RobotThread::constructSegments()
             }//end for z
         }//case: x = sy + t
 
-        else
+        if (N1 > N2 && m_segments.at(x).m_length > 0.3)
         {
             for (unsigned int z = 0; z < m_segments.at(x).m_points.size(); z++)
             {
@@ -155,25 +155,33 @@ void RobotThread::constructSegments()
             }//end for z.
         }//case: y = mx + q
     }//end for x
+
+    publishMap();
 }//construct the segments, apply correction.
 
 void RobotThread::publishMap()
 {
-    nav_msgs::OccupancyGrid myMap;
+    PointCloud currentMap;
+    currentMap.header.frame_id = "/map";
+    currentMap.header.stamp = ros::Time::now();
 
-    //Message Header
-    myMap.header.stamp = ros::Time::now();
-    myMap.header.frame_id = "/map";
+    for (unsigned int i = 0; i < m_Map.size(); i++)
+    {
+        pcl::PointXYZ point;
+        point.x = m_Map.at(i).m_x;
+        point.y = m_Map.at(i).m_y;
 
-    //Map Meta Data Info
-    myMap.info.resolution = 0.050000; //standard resolution
-    myMap.info.width = 100;
-    myMap.info.height = 100;
+        currentMap.points.push_back(point);
+    }//end for i
 
-    geometry_msgs::Pose origin;
-    origin.position.x = -100;
-    origin.position.y = -100;
-    origin.position.z = 0;
+    m_map = currentMap;
+    currentMap.height = 1;
+    currentMap.width = currentMap.points.size();
+
+    pcl::PCDWriter writer;
+    writer.write<pcl::PointXYZ> ("Map.pcd", currentMap, false);
+
+    map_publisher.publish(currentMap.makeShared());
 }
 
 void RobotThread::doMath(sensor_msgs::LaserScan scan)
@@ -184,8 +192,8 @@ void RobotThread::doMath(sensor_msgs::LaserScan scan)
     for (double y = 0; y < scan.angle_max; y += scan.angle_increment)
         alphas.push_back(y);
 
-     double rangeDev = stdDev(ranges);
-     double alphaDev = stdDev(alphas);
+     double rangeDev = 0.001;
+     double alphaDev = 0.001;
 
     for (unsigned int x = 0; x < scan.ranges.size(); x++)
     {
@@ -213,7 +221,7 @@ void RobotThread::doMath(sensor_msgs::LaserScan scan)
 
         double Cxr00 = m_covariance(0, 0); double Cxr01 = m_covariance(0, 1); double Cxr02 = m_covariance(0, 2);
         double Cxr10 = m_covariance(1, 0); double Cxr11 = m_covariance(1, 1); double Cxr12 = m_covariance(1, 2);
-        double Cxr20 = m_covariance(3, 0); double Cxr21 = m_covariance(3, 1); double Cxr22 = m_covariance(3, 2);
+        double Cxr20 = 0; double Cxr21 = 0; double Cxr22 = 0;
 
         toPush.Cxr(0, 0) = Cxr00; toPush.Cxr(0, 1) = Cxr01; toPush.Cxr(0, 1) = Cxr02;
         toPush.Cxr(1, 0) = Cxr10; toPush.Cxr(1, 1) = Cxr11; toPush.Cxr(1, 2) = Cxr12;

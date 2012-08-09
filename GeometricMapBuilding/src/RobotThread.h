@@ -11,6 +11,9 @@
 #include <QMutex>
 
 #include <ros/ros.h>
+#include<pcl_ros/point_cloud.h>
+#include<pcl/point_types.h>
+#include <pcl/io/pcd_io.h>
 #include <Eigen/Core>
 #include <Eigen/StdVector>
 #include <ros/network.h>
@@ -26,6 +29,7 @@
 namespace server {
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
+typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 typedef Eigen::Matrix<double, 2, 3> Matrix2x3d;//Matrix, 2 rows, 3 cols, type: double
 typedef Eigen::Matrix<double, 2, 2> Matrix2x2d;//Matrix, 2 rows, 2 cols, type: double
 typedef Eigen::Matrix<double, 6, 6> Matrix6x6d;
@@ -204,6 +208,8 @@ private:
     Matrix6x6d m_covariance;
 
     globalPoint m_lockedPoint;
+
+    PointCloud m_map;
 
     ros::Publisher cmd_publisher;
     ros::Publisher sim_velocity;
