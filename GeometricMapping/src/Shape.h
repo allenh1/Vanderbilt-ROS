@@ -20,6 +20,14 @@ const double R2TOLL = 0.995;
 const double R2TOLL2 = 1.1;
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 
+template<int N>
+struct Factorial
+{ enum{ val = N * Factorial<N - 1>::val }; };
+
+template<>
+struct Factorial<0>
+{ enum{ val = 1 }; };
+
 struct indexSegment
 {
     double slope;
@@ -43,19 +51,23 @@ public:
     double phiBound;
 
     bool is_circle();
+    bool is_bezier();
     bool is_segment();
 
 private:
     PointCloud uncorrected;
     PointCloud correctedSegment;
     PointCloud correctedCircle;
+    PointCloud correctedCurve;
 
     void correct_circle();
+    void correct_Bezier();
     void correct_segment();
     void updateSegment();
 
     double match_circle();
     double match_segment();
+    double match_bezier();
     double meanY();
     double getAverageSlope();
 
@@ -89,15 +101,18 @@ Shape::Shape(PointCloud object)
                     sqrt(pow(uncorrected.points.at(last).x, 2) + pow(uncorrected.points.at(last).y, 2)));
 
     correct_circle();
+    correct_Bezier();
     correct_segment();
 }
 
 double Shape::bestMatch()
 {     
-    if (match_circle() > match_segment())
+    if (match_circle() > match_segment() && match_circle() > match_bezier())
         return match_circle();
-    else
+    else if (match_segment() > match_circle() && match_segment() > match_bezier())
         return match_segment();
+    else
+        return match_bezier();
 }//end double
 
 double Shape::getAverageSlope()
@@ -140,11 +155,13 @@ PointCloud Shape::getCorrections()
         (match_circle() > R2TOLL2 && match_segment() > R2TOLL2))
         return uncorrected; //if not a shape, don't make one!
 
-    if (is_circle() && C_r < MAXRAD)
+    else if (is_circle() && C_r < MAXRAD)
         return correctedCircle;
 
-    else
+    else if (is_segment())
         return correctedSegment;
+    else
+        return correctedCurve;
 }//get the correct shape for the cloud handler.
 
 void Shape::correct_circle()
@@ -225,6 +242,66 @@ void Shape::correct_circle()
 
     correctedCircle = circlized;
 }//correct scan for a circle case 
+
+inline double factorial(int n)
+{
+    if (n == 0)
+        return 1;
+    return n * factorial(n - 1);
+}//end double
+
+inline double combination(int n, int i)
+{
+    double num = factorial(n);
+    double den = factorial(i) * factorial(n - i);
+    return num / den;
+}
+
+void Shape::correct_Bezier()
+{
+    /** Correct the curve as a Bezier polynomial **/
+    QList<pcl::PointXYZ> newPoints;
+
+    const int n = uncorrected.points.size() - 1;
+    QList<double> coefficients;
+    /** Coefficients stored in a list.
+      B(t) = coefficients.at(i)*(1 - t)^(n - i)*t^(i)P(i) **/
+
+    for (unsigned int x = 0; x < uncorrected.points.size(); x++)
+    {
+        double px = uncorrected.points.at(0).x;
+        double py = uncorrected.points.at(0).y;
+
+        for (int i = 0; i < n; i++)
+        {
+            double nCr = combination(n, i);
+            double mult1 = pow (1 - x, n - i);
+            double mult2 = pow(x, i);
+
+            double scalar = nCr * mult1 * mult2;
+
+            px += uncorrected.points.at(i).x * scalar;
+            py += uncorrected.points.at(i).y * scalar;
+        }//end for x
+
+        pcl::PointXYZ toPush;
+
+        toPush.x = px;
+        toPush.y = py;
+
+        newPoints.push_back(toPush);
+    }//end for x.
+
+    PointCloud Curved;
+    Curved.header.frame_id = "/cloud";
+    Curved.header.stamp = ros::Time::now();
+
+
+    for (int x = 0; x < newPoints.size(); ++x)
+        Curved.points.push_back(newPoints.at(x));
+
+    correctedCurve = Curved;
+}//correct in a bezier style.
 
 void Shape::correct_segment()
 {
@@ -349,11 +426,29 @@ double Shape::match_segment()
     return 1 - (sum1 / sum2);
 }//match for segment
 
+double Shape::match_bezier()
+{
+    double sum1 = 0;
+    double sum2 = 0;
+    double yMean = meanY();
+
+    for (unsigned int x = 0; x < uncorrected.points.size(); x++)
+        sum1 += pow(uncorrected.points.at(x).y - yMean, 2);
+
+    for (unsigned int y = 0; y < correctedCurve.points.size(); y++)
+        sum2 += pow(correctedCurve.points.at(y).y - yMean, 2);
+
+    return 1 - (sum1 / sum2);
+}
+
 bool Shape::is_circle()
-{ return match_circle() >= match_segment(); }
+{ return match_circle() >= match_segment() && match_circle() >= match_bezier(); }
 
 bool Shape::is_segment()
-{ return match_segment() > match_circle(); }
+{ return match_segment() > match_circle() && match_segment() > match_bezier(); }
+
+bool Shape::is_bezier()
+{ return !is_circle() && !is_segment(); }
 
 double Shape::getSlope()
 { return S_m; }//get the slope

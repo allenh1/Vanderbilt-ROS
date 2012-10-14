@@ -12,7 +12,7 @@
     <!-- heights are in the (optical?) frame of the kinect -->
     <param name="min_height" value="-20"/>
     <param name="max_height" value="20"/>
-    <param name="range_max" value="8"/>
+    <param name="range_max" value="20"/>
     <remap from="cloud" to="/cloud_pcl"/>
     <remap from="scan" to="/laserOut/filtered"/>
   </node>
