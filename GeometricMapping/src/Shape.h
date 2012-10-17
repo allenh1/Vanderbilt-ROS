@@ -265,14 +265,17 @@ void Shape::correct_Bezier()
     const int n = uncorrected.points.size() - 1;
     QList<double> coefficients;
     /** Coefficients stored in a list.
-      B(t) = coefficients.at(i)*(1 - t)^(n - i)*t^(i)P(i) **/
+      B(t) = coefficients.at(i)*(1 - t)^(n - i)*t^(i)P(i)
+
+        Here, we use a polonomial of degree points / 5, or all points.
+    **/
 
     for (unsigned int x = 0; x < uncorrected.points.size(); x++)
     {
         double px = uncorrected.points.at(0).x;
         double py = uncorrected.points.at(0).y;
 
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; i += 5)
         {
             double nCr = combination(n, i);
             double mult1 = pow (1 - x, n - i);
