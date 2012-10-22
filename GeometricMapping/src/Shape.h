@@ -182,6 +182,7 @@ PointCloud Shape::getCorrections()
     stream.flush();
     file.close();
 
+    //ROS_INFO("C: %i \t S: %i \t N: %i, B: %i", circles, segments, unchanged, curves);
     if ((match_circle() < R2TOLL && match_segment() < R2TOLL) ||
             (match_circle() > R2TOLL2 && match_segment() > R2TOLL2))
     {
@@ -307,7 +308,6 @@ void Shape::correct_Bezier()
     QList<pcl::PointXYZ> newPoints;
 
     int n = uncorrected.points.size() - 1;
-    n /= 5;
     //const int n = uncorrected.points.size() - 1;
 
     /** Coefficients stored in a list.
