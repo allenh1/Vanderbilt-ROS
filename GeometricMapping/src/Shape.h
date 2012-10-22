@@ -1,10 +1,14 @@
 #ifndef ROBOT_H
 #define ROBOT_H
-#include<iostream>
-#include<pcl_ros/point_cloud.h>
-#include<pcl/point_types.h>
+#include <iostream>
+#include <QFile>
+#include <QTextStream>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <pcl_ros/point_cloud.h>
+#include <pcl/point_types.h>
 #include <pcl/io/pcd_io.h>
-#include<Eigen/StdVector>
+#include <Eigen/StdVector>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "sensor_msgs/LaserScan.h"
@@ -18,6 +22,11 @@ const double DIST_TOL = 0.1;
 const double MAXRAD = 0.75; //maximum radius of .75 meters
 const double R2TOLL = 0.995;
 const double R2TOLL2 = 1.1;
+int circles = 0;
+int segments = 0;
+int unchanged = 0;
+int curves = 0;
+
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 
 template<int N>
@@ -76,6 +85,7 @@ private:
     double C_k; //the k parameter of a circle.
     double C_h; //the h parameter of a circle.
     double C_r; //the radius of the circle
+
 };
 
 #endif
@@ -151,17 +161,51 @@ void Shape::setSlope(double x)
 
 PointCloud Shape::getCorrections()
 {
-    if ((match_circle() < R2TOLL && match_segment() < R2TOLL) || 
-        (match_circle() > R2TOLL2 && match_segment() > R2TOLL2))
-        return uncorrected; //if not a shape, don't make one!
+    QString fileName = "correctionData.txt";
+    QString dataOutput = "";
+    QString cc = ""; cc.setNum(circles);
+    QString sc = ""; sc.setNum(segments);
+    QString nc = ""; nc.setNum(unchanged);
+    QString bc = ""; bc.setNum(curves);
 
-    else if (is_circle() && C_r < MAXRAD)
+    dataOutput = "Circles: " + cc + "\n";
+    dataOutput += "Segments: " + sc + "\n";
+    dataOutput += "Unchanged: " + nc + "\n";
+    dataOutput += "Bezier: " + bc;
+    dataOutput += "------------------------------------------\n\n";
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly))
+        ROS_INFO("Failed to open File");
+    QTextStream stream(&file);
+    stream << dataOutput;
+    stream.flush();
+    file.close();
+
+    if ((match_circle() < R2TOLL && match_segment() < R2TOLL) ||
+            (match_circle() > R2TOLL2 && match_segment() > R2TOLL2))
+    {
+        unchanged++;
+        return uncorrected; //if not a shape, don't make one!
+    }
+
+    if (is_circle() && C_r < MAXRAD)
+    {
+        circles++;
         return correctedCircle;
+    }
 
     else if (is_segment())
+    {
+        segments++;
         return correctedSegment;
+    }//end else
+
     else
+    {
+        curves++;
         return correctedCurve;
+    }
 }//get the correct shape for the cloud handler.
 
 void Shape::correct_circle()
@@ -229,7 +273,7 @@ void Shape::correct_circle()
         thePoint.x = x; thePoint.y = k + radical; thePoint.z = Z;
         
         if (sqrt(pow(thePoint.y - uncorrected.points.at(iter).y, 2)) >= DIST_TOL)
-        	thePoint.y = uncorrected.points.at(iter).y;
+            thePoint.y = uncorrected.points.at(iter).y;
         newPoints.push_back(thePoint);
     }//end for
 
@@ -262,24 +306,26 @@ void Shape::correct_Bezier()
     /** Correct the curve as a Bezier polynomial **/
     QList<pcl::PointXYZ> newPoints;
 
-    const int n = uncorrected.points.size() - 1;
-    QList<double> coefficients;
+    int n = uncorrected.points.size() - 1;
+    n /= 5;
+    //const int n = uncorrected.points.size() - 1;
+
     /** Coefficients stored in a list.
       B(t) = coefficients.at(i)*(1 - t)^(n - i)*t^(i)P(i)
 
         Here, we use a polonomial of degree points / 5, or all points.
     **/
 
-    for (unsigned int x = 0; x < uncorrected.points.size(); x++)
+    for (double t = 0; t < 1.0; t += 1.0 / (uncorrected.points.size() - 1))
     {
         double px = uncorrected.points.at(0).x;
         double py = uncorrected.points.at(0).y;
 
-        for (int i = 0; i < n; i += 5)
+        for (int i = 0; i < n; i++)
         {
             double nCr = combination(n, i);
-            double mult1 = pow (1 - x, n - i);
-            double mult2 = pow(x, i);
+            double mult1 = pow (1 - t, n - i);
+            double mult2 = pow(t, i);
 
             double scalar = nCr * mult1 * mult2;
 
@@ -289,9 +335,16 @@ void Shape::correct_Bezier()
 
         pcl::PointXYZ toPush;
 
+        unsigned int iter = pow(t, -1);
+
+        if (iter >= uncorrected.points.size())
+            iter = uncorrected.points.size() - 1;
+
+        if (sqrt( pow(px - uncorrected.points.at(iter).x, 2) + pow(py - uncorrected.points.at(iter).y, 2)) > DIST_TOL)
+        {	px = uncorrected.points.at(iter).x; py = uncorrected.points.at(iter).y; }
+
         toPush.x = px;
         toPush.y = py;
-
         newPoints.push_back(toPush);
     }//end for x.
 
