@@ -1,0 +1,20 @@
+<package>
+  <description brief="gui_command">
+
+     This package allows for a user to 
+     control a robot with shiny buttons!
+
+  </description>
+  <author>Hunter Allen</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>https://hmtcomp-16.vuse.vanderbilt.edu/allenh1/svn/gui_command</url>
+  <depend package="qt_build"/>
+  <depend package="roscpp"/>
+  <depend package="actionlib"/>
+  <depend package="actionlib_msgs"/>
+  <depend package="move_base_msgs"/>
+  <depend package="tf"/>
+  <rosdep name="qt4"/>
+
+</package>
