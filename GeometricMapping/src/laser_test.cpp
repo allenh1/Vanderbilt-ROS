@@ -20,7 +20,8 @@
 double prevPhiE = PI/2;
 int matchIndex = 0;
 int runNumber = 1;
-ros::Publisher  laserOutput;
+ros::Publisher laserOutput;
+ros::Publisher data_Output;
 laser_geometry::LaserProjection projector_;
 sensor_msgs::PointCloud cloud;
 sensor_msgs::PointCloud toPublish;
@@ -39,6 +40,69 @@ QList<double> scores;
 
 inline double abs(double num)
 { return (num < 0) ? num * -1 : num; }//returns the absolute value of a double, num.
+
+void publishRunData()
+{
+    /** This method publishes the scan information as a string.
+
+        Published:
+            1. Number of Shapes
+            2. Number of Points
+            3. Number of Circles, Segments, Curves, Input
+            4. Time of correction
+
+        {Shapes %i, Points %i, Circles %i, Segments %i, Curves %i, Input %i}
+    **/
+    QString rawMessage = "{Shapes ";
+    QString numOShapes, numOPoints, numCircles, numSegments, numCurves, numRaw;
+    int numShapes = scans.size();
+    int numPoints = 0;
+    numOShapes.setNum(numShapes);
+    numOShapes += ", Points ";
+    rawMessage += numOShapes;
+
+    int circles = unchanged = segments = curves = 0;
+
+    for (unsigned int x = 0; x < scans.size(); x++)
+    {
+        numPoints += scans.at(x).getCorrections().points.size();
+
+        int type = scans.at(x).getType(); //get the shape
+        if (type == CIRCLE)
+            circles++;
+        else if (type == SEGMENT)
+            segments++;
+        else if (type == BEZIER)
+            curves++;
+        else
+            unchanged++;
+    }
+
+    numOPoints.setNum(numPoints);
+    numOPoints += ", Circles ";
+    rawMessage += numOPoints;
+
+    numCircles.setNum(circles);
+    numCircles +=", Segments ";
+    rawMessage += numCircles;
+
+    numSegments.setNum(segments);
+    numSegments += ", Curves ";
+    rawMessage += numSegments;
+
+    numCurves.setNum(curves);
+    numCurves += ", Input ";
+    rawMessage += numCurves;
+
+    numRaw.setNum(unchanged);
+    numRaw += "}";
+    rawMessage += numRaw;
+
+    std_msgs::String str;
+    str.data = rawMessage.toStdString();
+
+    data_Output.publish(str);
+}//publish data as a string.
 
 void defineLists()
 {
@@ -173,6 +237,7 @@ void makeOneCloud()
             combined.points.push_back(toPush);
             scores.push_back(scans.at(x).bestMatch());
 
+            //print the shape
         }//end for y
     }//end for x.
 
@@ -185,6 +250,7 @@ void makeOneCloud()
     combined.header.frame_id = "/laser";
     laserOutput.publish(combined.makeShared());
 
+    publishRunData();
     scans.clear();
 }//this method combines all the corrected shapes to a single point cloud.
 
@@ -240,6 +306,7 @@ int main(int argc, char **argv)
 
     ros::Subscriber laserReader = handler.subscribe("/scan", 10000, scanCallBack);
     laserOutput = handler.advertise<pcl::PointCloud<pcl::PointXYZ> >("/cloud_pcl", 100);
+    data_Output = handler.advertise<std_msgs::String>("/run_data", 100);
 
     ros::spin();
 

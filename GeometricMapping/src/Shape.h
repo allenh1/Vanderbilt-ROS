@@ -9,9 +9,9 @@
 #include <pcl/point_types.h>
 #include <pcl/io/pcd_io.h>
 #include <Eigen/StdVector>
-#include "ros/ros.h"
-#include "std_msgs/String.h"
-#include "sensor_msgs/LaserScan.h"
+#include <ros/ros.h>
+#include <std_msgs/String.h>
+#include <sensor_msgs/LaserScan.h>
 #include "laser_geometry.h"
 #include "MathLibrary.h"
 
@@ -26,6 +26,8 @@ int circles = 0;
 int segments = 0;
 int unchanged = 0;
 int curves = 0;
+
+enum SHAPE_TYPE { CIRCLE = 1, SEGMENT = 2, BEZIER = 3, ORIG = 4 };
 
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 
@@ -63,6 +65,8 @@ public:
     bool is_bezier();
     bool is_segment();
 
+    const SHAPE_TYPE & getType();
+
 private:
     PointCloud uncorrected;
     PointCloud correctedSegment;
@@ -73,6 +77,8 @@ private:
     void correct_Bezier();
     void correct_segment();
     void updateSegment();
+
+    SHAPE_TYPE shapeType;
 
     double match_circle();
     double match_segment();
@@ -102,6 +108,7 @@ pcl::PointXYZ toPCLPoint(geometry_msgs::Point32 in)
 
 Shape::Shape(PointCloud object)
 {
+    shapeType = ORIG;//the default: unmodified pointcloud
     uncorrected = object;
     const int last = uncorrected.points.size() - 1;
     firstX = uncorrected.points.at(0).x;
@@ -118,12 +125,17 @@ Shape::Shape(PointCloud object)
 double Shape::bestMatch()
 {     
     if (match_circle() > match_segment() && match_circle() > match_bezier())
-        return match_circle();
+    {   shapeType = CIRCLE; return match_circle(); }
     else if (match_segment() > match_circle() && match_segment() > match_bezier())
-        return match_segment();
+    {   shapeType = SEGMENT; return match_segment(); }
     else
-        return match_bezier();
+    {   shapeType = BEZIER; return match_bezier(); }
 }//end double
+
+const SHAPE_TYPE & Shape::getType()
+{
+    return shapeType;
+}//return a constant reference to the shape.
 
 double Shape::getAverageSlope()
 {
