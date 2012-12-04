@@ -1,0 +1,100 @@
+#ifndef ___ROBOTTHREAD_H___
+#define ___ROBOTTHREAD_H___
+
+#include <QThread>
+#include <QObject>
+#include <QStringList>
+#include <stdlib.h>
+#include <iostream>
+#include "assert.h"
+
+#include <ros/ros.h>
+#include <ros/network.h>
+#include <std_msgs/String.h>
+#include <sensor_msgs/LaserScan.h>
+#include <geometry_msgs/Twist.h>
+#include <turtlesim/Velocity.h>
+#include <turtlesim/Pose.h>
+#include <nav_msgs/Odometry.h>
+#include <actionlib/client/simple_action_client.h>
+#include <move_base_msgs/MoveBaseAction.h>
+
+namespace data_server {
+
+typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
+
+class RobotThread : public QThread {
+	Q_OBJECT
+public:
+    RobotThread(int argc, char **pArgv);
+    virtual ~RobotThread();
+
+    double getXPos();
+    double getXSpeed();
+    double getASpeed();
+    double getYPos();
+    double getAPos();
+
+    const int & getCircleCount();
+    const int & getSegmentCount();
+    const int & getBezierCount();
+    const int & getShapeCount();
+
+    bool init();
+
+    //void callback(nav_msgs::Odometry msg);
+    void callback(turtlesim::Pose msg);
+    void dataCallback(std_msgs::String msg);
+    void scanCallBack(sensor_msgs::LaserScan scan);
+
+	void SetSpeed(double speed, double angle);
+    void setPose(QList<double> to_set);
+    void goToXYZ(geometry_msgs::Point goTo);
+    void setCommand(QString cmd);
+    void run();
+
+    Q_SIGNAL void newCircle();
+    Q_SIGNAL void newSegment();
+    Q_SIGNAL void newShapeCount();
+private:
+    void averageShapes();
+    void averageSegments();
+    void averageCircles();
+
+    double getAverage(QList<int> list);
+
+    QString command;
+	
+    int m_Init_argc;
+    char** m_pInit_argv;
+
+    double m_speed;
+    double m_angle;
+
+    int m_circleCount;
+    int m_shapeCount;
+    int m_segmentCount;
+    int m_bezierCount;
+
+    double m_xPos;
+    double m_yPos;
+    double m_aPos;
+
+    double m_maxRange;
+    double m_minRange;
+
+    QList<double> ranges;
+    QList<int> shapeCounts;
+    QList<int> circleCounts;
+    QList<int> segmentCounts;
+
+    ros::Publisher cmd_publisher;
+    ros::Publisher sim_velocity;
+
+    ros::Subscriber pose_listener;
+    ros::Subscriber data_listener;
+    ros::Subscriber scan_listener;
+};
+}//end namespace
+#endif
+
