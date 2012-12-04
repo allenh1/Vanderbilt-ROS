@@ -1,0 +1,20 @@
+<package>
+  <description brief="DataViewer">
+
+     DataViewer
+
+  </description>
+  <author>Hunter Allen</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/DataViewer</url>
+  <depend package="qt_build"/>
+  <depend package="roscpp"/>
+  <depend package="actionlib"/>
+  <depend package="actionlib_msgs"/>
+  <depend package="move_base_msgs"/>
+  <depend package="tf"/>
+  <rosdep name="qt4"/>
+</package>
+
+
