@@ -19,12 +19,14 @@
 #include <actionlib/client/simple_action_client.h>
 #include <move_base_msgs/MoveBaseAction.h>
 
+#include "ShapeAverageThread.h"
+
 namespace data_server {
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 class RobotThread : public QThread {
-	Q_OBJECT
+    Q_OBJECT
 public:
     RobotThread(int argc, char **pArgv);
     virtual ~RobotThread();
@@ -35,10 +37,10 @@ public:
     double getYPos();
     double getAPos();
 
-    const int & getCircleCount();
-    const int & getSegmentCount();
-    const int & getBezierCount();
-    const int & getShapeCount();
+    const double & getCircleCount();
+    const double & getSegmentCount();
+    const double & getBezierCount();
+    const double & getShapeCount();
 
     bool init();
 
@@ -47,34 +49,42 @@ public:
     void dataCallback(std_msgs::String msg);
     void scanCallBack(sensor_msgs::LaserScan scan);
 
-	void SetSpeed(double speed, double angle);
+    void SetSpeed(double speed, double angle);
     void setPose(QList<double> to_set);
     void goToXYZ(geometry_msgs::Point goTo);
     void setCommand(QString cmd);
     void run();
 
     Q_SIGNAL void newCircle();
+    Q_SIGNAL void newCurve();
     Q_SIGNAL void newSegment();
     Q_SIGNAL void newShapeCount();
+
 private:
+    Q_SLOT void sendCircle();
+    Q_SLOT void sendSegment();
+    Q_SLOT void sendCurve();
+    Q_SLOT void sendShape();
+
     void averageShapes();
     void averageSegments();
     void averageCircles();
+    void averageCurves();
 
-    double getAverage(QList<int> list);
+    double getAverage(QList<double> list);
 
     QString command;
-	
+
     int m_Init_argc;
     char** m_pInit_argv;
 
     double m_speed;
     double m_angle;
 
-    int m_circleCount;
-    int m_shapeCount;
-    int m_segmentCount;
-    int m_bezierCount;
+    double m_circleCount;
+    double m_shapeCount;
+    double m_segmentCount;
+    double m_bezierCount;
 
     double m_xPos;
     double m_yPos;
@@ -84,9 +94,10 @@ private:
     double m_minRange;
 
     QList<double> ranges;
-    QList<int> shapeCounts;
-    QList<int> circleCounts;
-    QList<int> segmentCounts;
+    QList<double> shapeCounts;
+    QList<double> circleCounts;
+    QList<double> segmentCounts;
+    QList<double> curveCounts;
 
     ros::Publisher cmd_publisher;
     ros::Publisher sim_velocity;
@@ -94,6 +105,8 @@ private:
     ros::Subscriber pose_listener;
     ros::Subscriber data_listener;
     ros::Subscriber scan_listener;
+
+    ShapeAverageThread m_MathThread;
 };
 }//end namespace
 #endif

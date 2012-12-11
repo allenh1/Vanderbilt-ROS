@@ -14,6 +14,7 @@
 #include <QLineEdit>
 #include <QIcon>
 #include "RobotThread.h"
+#include "ShapeAverageThread.h"
 
 namespace data_server {
 class ViewerWindow : public QWidget
@@ -26,6 +27,7 @@ public:
     Q_SLOT void updateCircleDisplay();
     Q_SLOT void updateShapeDisplay();
     Q_SLOT void updateSegmentDisplay();
+    Q_SLOT void updateCurveDisplay();
 
 private:
     QVBoxLayout *leftLayout;
@@ -48,6 +50,7 @@ private:
     QPushButton *p_closeButton;
 
     RobotThread m_RobotThread;
+    ShapeAverageThread m_MathThread;
 };
 
 }//namespace server

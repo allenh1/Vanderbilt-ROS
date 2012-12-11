@@ -3,9 +3,48 @@
 namespace data_server {
 RobotThread::RobotThread(int argc, char** pArgv)
     :	m_Init_argc(argc),
-        m_pInit_argv(pArgv),
-        m_circleCount(0)
-{}
+      m_pInit_argv(pArgv),
+      m_MathThread()
+{
+    m_MathThread.start();
+
+    connect(&m_MathThread, SIGNAL(newShapeCount()), this, SLOT(sendShape()));
+    connect(&m_MathThread, SIGNAL(newCircle()), this, SLOT(sendCircle()));
+    connect(&m_MathThread, SIGNAL(newSegment()), this, SLOT(sendSegment()));
+    connect(&m_MathThread, SIGNAL(newCurve()), this, SLOT(sendCurve()));
+}
+
+void RobotThread::sendCircle()
+{
+    //m_MathThread.LockMutex();
+    m_circleCount = m_MathThread.getCircleCount();
+    Q_EMIT newCircle();
+    //m_MathThread.UnlockMutex();
+}
+
+void RobotThread::sendShape()
+{
+    //m_MathThread.LockMutex();
+    m_shapeCount = m_MathThread.getShapeCount();
+    Q_EMIT newShapeCount();
+    //m_MathThread.UnlockMutex();
+}
+
+void RobotThread::sendSegment()
+{
+    //m_MathThread.LockMutex();
+    m_segmentCount = m_MathThread.getSegmentCount();
+    Q_EMIT newSegment();
+    //m_MathThread.UnlockMutex();
+}
+
+void RobotThread::sendCurve()
+{
+    //m_MathThread.LockMutex();
+    m_bezierCount = m_MathThread.getBezierCount();
+    Q_EMIT newCurve();
+    // m_MathThread.UnlockMutex();
+}
 
 RobotThread::~RobotThread()
 {
@@ -57,7 +96,6 @@ void RobotThread::dataCallback(std_msgs::String msg)
         int i1 = 0;
         int i2 = 0;
         int i3 = 0;
-        int i4 = 0;
 
         i2 = shapeCount.indexOf(" ") + 1;
         shapeCount.remove(i1, i2);
@@ -70,9 +108,9 @@ void RobotThread::dataCallback(std_msgs::String msg)
             shapeCount.replace(" ", "");
         }//remove blank space.
 
-        shapeCounts.push_back(shapeCount.toInt());
-        averageShapes();
-        Q_EMIT newShapeCount();
+        /** Extract total Shape count **/
+        if (!m_MathThread.TryLock(100))
+            m_MathThread.pushShape(shapeCount.toDouble());
 
         i1 = message.indexOf(",");
         i3 = message.indexOf(",",i1 + 1 );
@@ -82,29 +120,39 @@ void RobotThread::dataCallback(std_msgs::String msg)
 
         i3 = i1 + 1;
 
+        /** Extract Circle Count **/
         QString circleCount = message;
         circleCount.remove(0, i1 + 1);
         i2 = circleCount.indexOf(",");
         i3 += 1 + i2;
         circleCount.remove(i2, circleCount.size() - 1);
-        circleCounts.push_back(circleCount.toInt());
-        averageCircles();
-        Q_EMIT newCircle();
+        if (!m_MathThread.TryLock(1000))
+            m_MathThread.pushCircle(circleCount.toDouble());
 
+        /** Extract Segment Count **/
         QString segmentCount = message;
         segmentCount.remove(0, i3);
         i1 = segmentCount.indexOf("s");
         segmentCount.remove(0, i1 + 1);
         i2 = segmentCount.indexOf(",");
         segmentCount.remove(i2, segmentCount.size() - 1);
-        segmentCounts.push_back(segmentCount.toInt());
-        averageSegments();
-        Q_EMIT newSegment();
+        m_MathThread.pushSegment(segmentCount.toDouble());
+
+        /** Extract Curve Count **/
+        QString curveCount = message;
+        i1 = curveCount.indexOf("Curves");
+        curveCount.remove(0, i1 + 7);
+        i2 = curveCount.indexOf(",");
+        curveCount.remove(i2, curveCount.size() - 1);
+        curveCount.replace(" ", "");
+        m_MathThread.pushCurve(curveCount.toDouble());
+
+        m_MathThread.UnlockMutex();
     }
 
 }//callback method for the strings
 
-double RobotThread::getAverage(QList<int> list)
+double RobotThread::getAverage(QList<double> list)
 {
     int sum = 0;
 
@@ -116,17 +164,22 @@ double RobotThread::getAverage(QList<int> list)
 
 void RobotThread::averageShapes()
 {
-    m_shapeCount = (int) getAverage(shapeCounts);
+    m_shapeCount = getAverage(shapeCounts);
 }//end void
 
 void RobotThread::averageCircles()
 {
-    m_circleCount = (int) getAverage(circleCounts);
+    m_circleCount = getAverage(circleCounts);
 }//average the circle count
 
 void RobotThread::averageSegments()
 {
-    m_segmentCount = (int) getAverage(segmentCounts);
+    m_segmentCount = getAverage(segmentCounts);
+}
+
+void RobotThread::averageCurves()
+{
+    m_bezierCount = getAverage(curveCounts);
 }
 
 /** For a real robot
@@ -159,30 +212,29 @@ void RobotThread::scanCallBack(sensor_msgs::LaserScan scan)
 }//callback method for updating the laser scan data.
 
 void RobotThread::run()
-{
-    ros::Rate loop_rate(1);
-    command = "empty";
-    while (ros::ok())
-    {
-        std_msgs::String msg;
-        std::stringstream ss;
-        ss << command.toStdString();
+{    ros::Rate loop_rate(1);
+     command = "empty";
+      while (ros::ok())
+      {
+          std_msgs::String msg;
+          std::stringstream ss;
+          ss << command.toStdString();
 
-        msg.data = ss.str();
-        turtlesim::Velocity cmd_msg;
-        cmd_msg.angular = m_angle;
-        cmd_msg.linear = m_speed;
+          msg.data = ss.str();
+          turtlesim::Velocity cmd_msg;
+          cmd_msg.angular = m_angle;
+          cmd_msg.linear = m_speed;
 
-        /** For Use with real robots:
+          /** For Use with real robots:
         geometry_msgs::Twist cmd_msg;
         cmd_msg.linear.x = m_speed;
         cmd_msg.angular.z = m_angle;**/
 
-        //cmd_publisher.publish(msg);
-        //sim_velocity.publish(cmd_msg);
-        ros::spinOnce();
-        loop_rate.sleep();
-    }//do ros things.
+          //cmd_publisher.publish(msg);
+          //sim_velocity.publish(cmd_msg);
+          ros::spinOnce();
+          loop_rate.sleep();
+      }//do ros things.
 }
 
 void RobotThread::SetSpeed(double speed, double angle)
@@ -208,10 +260,10 @@ void RobotThread::setPose(QList<double> to_set)
     }//end if
 }//end void
 
-const int & RobotThread::getCircleCount(){ return m_circleCount; }
-const int & RobotThread::getSegmentCount(){ return m_segmentCount; }
-const int & RobotThread::getBezierCount(){ return m_bezierCount; }
-const int & RobotThread::getShapeCount(){ return m_shapeCount; }
+const double & RobotThread::getCircleCount(){ return m_circleCount; }
+const double & RobotThread::getSegmentCount(){ return m_segmentCount; }
+const double & RobotThread::getBezierCount(){ return m_bezierCount; }
+const double & RobotThread::getShapeCount(){ return m_shapeCount; }
 
 double RobotThread::getXSpeed(){ return m_speed; }
 double RobotThread::getASpeed(){ return m_angle; }

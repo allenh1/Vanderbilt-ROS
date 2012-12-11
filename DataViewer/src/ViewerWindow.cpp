@@ -5,7 +5,8 @@
 namespace data_server{
 ViewerWindow::ViewerWindow(int argc, char **argv, QWidget *parent)
     : QWidget(parent),
-      m_RobotThread(argc, argv)
+      m_RobotThread(argc, argv),
+      m_MathThread()
 {
     /** Set up the Controls **/
     p_closeButton = new QPushButton(tr("&Quit"));
@@ -62,6 +63,7 @@ ViewerWindow::ViewerWindow(int argc, char **argv, QWidget *parent)
     connect(&m_RobotThread, SIGNAL(newCircle()), this, SLOT(updateCircleDisplay()));
     connect(&m_RobotThread, SIGNAL(newShapeCount()), this, SLOT(updateShapeDisplay()));
     connect(&m_RobotThread, SIGNAL(newSegment()), this, SLOT(updateSegmentDisplay()));
+    connect(&m_RobotThread, SIGNAL(newCurve()), this, SLOT(updateCurveDisplay()));
 
     m_RobotThread.init();
     m_RobotThread.start();
@@ -86,5 +88,13 @@ void ViewerWindow::updateSegmentDisplay()
     QString segmentNum;
     segmentNum.setNum(m_RobotThread.getSegmentCount());
     p_segmentDisplay->setText(segmentNum);
+}
+
+void ViewerWindow::updateCurveDisplay()
+{
+    QString curveNum;
+    double curveNumber = m_RobotThread.getBezierCount();
+    curveNum.setNum(curveNumber);
+    p_bezierDisplay->setText(curveNum);
 }
 }//namespace server

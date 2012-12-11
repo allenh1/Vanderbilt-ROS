@@ -29,7 +29,7 @@ int curves = 0;
 
 enum SHAPE_TYPE { CIRCLE = 1, SEGMENT = 2, BEZIER = 3, ORIG = 4 };
 
-typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
+typedef pcl::PointCloud<pcl::PointXYZRGB> PointCloud;
 
 template<int N>
 struct Factorial
@@ -173,30 +173,9 @@ void Shape::setSlope(double x)
 
 PointCloud Shape::getCorrections()
 {
-    QString fileName = "correctionData.txt";
-    QString dataOutput = "";
-    QString cc = ""; cc.setNum(circles);
-    QString sc = ""; sc.setNum(segments);
-    QString nc = ""; nc.setNum(unchanged);
-    QString bc = ""; bc.setNum(curves);
-
-    dataOutput = "Circles: " + cc + "\n";
-    dataOutput += "Segments: " + sc + "\n";
-    dataOutput += "Unchanged: " + nc + "\n";
-    dataOutput += "Bezier: " + bc;
-    dataOutput += "------------------------------------------\n\n";
-
-    QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly))
-        ROS_INFO("Failed to open File");
-    QTextStream stream(&file);
-    stream << dataOutput;
-    stream.flush();
-    file.close();
-
     //ROS_INFO("C: %i \t S: %i \t N: %i, B: %i", circles, segments, unchanged, curves);
-    if ((match_circle() < R2TOLL && match_segment() < R2TOLL) ||
-            (match_circle() > R2TOLL2 && match_segment() > R2TOLL2))
+    if ((bestMatch() < R2TOLL) ||
+            (bestMatch() > R2TOLL2))
     {
         unchanged++;
         return uncorrected; //if not a shape, don't make one!
@@ -223,7 +202,7 @@ PointCloud Shape::getCorrections()
 
 void Shape::correct_circle()
 {
-    QList<pcl::PointXYZ> newPoints;
+    QList<pcl::PointXYZRGB> newPoints;
 
     QList<double> yVals;
 
@@ -282,15 +261,15 @@ void Shape::correct_circle()
 
         if (a > b)
             radical *= -1;
-        pcl::PointXYZ thePoint;
-        thePoint.x = x; thePoint.y = k + radical; thePoint.z = Z;
+        pcl::PointXYZRGB thePoint(65, 105, 205);
+        thePoint.x = x; thePoint.y = k + radical; thePoint.z = Z; thePoint.rgb = 4169e1;
         
         if (sqrt(pow(thePoint.y - uncorrected.points.at(iter).y, 2)) >= DIST_TOL)
             thePoint.y = uncorrected.points.at(iter).y;
         newPoints.push_back(thePoint);
     }//end for
 
-    pcl::PointCloud<pcl::PointXYZ> circlized;
+    pcl::PointCloud<pcl::PointXYZRGB> circlized;
     circlized.header.frame_id = "/cloud";
     circlized.header.stamp = ros::Time::now();
 
@@ -317,7 +296,7 @@ inline double combination(int n, int i)
 void Shape::correct_Bezier()
 {
     /** Correct the curve as a Bezier polynomial **/
-    QList<pcl::PointXYZ> newPoints;
+    QList<pcl::PointXYZRGB> newPoints;
 
     int n = uncorrected.points.size() - 1;
     //const int n = uncorrected.points.size() - 1;
@@ -345,7 +324,7 @@ void Shape::correct_Bezier()
             py += uncorrected.points.at(i).y * scalar;
         }//end for x
 
-        pcl::PointXYZ toPush;
+        pcl::PointXYZRGB toPush(34, 139, 34);
 
         unsigned int iter = pow(t, -1);
 
@@ -373,7 +352,7 @@ void Shape::correct_Bezier()
 
 void Shape::correct_segment()
 {
-    QList<pcl::PointXYZ> newPoints;
+    QList<pcl::PointXYZRGB> newPoints;
 
     /** Now we have the max and the min on the interval above! **/
     //y = mx + b -> y - mx = b
@@ -400,7 +379,7 @@ void Shape::correct_segment()
             py = uncorrected.points.at(iter).y;
         }//case of an undefined slope.
 
-        pcl::PointXYZ toPush;
+        pcl::PointXYZRGB toPush(218, 112, 214);
         toPush.x = px; toPush.y = py; toPush.z = Z;
         
         if (sqrt( pow(px - uncorrected.points.at(iter).x, 2) + pow(py - uncorrected.points.at(iter).y, 2)) > DIST_TOL)
@@ -427,7 +406,7 @@ void Shape::correct_segment()
 
 void Shape::updateSegment()
 {
-    QList<pcl::PointXYZ> newPoints;
+    QList<pcl::PointXYZRGB> newPoints;
 
     for (unsigned int iter = 0; iter < uncorrected.points.size(); ++iter)
     {
@@ -438,8 +417,9 @@ void Shape::updateSegment()
         if (sqrt( pow(px - uncorrected.points.at(iter).x, 2) + pow(py - uncorrected.points.at(iter).y, 2)) > DIST_TOL)
         {	px = uncorrected.points.at(iter).x; py = uncorrected.points.at(iter).y; }
 
-        pcl::PointXYZ toPush;
+        pcl::PointXYZRGB toPush(218, 112, 214);
         toPush.x = px; toPush.y = py; toPush.z = Z;
+        toPush.rgb = 0xda70d6;
         newPoints.push_back(toPush);
     }//end for.
 

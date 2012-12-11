@@ -61,7 +61,10 @@ void publishRunData()
     numOShapes += ", Points ";
     rawMessage += numOShapes;
 
-    int circles = unchanged = segments = curves = 0;
+    int circles = 0;
+    int unchanged = 0;
+    int segments = 0;
+    int curves = 0;
 
     for (unsigned int x = 0; x < scans.size(); x++)
     {
@@ -154,16 +157,16 @@ void defineObjects()
             for (int i = lastBreak; i + 1 <  x; i += 2 )
             {
                 //ROS_INFO("In Assignment Loop: i = %i, x = %i, size = %i", i, x, cloud.points.size() - 1);
-                pcl::PointXYZ p1;
+                pcl::PointXYZRGB p1;
                 p1.x = cloud.points.at(i - 1).x; p1.y = cloud.points.at(i - 1).y;
                 p1.z = 0;
 
 
-                pcl::PointXYZ p2;
+                pcl::PointXYZRGB p2;
                 p2.x = cloud.points.at(i).x; p2.y = cloud.points.at(i).y;
                 p2.z = 0;
 
-                pcl::PointXYZ p3;
+                pcl::PointXYZRGB p3;
                 p3.x = cloud.points.at(i + 1).x; p3.y = cloud.points.at(i + 1).y;
                 p3.z = 0;
 
@@ -231,7 +234,7 @@ void makeOneCloud()
             double px = currentCorrected.points.at(y).x;
             double pZ = Z;
             //calculate the projeciton
-            pcl::PointXYZ toPush;
+            pcl::PointXYZRGB toPush = currentCorrected.points.at(y);
             toPush.x = -py; toPush.y = pZ; toPush.z = px;
 
             combined.points.push_back(toPush);
@@ -246,7 +249,7 @@ void makeOneCloud()
     combined.width = combined.points.size();
 
     pcl::PCDWriter writer;
-    writer.write<pcl::PointXYZ> ("FinalCorrections.pcd", combined, false);
+    writer.write<pcl::PointXYZRGB> ("FinalCorrections.pcd", combined, false);
     combined.header.frame_id = "/laser";
     laserOutput.publish(combined.makeShared());
 
@@ -273,7 +276,7 @@ void scanCallBack(const sensor_msgs::LaserScan::ConstPtr& scan_in)
         double px = cloud.points.at(x).x;
         double pZ = Z;
 
-        pcl::PointXYZ toPush;
+        pcl::PointXYZRGB toPush;
         toPush.x = px; toPush.y = py; toPush.z = pZ;
 
         original.points.push_back(toPush);
@@ -283,7 +286,7 @@ void scanCallBack(const sensor_msgs::LaserScan::ConstPtr& scan_in)
     original.width = original.points.size();
 
     pcl::PCDWriter writer;
-    writer.write<pcl::PointXYZ>("Unfiltered.pcd", original, false);
+    writer.write<pcl::PointXYZRGB>("Unfiltered.pcd", original, false);
     defineObjects();
 
     for (unsigned int x = 0; x < Shapes.size(); ++x)
