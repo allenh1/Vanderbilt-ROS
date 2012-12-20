@@ -38,6 +38,7 @@ public:
     double getAPos();
 
     const double & getCircleCount();
+    const double & getPointCount();
     const double & getSegmentCount();
     const double & getBezierCount();
     const double & getShapeCount();
@@ -56,6 +57,7 @@ public:
     void run();
 
     Q_SIGNAL void newCircle();
+    Q_SIGNAL void newPoint();
     Q_SIGNAL void newCurve();
     Q_SIGNAL void newSegment();
     Q_SIGNAL void newShapeCount();
@@ -63,6 +65,7 @@ public:
 private:
     Q_SLOT void sendCircle();
     Q_SLOT void sendSegment();
+    Q_SLOT void sendPoint();
     Q_SLOT void sendCurve();
     Q_SLOT void sendShape();
 
@@ -83,6 +86,7 @@ private:
 
     double m_circleCount;
     double m_shapeCount;
+    double m_pointCount;
     double m_segmentCount;
     double m_bezierCount;
 

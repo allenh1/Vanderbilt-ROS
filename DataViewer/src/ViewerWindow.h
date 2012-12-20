@@ -25,6 +25,7 @@ public:
     ViewerWindow(int argc, char** argv, QWidget * parent = 0);
 
     Q_SLOT void updateCircleDisplay();
+    Q_SLOT void updatePointDisplay();
     Q_SLOT void updateShapeDisplay();
     Q_SLOT void updateSegmentDisplay();
     Q_SLOT void updateCurveDisplay();
@@ -32,17 +33,20 @@ public:
 private:
     QVBoxLayout *leftLayout;
     QHBoxLayout *p_circleLayout;
+    QHBoxLayout *p_pointLayout;
     QHBoxLayout *p_segmentLayout;
     QHBoxLayout *p_bezierLayout;
     QHBoxLayout *p_shapeLayout;
 
     QLabel *p_circleLabel;
+    QLabel *p_pointLabel;
     QLabel *p_segmentLabel;
     QLabel *p_bezierLabel;
     QLabel *p_shapeLabel;
 
     QLineEdit *p_circleDisplay;
     QLineEdit *p_segmentDisplay;
+    QLineEdit *p_pointDisplay;
     QLineEdit *p_bezierDisplay;
     QLineEdit *p_shapeDisplay;
 

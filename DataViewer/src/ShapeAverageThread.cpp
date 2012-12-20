@@ -6,6 +6,7 @@ namespace data_server {
 
 ShapeAverageThread::ShapeAverageThread()
     : m_circleCount(0),
+      m_pointCount(0),
       m_shapeCount(0),
       m_segmentCount(0),
       m_bezierCount(0),
@@ -22,6 +23,7 @@ void ShapeAverageThread::pushCircle(double circles){ circleCounts.push_back(circ
 void ShapeAverageThread::pushShape(double shapes){ shapeCounts.push_back(shapes); }
 void ShapeAverageThread::pushSegment(double segment){ segmentCounts.push_back(segment); }
 void ShapeAverageThread::pushCurve(double curves){ curveCounts.push_back(curves); }
+void ShapeAverageThread::pushPoint(double points){ pointCounts.push_back(points); }
 
 double ShapeAverageThread::getAverage(QList<double> list)
 {
@@ -48,6 +50,12 @@ void ShapeAverageThread::averageShapes()
     Q_EMIT newShapeCount();
 }//end void
 
+void ShapeAverageThread::averagePoints()
+{
+    m_pointCount = getAverage(pointCounts);
+    Q_EMIT newPoint();
+}
+
 void ShapeAverageThread::averageCircles()
 {
     m_circleCount = getAverage(circleCounts);
@@ -73,6 +81,7 @@ void ShapeAverageThread::run()
         if (!TryLock(100))
         {
             averageShapes();
+            averagePoints();
             averageCircles();
             averageSegments();
             averageCurves();
@@ -82,6 +91,7 @@ void ShapeAverageThread::run()
 }
 
 const double & ShapeAverageThread::getCircleCount(){ return m_circleCount; }
+const double & ShapeAverageThread::getPointCount(){ return m_pointCount; }
 const double & ShapeAverageThread::getSegmentCount(){ return m_segmentCount; }
 const double & ShapeAverageThread::getBezierCount(){ return m_bezierCount; }
 const double & ShapeAverageThread::getShapeCount(){ return m_shapeCount; }

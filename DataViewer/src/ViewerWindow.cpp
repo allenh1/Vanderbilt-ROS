@@ -13,6 +13,7 @@ ViewerWindow::ViewerWindow(int argc, char **argv, QWidget *parent)
 
     /** Set up the Position Display **/
     leftLayout = new QVBoxLayout();
+    p_pointLayout = new QHBoxLayout();
     p_circleLayout = new QHBoxLayout();
     p_segmentLayout = new QHBoxLayout();
     p_bezierLayout = new QHBoxLayout();
@@ -22,6 +23,11 @@ ViewerWindow::ViewerWindow(int argc, char **argv, QWidget *parent)
     p_shapeLabel->setText("Average Shapes: ");
     p_shapeDisplay = new QLineEdit();
     p_shapeDisplay->setText("0.0");
+
+    p_pointLabel = new QLabel();
+    p_pointLabel->setText("Average Points: ");
+    p_pointDisplay = new QLineEdit();
+    p_pointDisplay->setText("0.0");
 
     p_circleLabel = new QLabel();
     p_circleLabel->setText("Average  Circles:");
@@ -46,8 +52,11 @@ ViewerWindow::ViewerWindow(int argc, char **argv, QWidget *parent)
     p_bezierLayout->addWidget(p_bezierDisplay);
     p_shapeLayout->addWidget(p_shapeLabel);
     p_shapeLayout->addWidget(p_shapeDisplay);
+    p_pointLayout->addWidget(p_pointLabel);
+    p_pointLayout->addWidget(p_pointDisplay);
 
     leftLayout->addLayout(p_shapeLayout);
+    leftLayout->addLayout(p_pointLayout);
     leftLayout->addLayout(p_circleLayout);
     leftLayout->addLayout(p_segmentLayout);
     leftLayout->addLayout(p_bezierLayout);
@@ -61,6 +70,7 @@ ViewerWindow::ViewerWindow(int argc, char **argv, QWidget *parent)
 
     connect(p_closeButton, SIGNAL(clicked()), this, SLOT(close()));
     connect(&m_RobotThread, SIGNAL(newCircle()), this, SLOT(updateCircleDisplay()));
+    connect(&m_RobotThread, SIGNAL(newPoint()), this, SLOT(updatePointDisplay()));
     connect(&m_RobotThread, SIGNAL(newShapeCount()), this, SLOT(updateShapeDisplay()));
     connect(&m_RobotThread, SIGNAL(newSegment()), this, SLOT(updateSegmentDisplay()));
     connect(&m_RobotThread, SIGNAL(newCurve()), this, SLOT(updateCurveDisplay()));
@@ -74,6 +84,13 @@ void ViewerWindow::updateShapeDisplay()
     QString shapeNum;
     shapeNum.setNum(m_RobotThread.getShapeCount());
     p_shapeDisplay->setText(shapeNum);
+}
+
+void ViewerWindow::updatePointDisplay()
+{
+    QString pointNum;
+    pointNum.setNum(m_RobotThread.getPointCount());
+    p_pointDisplay->setText(pointNum);
 }
 
 void ViewerWindow::updateCircleDisplay()

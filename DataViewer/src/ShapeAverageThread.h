@@ -21,15 +21,18 @@ public:
     const double & getSegmentCount();
     const double & getBezierCount();
     const double & getShapeCount();
+    const double & getPointCount();
 
     void run();
 
     void pushShape(double);
+    void pushPoint(double);
     void pushCircle(double);
     void pushSegment(double);
     void pushCurve(double);
 
     Q_SIGNAL void newCircle();
+    Q_SIGNAL void newPoint();
     Q_SIGNAL void newCurve();
     Q_SIGNAL void newSegment();
     Q_SIGNAL void newShapeCount();
@@ -41,6 +44,7 @@ public:
 private:
     void averageShapes();
     void averageSegments();
+    void averagePoints();
     void averageCircles();
     void averageCurves();
 
@@ -49,6 +53,7 @@ private:
     double getAverage(QList<double> list);
 
     double m_circleCount;
+    double m_pointCount;
     double m_shapeCount;
     double m_segmentCount;
     double m_bezierCount;
@@ -56,6 +61,7 @@ private:
     bool alive;
 
     QList<double> shapeCounts;
+    QList<double> pointCounts;
     QList<double> circleCounts;
     QList<double> segmentCounts;
     QList<double> curveCounts;

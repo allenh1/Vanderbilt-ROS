@@ -9,6 +9,7 @@ RobotThread::RobotThread(int argc, char** pArgv)
     m_MathThread.start();
 
     connect(&m_MathThread, SIGNAL(newShapeCount()), this, SLOT(sendShape()));
+    connect(&m_MathThread, SIGNAL(newPoint()), this, SLOT(sendPoint()));
     connect(&m_MathThread, SIGNAL(newCircle()), this, SLOT(sendCircle()));
     connect(&m_MathThread, SIGNAL(newSegment()), this, SLOT(sendSegment()));
     connect(&m_MathThread, SIGNAL(newCurve()), this, SLOT(sendCurve()));
@@ -20,6 +21,12 @@ void RobotThread::sendCircle()
     m_circleCount = m_MathThread.getCircleCount();
     Q_EMIT newCircle();
     //m_MathThread.UnlockMutex();
+}
+
+void RobotThread::sendPoint()
+{
+    m_pointCount = m_MathThread.getPointCount();
+    Q_EMIT newPoint();
 }
 
 void RobotThread::sendShape()
@@ -147,6 +154,15 @@ void RobotThread::dataCallback(std_msgs::String msg)
         curveCount.replace(" ", "");
         m_MathThread.pushCurve(curveCount.toDouble());
 
+        /** Extract Point Count **/
+        QString pointCount = message;
+        i1 = pointCount.indexOf("Points");
+        pointCount.remove(0, i1 + 7);
+        i2 = pointCount.indexOf(",");
+        pointCount.remove(i2, pointCount.size() - 1);
+        pointCount.replace(" ", "");
+        m_MathThread.pushPoint(pointCount.toDouble());
+
         m_MathThread.UnlockMutex();
     }
 
@@ -261,6 +277,7 @@ void RobotThread::setPose(QList<double> to_set)
 }//end void
 
 const double & RobotThread::getCircleCount(){ return m_circleCount; }
+const double & RobotThread::getPointCount(){ return m_pointCount; }
 const double & RobotThread::getSegmentCount(){ return m_segmentCount; }
 const double & RobotThread::getBezierCount(){ return m_bezierCount; }
 const double & RobotThread::getShapeCount(){ return m_shapeCount; }
