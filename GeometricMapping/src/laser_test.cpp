@@ -54,7 +54,7 @@ void publishRunData()
         {Shapes %i, Points %i, Circles %i, Segments %i, Curves %i, Input %i}
     **/
     QString rawMessage = "{Shapes ";
-    QString numOShapes, numOPoints, numCircles, numSegments, numCurves, numRaw;
+    QString numOShapes, numOPoints, numCircles, numSegments, numCurves, numRaw, timeRaw;
     int numShapes = scans.size();
     int numPoints = 0;
     numOShapes.setNum(numShapes);
@@ -98,8 +98,11 @@ void publishRunData()
     rawMessage += numCurves;
 
     numRaw.setNum(unchanged);
-    numRaw += "}";
+    numRaw += "} @T: ";
     rawMessage += numRaw;
+
+    timeRaw.setNum(ros::Time::now().toSec());
+    rawMessage += timeRaw;
 
     std_msgs::String str;
     str.data = rawMessage.toStdString();
@@ -149,7 +152,7 @@ void defineObjects()
     for (int x = 0; x < Angles.size() - 1; x++)
     {
         if ((Angles.at(x) >= PHIe && x - lastBreak > 2) ||
-            (x - lastBreak > 2 && getDistance(toPCLPoint(cloud.points.at(x)), toPCLPoint(cloud.points.at(x + 1))) > DIST_TOLERANCE))
+                (x - lastBreak > 2 && getDistance(toPCLPoint(cloud.points.at(x)), toPCLPoint(cloud.points.at(x + 1))) > DIST_TOLERANCE))
         {
 
             PointCloud toPush;
@@ -248,8 +251,12 @@ void makeOneCloud()
     combined.height = 1;
     combined.width = combined.points.size();
 
-    pcl::PCDWriter writer;
-    writer.write<pcl::PointXYZRGB> ("FinalCorrections.pcd", combined, false);
+    if (combined.points.size() > 0)
+    {
+        pcl::PCDWriter writer;
+        writer.writeASCII<pcl::PointXYZRGB> ("FinalCorrections.pcd", combined);
+    }//end if.
+
     combined.header.frame_id = "/laser";
     laserOutput.publish(combined.makeShared());
 
@@ -285,8 +292,12 @@ void scanCallBack(const sensor_msgs::LaserScan::ConstPtr& scan_in)
     original.height = 1;
     original.width = original.points.size();
 
-    pcl::PCDWriter writer;
-    writer.write<pcl::PointXYZRGB>("Unfiltered.pcd", original, false);
+    if (original.points.size() > 0)
+    {
+        pcl::PCDWriter writer;
+        writer.write<pcl::PointXYZRGB>("Unfiltered.pcd", original, false);
+    }
+
     defineObjects();
 
     for (unsigned int x = 0; x < Shapes.size(); ++x)
@@ -308,7 +319,7 @@ int main(int argc, char **argv)
     ros::NodeHandle handler;
 
     ros::Subscriber laserReader = handler.subscribe("/scan", 10000, scanCallBack);
-    laserOutput = handler.advertise<pcl::PointCloud<pcl::PointXYZ> >("/cloud_pcl", 100);
+    laserOutput = handler.advertise<pcl::PointCloud<pcl::PointXYZRGB> >("/cloud_pcl", 100);
     data_Output = handler.advertise<std_msgs::String>("/run_data", 100);
 
     ros::spin();

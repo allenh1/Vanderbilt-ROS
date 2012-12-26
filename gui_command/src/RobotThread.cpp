@@ -19,7 +19,7 @@ RobotThread::~RobotThread()
 
 bool RobotThread::init()
 {
-    ros::init(m_Init_argc, m_pInit_argv, "tcp_command");
+    ros::init(m_Init_argc, m_pInit_argv, "gui_command");
 
     if (!ros::master::check())
         return false;//do not start without ros.
@@ -28,12 +28,12 @@ bool RobotThread::init()
     ros::Time::init();
     ros::NodeHandle nh;
     //rostopic pub p2os_driver/MotorState cmd_motor_state -- 1.0
-    cmd_publisher = nh.advertise<std_msgs::String>("/tcp_cmd", 1000);
+    cmd_publisher = nh.advertise<std_msgs::String>("/gui_cmd", 1000);
     //sim_velocity  = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 100);
     sim_velocity = nh.advertise<turtlesim::Velocity>("/turtle1/command_velocity", 100);
     //pose_listener = nh.subscribe("/pose", 10, &RobotThread::callback, this);
     pose_listener = nh.subscribe("/turtle1/pose", 10, &RobotThread::callback, this);
-    scan_listener = nh.subscribe("/scan", 1000, &RobotThread::scanCallBack, this);
+    //scan_listener = nh.subscribe("/scan", 1000, &RobotThread::scanCallBack, this);
     start();
     return true;
 }//set up the ros toys.
@@ -45,7 +45,8 @@ void RobotThread::callback(nav_msgs::Odometry msg)
     m_yPos = msg.pose.pose.position.y;
     m_aPos = msg.pose.pose.orientation.w;
 
-    ROS_INFO("Pose: (%f, %f, %f)", m_xPos, m_yPos, m_aPos);
+    //ROS_INFO("Pose: (%f, %f, %f)", m_xPos, m_yPos, m_aPos);
+    Q_EMIT newPose();
 }//callback method to update the robot's position. **/
 
 void RobotThread::callback(turtlesim::Pose msg)

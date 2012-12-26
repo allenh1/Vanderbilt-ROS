@@ -25,6 +25,18 @@ void ShapeAverageThread::pushSegment(double segment){ segmentCounts.push_back(se
 void ShapeAverageThread::pushCurve(double curves){ curveCounts.push_back(curves); }
 void ShapeAverageThread::pushPoint(double points){ pointCounts.push_back(points); }
 
+void ShapeAverageThread::pushTime(double time)
+{
+    double delta_t = time - m_lastTime;
+
+    if (m_lastTime < 0)
+        delta_t = 0;
+
+    timeDiffs.push_back(delta_t);
+
+    m_lastTime = time;
+}//add the last time to the array.
+
 double ShapeAverageThread::getAverage(QList<double> list)
 {
     //ROS_INFO("Call to getAverage");
@@ -74,17 +86,26 @@ void ShapeAverageThread::averageCurves()
     Q_EMIT newCurve();
 }
 
+void ShapeAverageThread::averageTimes()
+{
+    m_Time = getAverage(timeDiffs);
+    Q_EMIT newTimeDiff();
+}
+
 void ShapeAverageThread::run()
 {
+    m_lastTime = -1;
+
     while (alive)
     {
-        if (!TryLock(100))
+        if (!TryLock(1000))
         {
             averageShapes();
             averagePoints();
             averageCircles();
             averageSegments();
             averageCurves();
+            averageTimes();
         }//end if
         UnlockMutex();
     }
@@ -95,5 +116,6 @@ const double & ShapeAverageThread::getPointCount(){ return m_pointCount; }
 const double & ShapeAverageThread::getSegmentCount(){ return m_segmentCount; }
 const double & ShapeAverageThread::getBezierCount(){ return m_bezierCount; }
 const double & ShapeAverageThread::getShapeCount(){ return m_shapeCount; }
+const double & ShapeAverageThread::getTimeDiff(){ return m_Time; }
 }//end namespace
 

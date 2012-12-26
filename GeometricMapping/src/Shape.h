@@ -262,7 +262,11 @@ void Shape::correct_circle()
         if (a > b)
             radical *= -1;
         pcl::PointXYZRGB thePoint(65, 105, 205);
-        thePoint.x = x; thePoint.y = k + radical; thePoint.z = Z; thePoint.rgb = 4169e1;
+        uint8_t r = 65, g = 105, _b = 205;
+        int32_t rgb = (r << 16) | (g << 8) | _b;
+        thePoint.rgb = *(float *)(&rgb);
+
+        thePoint.x = x; thePoint.y = k + radical; thePoint.z = Z;
         
         if (sqrt(pow(thePoint.y - uncorrected.points.at(iter).y, 2)) >= DIST_TOL)
             thePoint.y = uncorrected.points.at(iter).y;
@@ -325,6 +329,9 @@ void Shape::correct_Bezier()
         }//end for x
 
         pcl::PointXYZRGB toPush(34, 139, 34);
+        uint8_t r = 34, g = 139, b = 34;
+        int32_t rgb = (r << 16) | (g << 8) | b;
+        toPush.rgb = *(float *)(&rgb);
 
         unsigned int iter = pow(t, -1);
 
@@ -380,6 +387,10 @@ void Shape::correct_segment()
         }//case of an undefined slope.
 
         pcl::PointXYZRGB toPush(218, 112, 214);
+        uint8_t r = 218, g = 112, b = 214;
+        int32_t rgb = (r << 16) | (g << 8) | b;
+        toPush.rgb = *(float *)(&rgb);
+
         toPush.x = px; toPush.y = py; toPush.z = Z;
         
         if (sqrt( pow(px - uncorrected.points.at(iter).x, 2) + pow(py - uncorrected.points.at(iter).y, 2)) > DIST_TOL)
@@ -418,8 +429,11 @@ void Shape::updateSegment()
         {	px = uncorrected.points.at(iter).x; py = uncorrected.points.at(iter).y; }
 
         pcl::PointXYZRGB toPush(218, 112, 214);
+        uint8_t r = 218, g = 112, b = 214;
+        int32_t rgb = (r << 16) | (g << 8) | b;
+        toPush.rgb = *(float *)(&rgb);
         toPush.x = px; toPush.y = py; toPush.z = Z;
-        toPush.rgb = 0xda70d6;
+        //Push.rgb = 0xda70d6;
         newPoints.push_back(toPush);
     }//end for.
 

@@ -18,6 +18,7 @@ ViewerWindow::ViewerWindow(int argc, char **argv, QWidget *parent)
     p_segmentLayout = new QHBoxLayout();
     p_bezierLayout = new QHBoxLayout();
     p_shapeLayout = new QHBoxLayout();
+    p_timeLayout = new QHBoxLayout();
 
     p_shapeLabel = new QLabel();
     p_shapeLabel->setText("Average Shapes: ");
@@ -44,6 +45,11 @@ ViewerWindow::ViewerWindow(int argc, char **argv, QWidget *parent)
     p_bezierDisplay = new QLineEdit();
     p_bezierDisplay->setText("0.0");
 
+    p_timeLabel = new QLabel();
+    p_timeLabel->setText("Average Time: ");
+    p_timeDisplay = new QLineEdit();
+    p_timeDisplay->setText("0.0");
+
     p_circleLayout->addWidget(p_circleLabel);
     p_circleLayout->addWidget(p_circleDisplay);
     p_segmentLayout->addWidget(p_segmentLabel);
@@ -54,19 +60,22 @@ ViewerWindow::ViewerWindow(int argc, char **argv, QWidget *parent)
     p_shapeLayout->addWidget(p_shapeDisplay);
     p_pointLayout->addWidget(p_pointLabel);
     p_pointLayout->addWidget(p_pointDisplay);
+    p_timeLayout->addWidget(p_timeLabel);
+    p_timeLayout->addWidget(p_timeDisplay);
 
     leftLayout->addLayout(p_shapeLayout);
     leftLayout->addLayout(p_pointLayout);
     leftLayout->addLayout(p_circleLayout);
     leftLayout->addLayout(p_segmentLayout);
     leftLayout->addLayout(p_bezierLayout);
+    leftLayout->addLayout(p_timeLayout);
 
     mainLayout = new QVBoxLayout();
     mainLayout->addLayout(leftLayout);
     mainLayout->addWidget(p_closeButton);
     setLayout(mainLayout);
 
-    setWindowTitle(tr("Control Window"));
+    setWindowTitle(tr("Data Window"));
 
     connect(p_closeButton, SIGNAL(clicked()), this, SLOT(close()));
     connect(&m_RobotThread, SIGNAL(newCircle()), this, SLOT(updateCircleDisplay()));
@@ -74,6 +83,7 @@ ViewerWindow::ViewerWindow(int argc, char **argv, QWidget *parent)
     connect(&m_RobotThread, SIGNAL(newShapeCount()), this, SLOT(updateShapeDisplay()));
     connect(&m_RobotThread, SIGNAL(newSegment()), this, SLOT(updateSegmentDisplay()));
     connect(&m_RobotThread, SIGNAL(newCurve()), this, SLOT(updateCurveDisplay()));
+    connect(&m_RobotThread, SIGNAL(newTime()), this, SLOT(updateTimeDisplay()));
 
     m_RobotThread.init();
     m_RobotThread.start();
@@ -113,5 +123,14 @@ void ViewerWindow::updateCurveDisplay()
     double curveNumber = m_RobotThread.getBezierCount();
     curveNum.setNum(curveNumber);
     p_bezierDisplay->setText(curveNum);
+}
+
+void ViewerWindow::updateTimeDisplay()
+{
+    QString timeNum;
+    double timeNumber = m_RobotThread.getTime();
+
+    timeNum.setNum(timeNumber);
+    p_timeDisplay->setText(timeNum);
 }
 }//namespace server

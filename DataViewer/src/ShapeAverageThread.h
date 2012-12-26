@@ -18,6 +18,7 @@ public:
     virtual ~ShapeAverageThread();
 
     const double & getCircleCount();
+    const double & getTimeDiff();
     const double & getSegmentCount();
     const double & getBezierCount();
     const double & getShapeCount();
@@ -26,12 +27,14 @@ public:
     void run();
 
     void pushShape(double);
+    void pushTime(double);
     void pushPoint(double);
     void pushCircle(double);
     void pushSegment(double);
     void pushCurve(double);
 
     Q_SIGNAL void newCircle();
+    Q_SIGNAL void newTimeDiff();
     Q_SIGNAL void newPoint();
     Q_SIGNAL void newCurve();
     Q_SIGNAL void newSegment();
@@ -44,6 +47,7 @@ public:
 private:
     void averageShapes();
     void averageSegments();
+    void averageTimes();
     void averagePoints();
     void averageCircles();
     void averageCurves();
@@ -57,10 +61,14 @@ private:
     double m_shapeCount;
     double m_segmentCount;
     double m_bezierCount;
+    double m_Time;
+
+    double m_lastTime;
     
     bool alive;
 
     QList<double> shapeCounts;
+    QList<double> timeDiffs;
     QList<double> pointCounts;
     QList<double> circleCounts;
     QList<double> segmentCounts;

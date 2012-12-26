@@ -13,6 +13,7 @@ RobotThread::RobotThread(int argc, char** pArgv)
     connect(&m_MathThread, SIGNAL(newCircle()), this, SLOT(sendCircle()));
     connect(&m_MathThread, SIGNAL(newSegment()), this, SLOT(sendSegment()));
     connect(&m_MathThread, SIGNAL(newCurve()), this, SLOT(sendCurve()));
+    connect(&m_MathThread, SIGNAL(newTimeDiff()), this, SLOT(sendTime()));
 }
 
 void RobotThread::sendCircle()
@@ -27,6 +28,12 @@ void RobotThread::sendPoint()
 {
     m_pointCount = m_MathThread.getPointCount();
     Q_EMIT newPoint();
+}
+
+void RobotThread::sendTime()
+{
+    m_time = m_MathThread.getTimeDiff();
+    Q_EMIT newTime();
 }
 
 void RobotThread::sendShape()
@@ -163,6 +170,11 @@ void RobotThread::dataCallback(std_msgs::String msg)
         pointCount.replace(" ", "");
         m_MathThread.pushPoint(pointCount.toDouble());
 
+        /** Measure Time Difference **/
+        QString timeStamp = message;
+        i1 = timeStamp.indexOf("@T:");
+        timeStamp.remove(0, i1 + 3);
+        m_MathThread.pushTime(timeStamp.toDouble());
         m_MathThread.UnlockMutex();
     }
 
@@ -281,6 +293,7 @@ const double & RobotThread::getPointCount(){ return m_pointCount; }
 const double & RobotThread::getSegmentCount(){ return m_segmentCount; }
 const double & RobotThread::getBezierCount(){ return m_bezierCount; }
 const double & RobotThread::getShapeCount(){ return m_shapeCount; }
+const double & RobotThread::getTime(){ return m_time; }
 
 double RobotThread::getXSpeed(){ return m_speed; }
 double RobotThread::getASpeed(){ return m_angle; }
