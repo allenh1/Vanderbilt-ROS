@@ -49,12 +49,13 @@ void publishRunData()
             1. Number of Shapes
             2. Number of Points
             3. Number of Circles, Segments, Curves, Input
-            4. Time of correction
+            4. Max Dist Shift for Shape
+            5. Time of correction
 
-        {Shapes %i, Points %i, Circles %i, Segments %i, Curves %i, Input %i}
+        {Shapes %i, Points %i, Circles %i, Segments %i, Curves %i, Input %i, MaxSeg %i, @T: time}
     **/
     QString rawMessage = "{Shapes ";
-    QString numOShapes, numOPoints, numCircles, numSegments, numCurves, numRaw, timeRaw;
+    QString numOShapes, numOPoints, numCircles, numSegments, numCurves, numRaw, segRaw, timeRaw;
     int numShapes = scans.size();
     int numPoints = 0;
     numOShapes.setNum(numShapes);
@@ -65,6 +66,7 @@ void publishRunData()
     int unchanged = 0;
     int segments = 0;
     int curves = 0;
+    double maxDist = 0;
 
     for (unsigned int x = 0; x < scans.size(); x++)
     {
@@ -80,6 +82,17 @@ void publishRunData()
         else
             unchanged++;
     }
+
+    for (unsigned int x = 0; x < scans.size(); x++)
+    {
+        int type = scans.at(x).getType();
+
+        if (type == SEGMENT)
+        {
+            if (maxDist < scans.at(x).max_correct)
+                maxDist = scans.at(x).max_correct;
+        }//end if
+    }//iterate through to get the max correction distance.
 
     numOPoints.setNum(numPoints);
     numOPoints += ", Circles ";
@@ -98,8 +111,12 @@ void publishRunData()
     rawMessage += numCurves;
 
     numRaw.setNum(unchanged);
-    numRaw += "} @T: ";
+    numRaw += ", MaxSegError ";
     rawMessage += numRaw;
+
+    segRaw.setNum(maxDist);
+    segRaw += "} @T: ";
+    rawMessage += segRaw;
 
     timeRaw.setNum(ros::Time::now().toSec());
     rawMessage += timeRaw;

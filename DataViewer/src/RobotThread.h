@@ -43,6 +43,14 @@ public:
     const double & getSegmentCount();
     const double & getBezierCount();
     const double & getShapeCount();
+    const double & getMaxSegError();
+
+    const double & getMinCircles();
+    const double & getMinSegments();
+    const double & getMinCurves();
+    const double & getMinPoints();
+    const double & getMinShapes();
+    const double & getMinSegError();
 
     bool init();
 
@@ -63,6 +71,7 @@ public:
     Q_SIGNAL void newCurve();
     Q_SIGNAL void newSegment();
     Q_SIGNAL void newShapeCount();
+    Q_SIGNAL void newMaxSegError();
 
 private:
     Q_SLOT void sendCircle();
@@ -71,6 +80,7 @@ private:
     Q_SLOT void sendPoint();
     Q_SLOT void sendCurve();
     Q_SLOT void sendShape();
+    Q_SLOT void sendMaxSegError();
 
     void averageShapes();
     void averageSegments();
@@ -93,6 +103,7 @@ private:
     double m_pointCount;
     double m_segmentCount;
     double m_bezierCount;
+    double m_maxSegError;
 
     double m_xPos;
     double m_yPos;

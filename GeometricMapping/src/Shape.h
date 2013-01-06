@@ -15,13 +15,13 @@
 #include "laser_geometry.h"
 #include "MathLibrary.h"
 
-const float PHIe =  PI / 10.0; // ~ 18 degrees
+const float PHIe =  PI / 18.0; // ~ 18 degrees
 const double SLOPE_TOLERATION = 0.1; // difference is less than 0.1
 const double DIST_TOLERANCE = 0.2; //50 cm distance tolerance.
 const double DIST_TOL = 0.1;
-const double MAXRAD = 0.75; //maximum radius of .75 meters
-const double R2TOLL = 0.995;
-const double R2TOLL2 = 1.1;
+const double MAXRAD = 1.0; //maximum radius of .75 meters
+const double R2TOLL = 0.9995;
+const double R2TOLL2 = 1.01;
 int circles = 0;
 int segments = 0;
 int unchanged = 0;
@@ -60,6 +60,7 @@ public:
     double firstX;
     double finalX;
     double phiBound;
+    double max_correct;
 
     bool is_circle();
     bool is_bezier();
@@ -85,6 +86,8 @@ private:
     double match_bezier();
     double meanY();
     double getAverageSlope();
+
+    /** This is the Slope Data **/
 
     double S_m; //slope of correction.
     double S_b; //intercept of correction.
@@ -302,7 +305,7 @@ void Shape::correct_Bezier()
     /** Correct the curve as a Bezier polynomial **/
     QList<pcl::PointXYZRGB> newPoints;
 
-    int n = uncorrected.points.size() - 1;
+    int n = uncorrected.points.size() - 1 / 5;
     //const int n = uncorrected.points.size() - 1;
 
     /** Coefficients stored in a list.
@@ -363,46 +366,74 @@ void Shape::correct_segment()
 
     /** Now we have the max and the min on the interval above! **/
     //y = mx + b -> y - mx = b
-    bool undefined = false;
-    float slope = ((double) uncorrected.points.at(uncorrected.points.size() - 1).y - uncorrected.points.at(0).y) /
-            ((double) uncorrected.points.at(uncorrected.points.size() - 1).x - uncorrected.points.at(0).x) ;
+    double x_S = 0; double y_S = 0;
+    double x_SS = 0; double y_SS = 0; double xy_S = 0;
+    const double n = uncorrected.points.size();
 
-    if (isnan(slope))
-        undefined = true; // the slope is a nan value.
+    const double T = xy_S * n - x_S * y_S;
+    const double N1 = x_SS * n - pow(x_S, 2);
+    const double N2 = y_SS * n - pow(y_S, 2);
 
-    //y = mx + b -> y - mx = b
-    float b = uncorrected.points.at(0).y - slope * uncorrected.points.at(0).x;
-
-    for (unsigned int iter = 0; iter < uncorrected.points.size(); ++iter)
+    for (unsigned int x = 0; x < uncorrected.points.size(); x++)
     {
-        float px; float py;
+        x_S += uncorrected.points.at(x).x;
+        x_SS += pow(uncorrected.points.at(x).x, 2);
+        y_S += uncorrected.points.at(x).y;
+        y_SS += pow(uncorrected.points.at(x).y, 2);
+        xy_S += uncorrected.points.at(x).x * uncorrected.points.at(x).y;
+    } //get the sums we need!
 
-        px = uncorrected.points.at(iter).x;
-        py = slope * px + b;
+    double M = T / N1;
+    double q = (y_S - M * x_S) / n;
+    double S = T / N2;
+    double b = (x_S - S * y_S) / n;
 
-        if (undefined)
+    if (N1 > N2)
+    {
+        for (unsigned int iter = 0; iter < uncorrected.points.size(); ++iter)
         {
-            px = uncorrected.points.at(0).x;
+            float px; float py;
+
+            px = uncorrected.points.at(iter).x;
+            py = M * px + q;
+
+            pcl::PointXYZRGB toPush(218, 112, 214);
+            uint8_t r = 218, g = 112, b = 214;
+            int32_t rgb = (r << 16) | (g << 8) | b;
+            toPush.rgb = *(float *)(&rgb);
+
+            toPush.x = px; toPush.y = py; toPush.z = Z;
+
+            newPoints.push_back(toPush);
+        }//end for.
+        S_m = M;
+        S_b = q;
+    }//end if.
+
+    else
+    {
+        for (unsigned int iter = 0; iter < uncorrected.points.size(); ++iter)
+        {
+            float px; float py;
+
             py = uncorrected.points.at(iter).y;
-        }//case of an undefined slope.
+            px = S * py + b;
 
-        pcl::PointXYZRGB toPush(218, 112, 214);
-        uint8_t r = 218, g = 112, b = 214;
-        int32_t rgb = (r << 16) | (g << 8) | b;
-        toPush.rgb = *(float *)(&rgb);
+            pcl::PointXYZRGB toPush(218, 112, 214);
+            uint8_t r = 218, g = 112, b = 214;
+            int32_t rgb = (r << 16) | (g << 8) | b;
+            toPush.rgb = *(float *)(&rgb);
 
-        toPush.x = px; toPush.y = py; toPush.z = Z;
-        
-        if (sqrt( pow(px - uncorrected.points.at(iter).x, 2) + pow(py - uncorrected.points.at(iter).y, 2)) > DIST_TOL)
-        {	px = uncorrected.points.at(iter).x; py = uncorrected.points.at(iter).y; }
+            toPush.x = px; toPush.y = py; toPush.z = Z;
 
-        newPoints.push_back(toPush);
-    }//end for.
+            newPoints.push_back(toPush);
+        }//end for.
+
+        S_m = S;
+        S_b = b;
+    }
     pcl::PointXYZ orgin;
     orgin.x = 0; orgin.y = 0; orgin.z = 0;
-
-    S_m = slope;
-    S_b = b;
 
     PointCloud Segmetized;
     Segmetized.header.frame_id = "/cloud";
@@ -444,8 +475,6 @@ void Shape::updateSegment()
 
     for (int x = 0; x < newPoints.size(); ++x)
         Segmetized.points.push_back(newPoints.at(x));
-
-    correctedSegment = Segmetized;
 }
 
 double Shape::meanY()
@@ -478,6 +507,13 @@ double Shape::match_segment()
     double sum1 = 0;
     double sum2 = 0;
     double yMean = meanY();
+
+    for (unsigned int i = 0; i < correctedSegment.points.size(); i++)
+    {
+        const double dist = getDistance(uncorrected.points.at(i), correctedSegment.points.at(i));
+        if (dist > max_correct)
+            max_correct = dist;
+    }//end for i.
 
     for (unsigned int x = 0; x < uncorrected.points.size(); x++)
         sum1 += pow(uncorrected.points.at(x).y - yMean, 2);

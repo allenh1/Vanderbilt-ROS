@@ -20,6 +20,11 @@ inline double getDistance(pcl::PointXYZ a, pcl::PointXYZ b)
     return distance(a.x, b.x, a.y, b.y);
 }//get distance between two points.
 
+inline double getDistance(pcl::PointXYZRGB a, pcl::PointXYZRGB b)
+{
+    return distance(a.x, b.x, a.y, b.y);
+}//get distance between two points.
+
 inline int getMindex(QList<double> list)
 {
     int mindex = 0;

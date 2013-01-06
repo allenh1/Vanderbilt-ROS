@@ -30,15 +30,21 @@ public:
     Q_SLOT void updateSegmentDisplay();
     Q_SLOT void updateCurveDisplay();
     Q_SLOT void updateTimeDisplay();
+    Q_SLOT void updateMaxSegErrorDisplay();
 
 private:
     QVBoxLayout *leftLayout;
+    QHBoxLayout *p_topLayout;
     QHBoxLayout *p_circleLayout;
     QHBoxLayout *p_pointLayout;
     QHBoxLayout *p_segmentLayout;
     QHBoxLayout *p_bezierLayout;
     QHBoxLayout *p_shapeLayout;
     QHBoxLayout *p_timeLayout;
+    QHBoxLayout *p_segErrorLayout;
+
+    QLabel *p_minLabel;
+    QLabel *p_averageLabel;
 
     QLabel *p_circleLabel;
     QLabel *p_pointLabel;
@@ -46,6 +52,14 @@ private:
     QLabel *p_bezierLabel;
     QLabel *p_shapeLabel;
     QLabel *p_timeLabel;
+    QLabel *p_segErrorLabel;
+
+    QLineEdit *p_minShapes;
+    QLineEdit *p_minPoints;
+    QLineEdit *p_minCircle;
+    QLineEdit *p_minSeg;
+    QLineEdit *p_minBezier;
+    QLineEdit *p_minError;
 
     QLineEdit *p_circleDisplay;
     QLineEdit *p_segmentDisplay;
@@ -53,6 +67,7 @@ private:
     QLineEdit *p_bezierDisplay;
     QLineEdit *p_shapeDisplay;
     QLineEdit *p_timeDisplay;
+    QLineEdit *p_segErrorDisplay;
 
     QVBoxLayout *mainLayout;
     QPushButton *p_closeButton;

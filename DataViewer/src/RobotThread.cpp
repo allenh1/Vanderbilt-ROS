@@ -14,6 +14,7 @@ RobotThread::RobotThread(int argc, char** pArgv)
     connect(&m_MathThread, SIGNAL(newSegment()), this, SLOT(sendSegment()));
     connect(&m_MathThread, SIGNAL(newCurve()), this, SLOT(sendCurve()));
     connect(&m_MathThread, SIGNAL(newTimeDiff()), this, SLOT(sendTime()));
+    connect(&m_MathThread, SIGNAL(newMaxSegError()), this, SLOT(sendMaxSegError()));
 }
 
 void RobotThread::sendCircle()
@@ -58,6 +59,12 @@ void RobotThread::sendCurve()
     m_bezierCount = m_MathThread.getBezierCount();
     Q_EMIT newCurve();
     // m_MathThread.UnlockMutex();
+}
+
+void RobotThread::sendMaxSegError()
+{
+    m_maxSegError = m_MathThread.getMaxSegError();
+    Q_EMIT newMaxSegError();
 }
 
 RobotThread::~RobotThread()
@@ -123,8 +130,10 @@ void RobotThread::dataCallback(std_msgs::String msg)
         }//remove blank space.
 
         /** Extract total Shape count **/
-        if (!m_MathThread.TryLock(100))
+        if (!m_MathThread.TryLock(1000)) {
             m_MathThread.pushShape(shapeCount.toDouble());
+            m_MathThread.UnlockMutex();
+        }//end if.
 
         i1 = message.indexOf(",");
         i3 = message.indexOf(",",i1 + 1 );
@@ -140,8 +149,10 @@ void RobotThread::dataCallback(std_msgs::String msg)
         i2 = circleCount.indexOf(",");
         i3 += 1 + i2;
         circleCount.remove(i2, circleCount.size() - 1);
-        if (!m_MathThread.TryLock(1000))
+        if (!m_MathThread.TryLock(1000)) {
             m_MathThread.pushCircle(circleCount.toDouble());
+            m_MathThread.UnlockMutex();
+        }//end if.
 
         /** Extract Segment Count **/
         QString segmentCount = message;
@@ -150,7 +161,10 @@ void RobotThread::dataCallback(std_msgs::String msg)
         segmentCount.remove(0, i1 + 1);
         i2 = segmentCount.indexOf(",");
         segmentCount.remove(i2, segmentCount.size() - 1);
-        m_MathThread.pushSegment(segmentCount.toDouble());
+        if (!m_MathThread.TryLock(100)) {
+            m_MathThread.pushSegment(segmentCount.toDouble());
+            m_MathThread.UnlockMutex();
+        }//end if.
 
         /** Extract Curve Count **/
         QString curveCount = message;
@@ -159,7 +173,10 @@ void RobotThread::dataCallback(std_msgs::String msg)
         i2 = curveCount.indexOf(",");
         curveCount.remove(i2, curveCount.size() - 1);
         curveCount.replace(" ", "");
-        m_MathThread.pushCurve(curveCount.toDouble());
+        if (!m_MathThread.TryLock(500)) {
+            m_MathThread.pushCurve(curveCount.toDouble());
+            m_MathThread.UnlockMutex();
+        }//end if.
 
         /** Extract Point Count **/
         QString pointCount = message;
@@ -168,16 +185,32 @@ void RobotThread::dataCallback(std_msgs::String msg)
         i2 = pointCount.indexOf(",");
         pointCount.remove(i2, pointCount.size() - 1);
         pointCount.replace(" ", "");
-        m_MathThread.pushPoint(pointCount.toDouble());
+        if (!m_MathThread.TryLock(500)) {
+            m_MathThread.pushPoint(pointCount.toDouble());
+            m_MathThread.UnlockMutex();
+        }//end if.
+
+        /** Extract the Max Segment Error **/
+        QString segmentError = message;
+        i1 = segmentError.indexOf("MaxSegError");
+        segmentError.remove(0, i1 + 11);
+        i2 = segmentError.indexOf("}");
+        segmentError.remove(i2, segmentError.size() - 1);
+        segmentError.replace(" ", "");
+        if (!m_MathThread.TryLock(500)) {
+            m_MathThread.pushSegError(segmentError.toDouble());
+            m_MathThread.UnlockMutex();
+        }//end if.
 
         /** Measure Time Difference **/
         QString timeStamp = message;
         i1 = timeStamp.indexOf("@T:");
         timeStamp.remove(0, i1 + 3);
-        m_MathThread.pushTime(timeStamp.toDouble());
-        m_MathThread.UnlockMutex();
+        if (!m_MathThread.TryLock(500)) {
+            m_MathThread.pushTime(timeStamp.toDouble());
+            m_MathThread.UnlockMutex();
+        }//end if.
     }
-
 }//callback method for the strings
 
 double RobotThread::getAverage(QList<double> list)
@@ -288,12 +321,19 @@ void RobotThread::setPose(QList<double> to_set)
     }//end if
 }//end void
 
+const double & RobotThread::getMinCircles(){ return m_MathThread.getMinCircles(); }
+const double & RobotThread::getMinCurves(){ return m_MathThread.getMinCurves(); }
+const double & RobotThread::getMinSegments(){ return m_MathThread.getMinSegments(); }
+const double & RobotThread::getMinShapes(){ return m_MathThread.getMinShapes(); }
+const double & RobotThread::getMinPoints(){ return m_MathThread.getMinPoints(); }
+
 const double & RobotThread::getCircleCount(){ return m_circleCount; }
 const double & RobotThread::getPointCount(){ return m_pointCount; }
 const double & RobotThread::getSegmentCount(){ return m_segmentCount; }
 const double & RobotThread::getBezierCount(){ return m_bezierCount; }
 const double & RobotThread::getShapeCount(){ return m_shapeCount; }
 const double & RobotThread::getTime(){ return m_time; }
+const double & RobotThread::getMaxSegError(){ return m_maxSegError; }
 
 double RobotThread::getXSpeed(){ return m_speed; }
 double RobotThread::getASpeed(){ return m_angle; }

@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QMutex>
 #include <QStringList>
+#include <QtAlgorithms>
 #include <stdlib.h>
 #include <iostream>
 #include "assert.h"
@@ -23,6 +24,14 @@ public:
     const double & getBezierCount();
     const double & getShapeCount();
     const double & getPointCount();
+    const double & getMaxSegError();
+
+    const double & getMinCircles();
+    const double & getMinSegments();
+    const double & getMinCurves();
+    const double & getMinPoints();
+    const double & getMinShapes();
+    const double & getMinSegError();
 
     void run();
 
@@ -32,6 +41,7 @@ public:
     void pushCircle(double);
     void pushSegment(double);
     void pushCurve(double);
+    void pushSegError(double);
 
     Q_SIGNAL void newCircle();
     Q_SIGNAL void newTimeDiff();
@@ -39,6 +49,7 @@ public:
     Q_SIGNAL void newCurve();
     Q_SIGNAL void newSegment();
     Q_SIGNAL void newShapeCount();
+    Q_SIGNAL void newMaxSegError();
 
     void LockMutex(){m_Mutex.lock();}
     void UnlockMutex(){m_Mutex.unlock();}
@@ -51,6 +62,7 @@ private:
     void averagePoints();
     void averageCircles();
     void averageCurves();
+    void setMaxError();
 
     QMutex m_Mutex;
 
@@ -62,6 +74,7 @@ private:
     double m_segmentCount;
     double m_bezierCount;
     double m_Time;
+    double m_maxSegError;
 
     double m_lastTime;
     
@@ -73,6 +86,7 @@ private:
     QList<double> circleCounts;
     QList<double> segmentCounts;
     QList<double> curveCounts;
+    QList<double> maxSegError;
 };
 
 }//end namespace
