@@ -39,11 +39,16 @@ void ShapeAverageThread::pushTime(double time)
     m_lastTime = time;
 }//add the last time to the array.
 
-double ShapeAverageThread::getAverage(QList<double> list)
+double ShapeAverageThread::getAverage(QList<double> & list)
 {
     //ROS_INFO("Call to getAverage");
 
     int sum = 0;
+
+    if (list.size() < 3)
+        return -1;
+
+    qSort(list.begin(), list.end());
 
     for (int x = 0; x < list.size(); x++)
     {
@@ -52,59 +57,67 @@ double ShapeAverageThread::getAverage(QList<double> list)
         sum += toAdd;
     }
 
-    if (list.size() != 0)
-        return ((double) sum ) / ((double) list.size());
-    else
-        return -1;
+    return ((double) sum ) / ((double) list.size());
 }
 
 void ShapeAverageThread::averageShapes()
 {
-    qSort(shapeCounts.begin(), shapeCounts.end());
-    m_shapeCount = getAverage(shapeCounts);
-    Q_EMIT newShapeCount();
+    QList<double> theseShapes = shapeCounts;
+    m_shapeCount = getAverage(theseShapes);
+    if (m_shapeCount != -1)
+        Q_EMIT newShapeCount(theseShapes.first(), m_shapeCount, theseShapes.last(), theseShapes.size());
 }//end void
 
 void ShapeAverageThread::averagePoints()
 {
-    qSort(pointCounts.begin(), pointCounts.end());
-    m_pointCount = getAverage(pointCounts);
-    Q_EMIT newPoint();
+    QList<double> current = pointCounts;
+    m_pointCount = getAverage(current);
+    if (m_pointCount != -1)
+        Q_EMIT newPoint(current.first(), m_pointCount, current.last());
 }
 
 void ShapeAverageThread::averageCircles()
 {
-    qSort(circleCounts.begin(), circleCounts.end());
-    m_circleCount = getAverage(circleCounts);
-    Q_EMIT newCircle();
+    QList<double> current = circleCounts;
+    m_circleCount = getAverage(current);
+    if (m_circleCount != -1)
+        Q_EMIT newCircle(current.first(), m_circleCount, current.last());
 }//average the circle count
 
 void ShapeAverageThread::averageSegments()
 {
-    qSort(segmentCounts.begin(), segmentCounts.end());
-    m_segmentCount = getAverage(segmentCounts);
-    Q_EMIT newSegment();
+    QList<double> current = segmentCounts;
+    m_segmentCount = getAverage(current);
+    if (m_segmentCount != -1)
+        Q_EMIT newSegment(current.first(), m_segmentCount, current.last());
 }
 
 void ShapeAverageThread::averageCurves()
 {
-    qSort(curveCounts.begin(), curveCounts.end());
-    m_bezierCount = getAverage(curveCounts);
-    Q_EMIT newCurve();
+    QList<double> current = curveCounts;
+    m_bezierCount = getAverage(current);
+    if (m_bezierCount != -1)
+        Q_EMIT newCurve(current.first(), m_bezierCount, current.last());
 }
 
 void ShapeAverageThread::averageTimes()
 {
-    m_Time = getAverage(timeDiffs);
-    Q_EMIT newTimeDiff();
+    QList<double> current = timeDiffs;
+    m_Time = getAverage(current);
+
+    if (m_Time != -1)
+        Q_EMIT(newTimeDiff(current.first(), m_Time, current.last()));
 }
 
 void ShapeAverageThread::setMaxError()
 {
-    qSort(maxSegError.begin(), maxSegError.end());
+    if (maxSegError.size() > 0)
+    {
+        QList<double> current = maxSegError;
+        qSort(current.begin(), current.end());
 
-    m_maxSegError = maxSegError.last();
-    Q_EMIT newMaxSegError();
+        Q_EMIT(newMaxSegError(current.first(), current.last()));
+    }//don't update if empty!
 }//end void
 
 void ShapeAverageThread::run()
@@ -113,32 +126,14 @@ void ShapeAverageThread::run()
 
     while (alive)
     {
-        if (!TryLock(2000))
-        {
-            LockMutex();
-            averageShapes();
-            averagePoints();
-            averageCircles();
-            averageSegments();
-            averageCurves();
-            averageTimes();
-            setMaxError();
-            }//end if
-        UnlockMutex();
-    }
-}
-
-const double & ShapeAverageThread::getMinCircles(){ return circleCounts.first(); }
-const double & ShapeAverageThread::getMinPoints(){ return pointCounts.first(); }
-const double & ShapeAverageThread::getMinSegments(){ return segmentCounts.first(); }
-const double & ShapeAverageThread::getMinCurves(){ return curveCounts.first(); }
-const double & ShapeAverageThread::getMinShapes(){ return shapeCounts.first(); }
-const double & ShapeAverageThread::getCircleCount(){ return m_circleCount; }
-const double & ShapeAverageThread::getPointCount(){ return m_pointCount; }
-const double & ShapeAverageThread::getSegmentCount(){ return m_segmentCount; }
-const double & ShapeAverageThread::getBezierCount(){ return m_bezierCount; }
-const double & ShapeAverageThread::getShapeCount(){ return m_shapeCount; }
-const double & ShapeAverageThread::getTimeDiff(){ return m_Time; }
-const double & ShapeAverageThread::getMaxSegError(){ return m_maxSegError; }
+        averageShapes();
+        averagePoints();
+        averageCircles();
+        averageSegments();
+        averageCurves();
+        averageTimes();
+        setMaxError();
+    }//end while
+}//run the thread!
 }//end namespace
 

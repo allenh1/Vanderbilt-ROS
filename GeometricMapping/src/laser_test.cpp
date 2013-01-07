@@ -118,7 +118,7 @@ void publishRunData()
     segRaw += "} @T: ";
     rawMessage += segRaw;
 
-    timeRaw.setNum(ros::Time::now().toSec());
+    timeRaw.setNum(ros::Time::now().toNSec());
     rawMessage += timeRaw;
 
     std_msgs::String str;

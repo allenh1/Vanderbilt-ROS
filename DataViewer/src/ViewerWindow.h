@@ -24,13 +24,13 @@ class ViewerWindow : public QWidget
 public:
     ViewerWindow(int argc, char** argv, QWidget * parent = 0);
 
-    Q_SLOT void updateCircleDisplay();
-    Q_SLOT void updatePointDisplay();
-    Q_SLOT void updateShapeDisplay();
-    Q_SLOT void updateSegmentDisplay();
-    Q_SLOT void updateCurveDisplay();
-    Q_SLOT void updateTimeDisplay();
-    Q_SLOT void updateMaxSegErrorDisplay();
+    Q_SLOT void updateCircleDisplay(double min, double num, double max);
+    Q_SLOT void updatePointDisplay(double min, double num, double max);
+    Q_SLOT void updateShapeDisplay(double min, double num, double max, double dataSize);
+    Q_SLOT void updateSegmentDisplay(double min, double num, double max);
+    Q_SLOT void updateCurveDisplay(double min, double num, double max);
+    Q_SLOT void updateTimeDisplay(double min, double num, double max);
+    Q_SLOT void updateMaxSegErrorDisplay(double min, double max);
 
 private:
     QVBoxLayout *leftLayout;
@@ -42,9 +42,13 @@ private:
     QHBoxLayout *p_shapeLayout;
     QHBoxLayout *p_timeLayout;
     QHBoxLayout *p_segErrorLayout;
+    QHBoxLayout *p_dataLayout;
 
+    QLabel *p_typeLabel;
     QLabel *p_minLabel;
+    QLabel *p_maxLabel;
     QLabel *p_averageLabel;
+    QLabel *p_dataLabel;
 
     QLabel *p_circleLabel;
     QLabel *p_pointLabel;
@@ -60,6 +64,15 @@ private:
     QLineEdit *p_minSeg;
     QLineEdit *p_minBezier;
     QLineEdit *p_minError;
+    QLineEdit *p_minTime;
+
+    QLineEdit *p_maxShapes;
+    QLineEdit *p_maxPoints;
+    QLineEdit *p_maxCircle;
+    QLineEdit *p_maxSeg;
+    QLineEdit *p_maxBezier;
+    QLineEdit *p_maxError;
+    QLineEdit *p_maxTime;
 
     QLineEdit *p_circleDisplay;
     QLineEdit *p_segmentDisplay;
@@ -68,6 +81,7 @@ private:
     QLineEdit *p_shapeDisplay;
     QLineEdit *p_timeDisplay;
     QLineEdit *p_segErrorDisplay;
+    QLineEdit *p_dataSize;
 
     QVBoxLayout *mainLayout;
     QPushButton *p_closeButton;

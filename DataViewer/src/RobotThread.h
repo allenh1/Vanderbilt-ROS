@@ -43,7 +43,6 @@ public:
     const double & getSegmentCount();
     const double & getBezierCount();
     const double & getShapeCount();
-    const double & getMaxSegError();
 
     const double & getMinCircles();
     const double & getMinSegments();
@@ -51,6 +50,13 @@ public:
     const double & getMinPoints();
     const double & getMinShapes();
     const double & getMinSegError();
+
+    const double & getMaxCircles();
+    const double & getMaxSegments();
+    const double & getMaxCurves();
+    const double & getMaxPoints();
+    const double & getMaxShapes();
+    const double & getMaxSegError();
 
     bool init();
 
@@ -73,14 +79,14 @@ public:
     Q_SIGNAL void newShapeCount();
     Q_SIGNAL void newMaxSegError();
 
+    Q_SIGNAL void CircleInformation(double circle);
+    Q_SIGNAL void SegmentInformation(double segment);
+    Q_SIGNAL void SegmentErrorInformation(double segError);
+    Q_SIGNAL void PointInformation(double point);
+    Q_SIGNAL void BezierInformation(double curve);
+    Q_SIGNAL void ShapeInformation(double shape);
+    Q_SIGNAL void TimeInformation(double time);
 private:
-    Q_SLOT void sendCircle();
-    Q_SLOT void sendTime();
-    Q_SLOT void sendSegment();
-    Q_SLOT void sendPoint();
-    Q_SLOT void sendCurve();
-    Q_SLOT void sendShape();
-    Q_SLOT void sendMaxSegError();
 
     void averageShapes();
     void averageSegments();
@@ -105,6 +111,20 @@ private:
     double m_bezierCount;
     double m_maxSegError;
 
+    double m_minCircleCount;
+    double m_minShapeCount;
+    double m_minPointCount;
+    double m_minSegmentCount;
+    double m_minBezierCount;
+    double m_minMaxSegError;
+
+    double m_maxCircleCount;
+    double m_maxShapeCount;
+    double m_maxPointCount;
+    double m_maxSegmentCount;
+    double m_maxBezierCount;
+    double m_maxMaxSegError;
+
     double m_xPos;
     double m_yPos;
     double m_aPos;
@@ -124,8 +144,6 @@ private:
     ros::Subscriber pose_listener;
     ros::Subscriber data_listener;
     ros::Subscriber scan_listener;
-
-    ShapeAverageThread m_MathThread;
 };
 }//end namespace
 #endif

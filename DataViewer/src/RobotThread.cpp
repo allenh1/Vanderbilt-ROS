@@ -3,68 +3,16 @@
 namespace data_server {
 RobotThread::RobotThread(int argc, char** pArgv)
     :	m_Init_argc(argc),
-      m_pInit_argv(pArgv),
-      m_MathThread()
+      m_pInit_argv(pArgv)
 {
-    m_MathThread.start();
 
-    connect(&m_MathThread, SIGNAL(newShapeCount()), this, SLOT(sendShape()));
+    /*connect(&m_MathThread, SIGNAL(newShapeCount()), this, SLOT(sendShape()));
     connect(&m_MathThread, SIGNAL(newPoint()), this, SLOT(sendPoint()));
     connect(&m_MathThread, SIGNAL(newCircle()), this, SLOT(sendCircle()));
     connect(&m_MathThread, SIGNAL(newSegment()), this, SLOT(sendSegment()));
     connect(&m_MathThread, SIGNAL(newCurve()), this, SLOT(sendCurve()));
     connect(&m_MathThread, SIGNAL(newTimeDiff()), this, SLOT(sendTime()));
-    connect(&m_MathThread, SIGNAL(newMaxSegError()), this, SLOT(sendMaxSegError()));
-}
-
-void RobotThread::sendCircle()
-{
-    //m_MathThread.LockMutex();
-    m_circleCount = m_MathThread.getCircleCount();
-    Q_EMIT newCircle();
-    //m_MathThread.UnlockMutex();
-}
-
-void RobotThread::sendPoint()
-{
-    m_pointCount = m_MathThread.getPointCount();
-    Q_EMIT newPoint();
-}
-
-void RobotThread::sendTime()
-{
-    m_time = m_MathThread.getTimeDiff();
-    Q_EMIT newTime();
-}
-
-void RobotThread::sendShape()
-{
-    //m_MathThread.LockMutex();
-    m_shapeCount = m_MathThread.getShapeCount();
-    Q_EMIT newShapeCount();
-    //m_MathThread.UnlockMutex();
-}
-
-void RobotThread::sendSegment()
-{
-    //m_MathThread.LockMutex();
-    m_segmentCount = m_MathThread.getSegmentCount();
-    Q_EMIT newSegment();
-    //m_MathThread.UnlockMutex();
-}
-
-void RobotThread::sendCurve()
-{
-    //m_MathThread.LockMutex();
-    m_bezierCount = m_MathThread.getBezierCount();
-    Q_EMIT newCurve();
-    // m_MathThread.UnlockMutex();
-}
-
-void RobotThread::sendMaxSegError()
-{
-    m_maxSegError = m_MathThread.getMaxSegError();
-    Q_EMIT newMaxSegError();
+    connect(&m_MathThread, SIGNAL(newMaxSegError()), this, SLOT(sendMaxSegError()));*/
 }
 
 RobotThread::~RobotThread()
@@ -130,10 +78,7 @@ void RobotThread::dataCallback(std_msgs::String msg)
         }//remove blank space.
 
         /** Extract total Shape count **/
-        if (!m_MathThread.TryLock(1000)) {
-            m_MathThread.pushShape(shapeCount.toDouble());
-            m_MathThread.UnlockMutex();
-        }//end if.
+        Q_EMIT(ShapeInformation(shapeCount.toDouble()));
 
         i1 = message.indexOf(",");
         i3 = message.indexOf(",",i1 + 1 );
@@ -149,22 +94,16 @@ void RobotThread::dataCallback(std_msgs::String msg)
         i2 = circleCount.indexOf(",");
         i3 += 1 + i2;
         circleCount.remove(i2, circleCount.size() - 1);
-        if (!m_MathThread.TryLock(1000)) {
-            m_MathThread.pushCircle(circleCount.toDouble());
-            m_MathThread.UnlockMutex();
-        }//end if.
+        Q_EMIT(CircleInformation(circleCount.toDouble()));
 
         /** Extract Segment Count **/
         QString segmentCount = message;
-        segmentCount.remove(0, i3);
-        i1 = segmentCount.indexOf("s");
-        segmentCount.remove(0, i1 + 1);
+        i1 = segmentCount.indexOf("Segments");
+        segmentCount.remove(0, i1 + 8);
         i2 = segmentCount.indexOf(",");
         segmentCount.remove(i2, segmentCount.size() - 1);
-        if (!m_MathThread.TryLock(100)) {
-            m_MathThread.pushSegment(segmentCount.toDouble());
-            m_MathThread.UnlockMutex();
-        }//end if.
+        segmentCount.replace(" ", "");
+        Q_EMIT(SegmentInformation(segmentCount.toDouble()));
 
         /** Extract Curve Count **/
         QString curveCount = message;
@@ -173,10 +112,7 @@ void RobotThread::dataCallback(std_msgs::String msg)
         i2 = curveCount.indexOf(",");
         curveCount.remove(i2, curveCount.size() - 1);
         curveCount.replace(" ", "");
-        if (!m_MathThread.TryLock(500)) {
-            m_MathThread.pushCurve(curveCount.toDouble());
-            m_MathThread.UnlockMutex();
-        }//end if.
+        Q_EMIT(BezierInformation(curveCount.toDouble()));
 
         /** Extract Point Count **/
         QString pointCount = message;
@@ -185,10 +121,7 @@ void RobotThread::dataCallback(std_msgs::String msg)
         i2 = pointCount.indexOf(",");
         pointCount.remove(i2, pointCount.size() - 1);
         pointCount.replace(" ", "");
-        if (!m_MathThread.TryLock(500)) {
-            m_MathThread.pushPoint(pointCount.toDouble());
-            m_MathThread.UnlockMutex();
-        }//end if.
+        Q_EMIT(PointInformation(pointCount.toDouble()));
 
         /** Extract the Max Segment Error **/
         QString segmentError = message;
@@ -197,19 +130,16 @@ void RobotThread::dataCallback(std_msgs::String msg)
         i2 = segmentError.indexOf("}");
         segmentError.remove(i2, segmentError.size() - 1);
         segmentError.replace(" ", "");
-        if (!m_MathThread.TryLock(500)) {
-            m_MathThread.pushSegError(segmentError.toDouble());
-            m_MathThread.UnlockMutex();
-        }//end if.
+        Q_EMIT(SegmentErrorInformation(segmentError.toDouble()));
 
         /** Measure Time Difference **/
         QString timeStamp = message;
         i1 = timeStamp.indexOf("@T:");
         timeStamp.remove(0, i1 + 3);
-        if (!m_MathThread.TryLock(500)) {
-            m_MathThread.pushTime(timeStamp.toDouble());
-            m_MathThread.UnlockMutex();
-        }//end if.
+        timeStamp.replace(" ", "");
+        double toSeconds = 0;
+        toSeconds += (timeStamp.toDouble() * pow(10, -9));
+        Q_EMIT(TimeInformation(toSeconds));
     }
 }//callback method for the strings
 
@@ -321,11 +251,17 @@ void RobotThread::setPose(QList<double> to_set)
     }//end if
 }//end void
 
-const double & RobotThread::getMinCircles(){ return m_MathThread.getMinCircles(); }
-const double & RobotThread::getMinCurves(){ return m_MathThread.getMinCurves(); }
-const double & RobotThread::getMinSegments(){ return m_MathThread.getMinSegments(); }
-const double & RobotThread::getMinShapes(){ return m_MathThread.getMinShapes(); }
-const double & RobotThread::getMinPoints(){ return m_MathThread.getMinPoints(); }
+const double & RobotThread::getMinCircles(){ return m_minCircleCount; }
+const double & RobotThread::getMinCurves(){ return m_minBezierCount; }
+const double & RobotThread::getMinSegments(){ return m_minSegmentCount; }
+const double & RobotThread::getMinShapes(){ return m_minShapeCount; }
+const double & RobotThread::getMinPoints(){ return m_minPointCount; }
+
+const double & RobotThread::getMaxCircles(){ return m_maxCircleCount; }
+const double & RobotThread::getMaxCurves(){ return m_maxBezierCount; }
+const double & RobotThread::getMaxSegments(){ return m_maxSegmentCount; }
+const double & RobotThread::getMaxShapes(){ return m_maxShapeCount; }
+const double & RobotThread::getMaxPoints(){ return m_maxPointCount; }
 
 const double & RobotThread::getCircleCount(){ return m_circleCount; }
 const double & RobotThread::getPointCount(){ return m_pointCount; }

@@ -18,42 +18,27 @@ public:
     ShapeAverageThread();
     virtual ~ShapeAverageThread();
 
-    const double & getCircleCount();
-    const double & getTimeDiff();
-    const double & getSegmentCount();
-    const double & getBezierCount();
-    const double & getShapeCount();
-    const double & getPointCount();
-    const double & getMaxSegError();
-
-    const double & getMinCircles();
-    const double & getMinSegments();
-    const double & getMinCurves();
-    const double & getMinPoints();
-    const double & getMinShapes();
-    const double & getMinSegError();
-
     void run();
 
-    void pushShape(double);
-    void pushTime(double);
-    void pushPoint(double);
-    void pushCircle(double);
-    void pushSegment(double);
-    void pushCurve(double);
-    void pushSegError(double);
+    Q_SLOT void pushShape(double);
+    Q_SLOT void pushTime(double);
+    Q_SLOT void pushPoint(double);
+    Q_SLOT void pushCircle(double);
+    Q_SLOT void pushSegment(double);
+    Q_SLOT void pushCurve(double);
+    Q_SLOT void pushSegError(double);
 
-    Q_SIGNAL void newCircle();
-    Q_SIGNAL void newTimeDiff();
-    Q_SIGNAL void newPoint();
-    Q_SIGNAL void newCurve();
-    Q_SIGNAL void newSegment();
-    Q_SIGNAL void newShapeCount();
-    Q_SIGNAL void newMaxSegError();
+    Q_SIGNAL void newCircle(double, double, double);
+    Q_SIGNAL void newTimeDiff(double, double, double);
+    Q_SIGNAL void newPoint(double, double, double);
+    Q_SIGNAL void newCurve(double, double, double);
+    Q_SIGNAL void newSegment(double, double, double);
+    Q_SIGNAL void newShapeCount(double, double, double,double);
+    Q_SIGNAL void newMaxSegError(double, double);
 
     void LockMutex(){m_Mutex.lock();}
     void UnlockMutex(){m_Mutex.unlock();}
-    bool TryLock(int timeOut = 0){if(timeOut) return m_Mutex.tryLock(); else return m_Mutex.tryLock(timeOut);}
+    bool TryLock(int timeOut = 0){if(timeOut) return m_Mutex.tryLock(timeOut); else return m_Mutex.tryLock();}
 
 private:
     void averageShapes();
@@ -66,7 +51,7 @@ private:
 
     QMutex m_Mutex;
 
-    double getAverage(QList<double> list);
+    double getAverage(QList<double> &list);
 
     double m_circleCount;
     double m_pointCount;
