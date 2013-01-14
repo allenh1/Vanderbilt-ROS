@@ -241,8 +241,17 @@ void Shape::correct_circle()
         }//end while
     }//end if
 
-    float k = (1/2.0) * ((pow(a, 2) + pow(b, 2)) * (e - c) + (pow(c, 2)+pow(d, 2)) * (a-e) + (pow(e, 2)+pow(f, 2)) * (c-a)) / (b * (e - c)+ d * (a - e) + f*(c - a));
-    float h = (0.5) * ((pow(a, 2) + pow(b, 2)) * (f - d) + (pow(c, 2) + pow(d, 2)) * (b - f) + (pow(e, 2) + pow(f, 2)) * (d - b)) / (a * (f - d) + c * (b - f) + e * (d - b));
+    float h = 0;
+    float k = 0;
+
+    for (unsigned int i = 0; i < uncorrected.points.size(); i++)
+    {
+        k += uncorrected.points.at(i).y;
+        h += uncorrected.points.at(i).x;
+    }//end for
+
+    h /= uncorrected.points.size();
+    k /= uncorrected.points.size();
 
     C_k = k;
     C_h = h;
