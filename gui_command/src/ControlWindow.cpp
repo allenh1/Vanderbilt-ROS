@@ -52,6 +52,7 @@ ControlWindow::ControlWindow(int argc, char **argv, QWidget *parent)
     p_xLayout = new QHBoxLayout();
     p_yLayout = new QHBoxLayout();
     p_aLayout = new QHBoxLayout();
+    p_scanLayout = new QHBoxLayout();
 
     p_xLabel = new QLabel();
     p_xLabel->setText("X:");
@@ -67,6 +68,11 @@ ControlWindow::ControlWindow(int argc, char **argv, QWidget *parent)
     p_aLabel->setText("Theta: ");
     p_aDisplay = new QLineEdit();
     p_aDisplay->setText("0.0");
+
+    p_scanLabel = new QLabel();
+    p_scanLabel->setText("Scan: ");
+    p_scanDisplay = new QLineEdit();
+    p_scanDisplay->setText("0.0");
 
     p_xLayout->addWidget(p_xLabel);
     p_xLayout->addWidget(p_xDisplay);
@@ -114,7 +120,8 @@ ControlWindow::ControlWindow(int argc, char **argv, QWidget *parent)
     connect(p_rightButton, SIGNAL(clicked()), this, SLOT(goRight()));
     connect(p_downButton, SIGNAL(clicked()), this, SLOT(goBackward()));
     connect(p_stopButton, SIGNAL(clicked()), this, SLOT(halt()));
-    connect(&m_RobotThread, SIGNAL(newPose()), this, SLOT(updatePoseDisplay()));
+    connect(&m_RobotThread, SIGNAL(newPose(double,double,double)), this, SLOT(updatePoseDisplay(double,double,double)));
+    connect(&m_RobotThread, SIGNAL(newMidLaser(double)), this, SLOT(updateLaserDisplay(double)));
 
     m_RobotThread.init();
     m_RobotThread.start();
@@ -125,7 +132,7 @@ void ControlWindow::goForward()
     QString command = "Forward @ 0.5 m/s";
 
     m_RobotThread.setCommand(command);
-    m_RobotThread.SetSpeed(0.5, 0);
+    m_RobotThread.SetSpeed(0.25, 0);
 }
 
 void ControlWindow::goBackward()
@@ -133,7 +140,7 @@ void ControlWindow::goBackward()
     QString command = "Backward @ 0.5 m/s";
 
     m_RobotThread.setCommand(command);
-    m_RobotThread.SetSpeed(-0.5, 0);
+    m_RobotThread.SetSpeed(-0.25, 0);
 }
 
 void ControlWindow::goRight()
@@ -175,7 +182,7 @@ void ControlWindow::goLeft()
     while (abs(m_RobotThread.getAPos() - next_pos) > 0.001)
     { /** Do Nothing **/ }
 
-    m_RobotThread.SetSpeed(0.5, 0);
+    m_RobotThread.SetSpeed(0.25, 0);
 }
 
 void ControlWindow::halt()
@@ -185,17 +192,26 @@ void ControlWindow::halt()
     m_RobotThread.setCommand(command);
 }
 
-void ControlWindow::updatePoseDisplay()
+void ControlWindow::updatePoseDisplay(double x, double y, double theta)
 {
     QString xPose, yPose, aPose;
-    xPose.setNum(m_RobotThread.getXPos());
-    yPose.setNum(m_RobotThread.getYPos());
-    aPose.setNum(m_RobotThread.getAPos());
+    xPose.setNum(x);
+    yPose.setNum(y);
+    aPose.setNum(theta);
 
     p_xDisplay->setText(xPose);
     p_yDisplay->setText(yPose);
     p_aDisplay->setText(aPose);
 }//update the display.
+
+void ControlWindow::updateLaserDisplay(double range)
+{
+    QString rangeMeasure;
+    rangeMeasure.setNum(range);
+    rangeMeasure += " m";
+
+    p_scanDisplay->setText(rangeMeasure);
+}//update the range display
 
 }//end namespace
 

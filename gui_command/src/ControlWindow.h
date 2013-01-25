@@ -24,7 +24,8 @@ class ControlWindow : public QWidget
 public:
     ControlWindow(int argc, char** argv, QWidget * parent = 0);
 
-    Q_SLOT void updatePoseDisplay();
+    Q_SLOT void updatePoseDisplay(double x, double y, double theta);
+    Q_SLOT void updateLaserDisplay(double range);
 private:
 
     Q_SLOT void goForward();
@@ -32,6 +33,7 @@ private:
     Q_SLOT void goLeft();
     Q_SLOT void goRight();
     Q_SLOT void halt();
+
 
     QPushButton *p_upButton;
     QPushButton *p_downButton;
@@ -50,14 +52,17 @@ private:
     QHBoxLayout *p_xLayout;
     QHBoxLayout *p_yLayout;
     QHBoxLayout *p_aLayout;
+    QHBoxLayout *p_scanLayout;
 
     QLabel *p_xLabel;
     QLabel *p_yLabel;
     QLabel *p_aLabel;
+    QLabel *p_scanLabel;
 
     QLineEdit *p_xDisplay;
     QLineEdit *p_yDisplay;
     QLineEdit *p_aDisplay;
+    QLineEdit *p_scanDisplay;
 
     QHBoxLayout *mainLayout;
     QPushButton *closeButton;

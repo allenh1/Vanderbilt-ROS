@@ -29,16 +29,16 @@ bool RobotThread::init()
     ros::NodeHandle nh;
     //rostopic pub p2os_driver/MotorState cmd_motor_state -- 1.0
     cmd_publisher = nh.advertise<std_msgs::String>("/gui_cmd", 1000);
-    //sim_velocity  = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 100);
-    sim_velocity = nh.advertise<turtlesim::Velocity>("/turtle1/command_velocity", 100);
-    //pose_listener = nh.subscribe("/pose", 10, &RobotThread::callback, this);
-    pose_listener = nh.subscribe("/turtle1/pose", 10, &RobotThread::callback, this);
-    //scan_listener = nh.subscribe("/scan", 1000, &RobotThread::scanCallBack, this);
+    sim_velocity  = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 100);
+    //sim_velocity = nh.advertise<turtlesim::Velocity>("/turtle1/command_velocity", 100);
+    pose_listener = nh.subscribe("/pose", 10, &RobotThread::callback, this);
+    //pose_listener = nh.subscribe("/turtle1/pose", 10, &RobotThread::callback, this);
+    scan_listener = nh.subscribe("/scan", 1000, &RobotThread::scanCallBack, this);
     start();
     return true;
 }//set up the ros toys.
 
-/** For a real robot
+/** For a real robot **/
 void RobotThread::callback(nav_msgs::Odometry msg)
 {
     m_xPos = msg.pose.pose.position.x;
@@ -46,25 +46,31 @@ void RobotThread::callback(nav_msgs::Odometry msg)
     m_aPos = msg.pose.pose.orientation.w;
 
     //ROS_INFO("Pose: (%f, %f, %f)", m_xPos, m_yPos, m_aPos);
-    Q_EMIT newPose();
-}//callback method to update the robot's position. **/
+    Q_EMIT newPose(m_xPos, m_yPos, m_aPos);
+}//callback method to update the robot's position.
 
-void RobotThread::callback(turtlesim::Pose msg)
+/** void RobotThread::callback(turtlesim::Pose msg)
 {
     m_xPos = msg.x;
     m_yPos = msg.y;
     m_aPos = msg.theta;
 
     Q_EMIT newPose();
-}
+}*/
 
 void RobotThread::scanCallBack(sensor_msgs::LaserScan scan)
 {
+    ranges.clear();
+
     m_maxRange = scan.range_max;
     m_minRange = scan.range_min;
 
     for (unsigned int x = 0; x < scan.ranges.size(); x++)
-        ranges.push_back(ranges.at(x));
+        ranges.push_back(scan.ranges.at(x));
+
+    int mid = scan.ranges.size() / 2; // get the middle index
+
+    Q_EMIT(newMidLaser(ranges.at(mid)));
 }//callback method for updating the laser scan data.
 
 void RobotThread::goToXYZ(geometry_msgs::Point goTo)
@@ -107,14 +113,15 @@ void RobotThread::run()
         ss << command.toStdString();
 
         msg.data = ss.str();
+        /**
         turtlesim::Velocity cmd_msg;
         cmd_msg.angular = m_angle;
-        cmd_msg.linear = m_speed;
+        cmd_msg.linear = m_speed;// sim robots **/
 
-        /** For Use with real robots:
+        /** For Use with real robots: **/
         geometry_msgs::Twist cmd_msg;
         cmd_msg.linear.x = m_speed;
-        cmd_msg.angular.z = m_angle;**/
+        cmd_msg.angular.z = m_angle;
 
         cmd_publisher.publish(msg);
         sim_velocity.publish(cmd_msg);

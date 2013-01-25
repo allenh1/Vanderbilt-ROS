@@ -37,8 +37,8 @@ public:
 
     bool init();
 
-    //void callback(nav_msgs::Odometry msg);
-    void callback(turtlesim::Pose msg);
+    void callback(nav_msgs::Odometry msg);
+    //void callback(turtlesim::Pose msg);
     void scanCallBack(sensor_msgs::LaserScan scan);
 
 	void SetSpeed(double speed, double angle);
@@ -47,7 +47,8 @@ public:
     void setCommand(QString cmd);
     void run();
 
-    Q_SIGNAL void newPose();
+    Q_SIGNAL void newPose(double,double,double);
+    Q_SIGNAL void newMidLaser(double);
 
 private:
     QString command;
