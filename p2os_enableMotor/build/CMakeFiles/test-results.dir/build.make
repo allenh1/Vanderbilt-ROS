@@ -4,7 +4,7 @@
 #=============================================================================
 # Special targets provided by cmake.
 
-# Disable implicit rules so canoncical targets will work.
+# Disable implicit rules so canonical targets will work.
 .SUFFIXES:
 
 # Remove some rules from gmake that .SUFFIXES does not remove.
@@ -32,15 +32,18 @@ CMAKE_COMMAND = /usr/bin/cmake
 RM = /usr/bin/cmake -E remove -f
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/sensd/ros_workspace/p2os_enableMotor
+CMAKE_SOURCE_DIR = /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/sensd/ros_workspace/p2os_enableMotor/build
+CMAKE_BINARY_DIR = /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor/build
 
 # Utility rule file for test-results.
 
+# Include the progress variables for this target.
+include CMakeFiles/test-results.dir/progress.make
+
 CMakeFiles/test-results:
-	/opt/ros/diamondback/ros/tools/rosunit/scripts/summarize_results.py --nodeps p2os_enableMotor
+	/opt/ros/fuerte/share/rosunit/bin/summarize_results.py --nodeps p2os_enableMotor
 
 test-results: CMakeFiles/test-results
 test-results: CMakeFiles/test-results.dir/build.make
@@ -55,6 +58,6 @@ CMakeFiles/test-results.dir/clean:
 .PHONY : CMakeFiles/test-results.dir/clean
 
 CMakeFiles/test-results.dir/depend:
-	cd /home/sensd/ros_workspace/p2os_enableMotor/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sensd/ros_workspace/p2os_enableMotor /home/sensd/ros_workspace/p2os_enableMotor /home/sensd/ros_workspace/p2os_enableMotor/build /home/sensd/ros_workspace/p2os_enableMotor/build /home/sensd/ros_workspace/p2os_enableMotor/build/CMakeFiles/test-results.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor/build /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor/build /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor/build/CMakeFiles/test-results.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/test-results.dir/depend
 

@@ -29,7 +29,7 @@ bool RobotThread::init()
     ros::NodeHandle nh;
     //rostopic pub p2os_driver/MotorState cmd_motor_state -- 1.0
     cmd_publisher = nh.advertise<std_msgs::String>("/gui_cmd", 1000);
-    sim_velocity  = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 100);
+    sim_velocity  = nh.advertise<geometry_msgs::Twist>("/base_controller/command", 100);
     //sim_velocity = nh.advertise<turtlesim::Velocity>("/turtle1/command_velocity", 100);
     pose_listener = nh.subscribe("/pose", 10, &RobotThread::callback, this);
     //pose_listener = nh.subscribe("/turtle1/pose", 10, &RobotThread::callback, this);

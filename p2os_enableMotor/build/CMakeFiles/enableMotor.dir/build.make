@@ -4,7 +4,7 @@
 #=============================================================================
 # Special targets provided by cmake.
 
-# Disable implicit rules so canoncical targets will work.
+# Disable implicit rules so canonical targets will work.
 .SUFFIXES:
 
 # Remove some rules from gmake that .SUFFIXES does not remove.
@@ -32,10 +32,10 @@ CMAKE_COMMAND = /usr/bin/cmake
 RM = /usr/bin/cmake -E remove -f
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/sensd/ros_workspace/p2os_enableMotor
+CMAKE_SOURCE_DIR = /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/sensd/ros_workspace/p2os_enableMotor/build
+CMAKE_BINARY_DIR = /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/enableMotor.dir/depend.make
@@ -49,72 +49,37 @@ include CMakeFiles/enableMotor.dir/flags.make
 CMakeFiles/enableMotor.dir/src/enableMotor.o: CMakeFiles/enableMotor.dir/flags.make
 CMakeFiles/enableMotor.dir/src/enableMotor.o: ../src/enableMotor.cpp
 CMakeFiles/enableMotor.dir/src/enableMotor.o: ../manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/ros/tools/rospack/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/ros/core/roslib/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/messages/std_msgs/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/messages/rosgraph_msgs/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/ros/core/rosbuild/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/ros/core/roslang/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/clients/rospy/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/utilities/cpp_common/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/clients/cpp/roscpp_traits/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/utilities/rostime/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/clients/cpp/roscpp_serialization/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/utilities/xmlrpcpp/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/tools/rosconsole/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/clients/cpp/roscpp/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/ros/tools/rosclean/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/tools/rosgraph/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/tools/rosparam/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/tools/rosmaster/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/tools/rosout/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/tools/roslaunch/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/ros/tools/rosunit/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/tools/rostest/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/tools/topic_tools/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/tools/rosbag/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/tools/rosbagmigration/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/common_msgs/geometry_msgs/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/common_msgs/nav_msgs/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/common_msgs/sensor_msgs/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/geometry/bullet/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/geometry/angles/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/tools/rosnode/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/tools/rosmsg/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/tools/rostopic/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/tools/rosservice/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/utilities/roswtf/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/utilities/message_filters/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/geometry/tf/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/common_msgs/diagnostic_msgs/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/diagnostics/diagnostic_updater/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/p2os/p2os_driver/manifest.xml
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/messages/rosgraph_msgs/msg_gen/generated
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/clients/cpp/roscpp/msg_gen/generated
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/clients/cpp/roscpp/srv_gen/generated
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/ros_comm/tools/topic_tools/srv_gen/generated
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/common_msgs/geometry_msgs/msg_gen/generated
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/common_msgs/nav_msgs/msg_gen/generated
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/common_msgs/nav_msgs/srv_gen/generated
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/common_msgs/sensor_msgs/msg_gen/generated
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/common_msgs/sensor_msgs/srv_gen/generated
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/geometry/tf/msg_gen/generated
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/geometry/tf/srv_gen/generated
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/common_msgs/diagnostic_msgs/msg_gen/generated
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/common_msgs/diagnostic_msgs/srv_gen/generated
-CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/diamondback/stacks/p2os/p2os_driver/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/sensd/ros_workspace/p2os_enableMotor/build/CMakeFiles $(CMAKE_PROGRESS_1)
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/share/roslang/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/share/rospy/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/share/roscpp/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/share/std_msgs/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/share/geometry_msgs/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/share/nav_msgs/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/stacks/bullet/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/share/sensor_msgs/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/share/rosconsole/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/stacks/geometry/angles/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/share/rostest/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/share/roswtf/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/share/message_filters/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/stacks/geometry/tf/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/share/diagnostic_msgs/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/stacks/diagnostics/diagnostic_updater/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /home/allenh1/ros/unstable/p2os_driver/manifest.xml
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/stacks/geometry/tf/msg_gen/generated
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /opt/ros/fuerte/stacks/geometry/tf/srv_gen/generated
+CMakeFiles/enableMotor.dir/src/enableMotor.o: /home/allenh1/ros/unstable/p2os_driver/msg_gen/generated
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/enableMotor.dir/src/enableMotor.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/enableMotor.dir/src/enableMotor.o -c /home/sensd/ros_workspace/p2os_enableMotor/src/enableMotor.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -o CMakeFiles/enableMotor.dir/src/enableMotor.o -c /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor/src/enableMotor.cpp
 
 CMakeFiles/enableMotor.dir/src/enableMotor.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/enableMotor.dir/src/enableMotor.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/sensd/ros_workspace/p2os_enableMotor/src/enableMotor.cpp > CMakeFiles/enableMotor.dir/src/enableMotor.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -E /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor/src/enableMotor.cpp > CMakeFiles/enableMotor.dir/src/enableMotor.i
 
 CMakeFiles/enableMotor.dir/src/enableMotor.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/enableMotor.dir/src/enableMotor.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/sensd/ros_workspace/p2os_enableMotor/src/enableMotor.cpp -o CMakeFiles/enableMotor.dir/src/enableMotor.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -DBT_USE_DOUBLE_PRECISION -DBT_EULER_DEFAULT_ZYX -W -Wall -Wno-unused-parameter -fno-strict-aliasing -pthread -S /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor/src/enableMotor.cpp -o CMakeFiles/enableMotor.dir/src/enableMotor.s
 
 CMakeFiles/enableMotor.dir/src/enableMotor.o.requires:
 .PHONY : CMakeFiles/enableMotor.dir/src/enableMotor.o.requires
@@ -124,7 +89,6 @@ CMakeFiles/enableMotor.dir/src/enableMotor.o.provides: CMakeFiles/enableMotor.di
 .PHONY : CMakeFiles/enableMotor.dir/src/enableMotor.o.provides
 
 CMakeFiles/enableMotor.dir/src/enableMotor.o.provides.build: CMakeFiles/enableMotor.dir/src/enableMotor.o
-.PHONY : CMakeFiles/enableMotor.dir/src/enableMotor.o.provides.build
 
 # Object files for target enableMotor
 enableMotor_OBJECTS = \
@@ -151,6 +115,6 @@ CMakeFiles/enableMotor.dir/clean:
 .PHONY : CMakeFiles/enableMotor.dir/clean
 
 CMakeFiles/enableMotor.dir/depend:
-	cd /home/sensd/ros_workspace/p2os_enableMotor/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sensd/ros_workspace/p2os_enableMotor /home/sensd/ros_workspace/p2os_enableMotor /home/sensd/ros_workspace/p2os_enableMotor/build /home/sensd/ros_workspace/p2os_enableMotor/build /home/sensd/ros_workspace/p2os_enableMotor/build/CMakeFiles/enableMotor.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor/build /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor/build /home/allenh1/ros/Vanderbilt-ROS/p2os_enableMotor/build/CMakeFiles/enableMotor.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/enableMotor.dir/depend
 

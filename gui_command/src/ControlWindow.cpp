@@ -73,6 +73,8 @@ ControlWindow::ControlWindow(int argc, char **argv, QWidget *parent)
     p_scanLabel->setText("Scan: ");
     p_scanDisplay = new QLineEdit();
     p_scanDisplay->setText("0.0");
+    p_scanLayout->addWidget(p_scanLabel);
+    p_scanLayout->addWidget(p_scanDisplay);
 
     p_xLayout->addWidget(p_xLabel);
     p_xLayout->addWidget(p_xDisplay);
@@ -84,6 +86,7 @@ ControlWindow::ControlWindow(int argc, char **argv, QWidget *parent)
     leftLayout->addLayout(p_xLayout);
     leftLayout->addLayout(p_yLayout);
     leftLayout->addLayout(p_aLayout);
+    leftLayout->addLayout(p_scanLayout);
 
     /** Set up the Layouts **/
     rightLayout = new QVBoxLayout();
@@ -161,7 +164,7 @@ void ControlWindow::goRight()
     while (abs(m_RobotThread.getAPos() - next_pos) > 0.001)
     { /** Do Nothing **/ }
 
-    m_RobotThread.SetSpeed(0.5, 0);
+    m_RobotThread.SetSpeed(0.25, 0);
 }
 
 void ControlWindow::goLeft()
