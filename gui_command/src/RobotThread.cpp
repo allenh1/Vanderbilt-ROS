@@ -132,7 +132,7 @@ void RobotThread::run()
 
 void RobotThread::SetSpeed(double speed, double angle)
 {
-    ROS_INFO("SetSpeed recieved");
+    ROS_INFO("SetSpeed received");
     m_speed = speed;
     m_angle = angle;
     //rostopic pub -1 /turtle1/command_velocity turtlesim/Velocity  --2.0 --0.0
