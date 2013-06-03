@@ -1,0 +1,27 @@
+<package>
+  <description brief="feature_extraction">
+
+     laser_variance
+
+  </description>
+  <author>Hunter Allen</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/laser_variance</url>
+
+
+  <rosdep name="qt4"/>
+
+  <!-- rosbuild1 -->
+  <depend package="qt_build"/>
+  <depend package="roscpp"/>
+  <depend package="tf"/>
+  <depend package="move_base"/>
+  <depend package="pcl_ros"/>
+
+  <rosbuild2>
+    <depend package="qt_build"/>
+    <depend package="roscpp"/>
+  </rosbuild2>
+  
+</package>
