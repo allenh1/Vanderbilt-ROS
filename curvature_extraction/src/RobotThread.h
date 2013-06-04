@@ -13,6 +13,7 @@
 #include <ros/ros.h>
 #include <ros/network.h>
 #include <sensor_msgs/LaserScan.h>
+#include <std_msgs/String.h>
 #include <nav_msgs/Odometry.h>
 #include "Shape.h"
 
@@ -48,7 +49,8 @@ private:
     bool m_isFirstMessage;
 
     QList<LaserPoint> m_scanData;
-    void extractCurves(QList<LaserPoint> scan_data);
+    void extractCurves(QList<LaserPoint> scan_data, std_msgs::Header scanTime);
+    void publishRunData(QList<Shape> scan);
 
     QList<Shape> m_shapes;
 
@@ -60,6 +62,7 @@ private:
     ros::Subscriber pose_listener;
 
     ros::Publisher cloud_pcl;
+    ros::Publisher data_Output;
 };
 }//end namespace
 #endif

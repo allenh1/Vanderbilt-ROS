@@ -80,28 +80,25 @@ void Shape::setSlope(double x)
 PointCloud Shape::getCorrections()
 {
     //ROS_INFO("C: %i \t S: %i \t N: %i, B: %i", circles, segments, unchanged, curves);
-    /*if ((bestMatch() < R2TOLL) ||
+    if ((bestMatch() < R2TOLL) ||
             (bestMatch() > R2TOLL2))
     {
         //unchanged++;
         return uncorrected; //if not a shape, don't make one!
-    } */
+    }
 
     if (is_circle() && C_r < MAXRAD && C_r > MINRAD)
     {
-        //circles++;
         return correctedCircle;
     }
 
     if (is_segment())
     {
-        //segments++;
         return correctedSegment;
     }//end else
 
     else
     {
-        //curves++;
         return correctedCurve;
     }
 }//get the correct shape for the cloud handler.

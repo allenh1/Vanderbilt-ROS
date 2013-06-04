@@ -34,7 +34,9 @@ bool RobotThread::init()
     nh.subscribe("/pose", 10, &RobotThread::callback, this);
     scan_listener = nh.subscribe("/scan", 1000, &RobotThread::scanCallBack, this);
 
-    cloud_pcl = nh.advertise<pcl::PointCloud<pcl::PointXYZRGB> >("/cloud_pcl", 100);
+    cloud_pcl = nh.advertise<pcl::PointCloud<pcl::PointXYZ> >("/cloud_pcl", 100);
+    data_Output = nh.advertise<std_msgs::String>("/run_data", 100);
+
     start();
 
     return true;
@@ -106,13 +108,105 @@ void RobotThread::scanCallBack(sensor_msgs::LaserScan scan)
         scan_data.push_back(toPush);
     }//end for x
 
-    extractCurves(scan_data);
+    std_msgs::Header toPass = scan.header;
+
+    extractCurves(scan_data, toPass);
 }//callback method for updating the laser scan data.
 
 inline double getDistance(LaserPoint a, LaserPoint b)
 { return sqrt(pow(a.px - b.px, 2) + pow(a.py - b.py, 2)); }
 
-void RobotThread::extractCurves(QList<LaserPoint> scan_data)
+void RobotThread::publishRunData(QList<Shape> scan)
+{
+    QList<Shape> scans = scan;
+    /** This method publishes the scan information as a string.
+
+        Published:
+            1. Number of Shapes
+            2. Number of Points
+            3. Number of Circles, Segments, Curves, Input
+            4. Max Dist Shift for Shape
+            5. Time of correction
+
+        {Shapes %i, Points %i, Circles %i, Segments %i, Curves %i, Input %i, MaxSeg %i, @T: time}
+    **/
+    QString rawMessage = "{Shapes ";
+    QString numOShapes, numOPoints, numCircles, numSegments, numCurves, numRaw, segRaw, timeRaw;
+    int numShapes = scans.size();
+    int numPoints = 0;
+    numOShapes.setNum(numShapes);
+    numOShapes += ", Points ";
+    rawMessage += numOShapes;
+
+    int circles = 0;
+    int unchanged = 0;
+    int segments = 0;
+    int curves = 0;
+    double maxDist = 0;
+
+    for (int x = 0; x < scans.size(); x++)
+    {
+        Shape current = scans.at(x);
+        numPoints += current.getCorrections().points.size();
+
+        int type = current.getType(); //get the shape
+        if (type == CIRCLE)
+            circles++;
+        else if (type == SEGMENT)
+            segments++;
+        else if (type == BEZIER)
+            curves++;
+        else
+            unchanged++;
+    }
+
+    for (int x = 0; x < scans.size(); x++)
+    {
+        Shape current = scans.at(x);
+
+        int type = current.getType();
+
+        if (type == SEGMENT)
+        {
+            if (maxDist < scans.at(x).max_correct)
+                maxDist = scans.at(x).max_correct;
+        }//end if
+    }//iterate through to get the max correction distance.
+
+    numOPoints.setNum(numPoints);
+    numOPoints += ", Circles ";
+    rawMessage += numOPoints;
+
+    numCircles.setNum(circles);
+    numCircles +=", Segments ";
+    rawMessage += numCircles;
+
+    numSegments.setNum(segments);
+    numSegments += ", Curves ";
+    rawMessage += numSegments;
+
+    numCurves.setNum(curves);
+    numCurves += ", Input ";
+    rawMessage += numCurves;
+
+    numRaw.setNum(unchanged);
+    numRaw += ", MaxSegError ";
+    rawMessage += numRaw;
+
+    segRaw.setNum(maxDist);
+    segRaw += "} @T: ";
+    rawMessage += segRaw;
+
+    timeRaw.setNum(ros::Time::now().toNSec());
+    rawMessage += timeRaw;
+
+    std_msgs::String str;
+    str.data = rawMessage.toStdString();
+
+    data_Output.publish(str);
+}//publish data as a string.
+
+void RobotThread::extractCurves(QList<LaserPoint> scan_data, std_msgs::Header scanTime)
 {
     /** This is the feature extraction method:
      *
@@ -190,6 +284,7 @@ void RobotThread::extractCurves(QList<LaserPoint> scan_data)
 
     PointCloud final;
 
+    publishRunData(shapes);
 
     for (int y = 0; y < shapes.size(); y++)
     {
@@ -210,6 +305,7 @@ void RobotThread::extractCurves(QList<LaserPoint> scan_data)
     final.height = 1;
     final.width = final.points.size();
     final.header.frame_id = "/laser";
+    final.header.stamp = scanTime.stamp;
 
     cloud_pcl.publish(final.makeShared());
 }//end callback

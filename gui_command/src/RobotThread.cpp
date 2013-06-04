@@ -29,17 +29,17 @@ bool RobotThread::init()
     ros::NodeHandle nh;
     //rostopic pub p2os_driver/MotorState cmd_motor_state -- 1.0
     cmd_publisher = nh.advertise<std_msgs::String>("/gui_cmd", 1000);
-    sim_velocity  = nh.advertise<geometry_msgs::Twist>("/base_controller/command", 100);
-    //sim_velocity = nh.advertise<turtlesim::Velocity>("/turtle1/command_velocity", 100);
-    pose_listener = nh.subscribe("/pose", 10, &RobotThread::callback, this);
-    //pose_listener = nh.subscribe("/turtle1/pose", 10, &RobotThread::callback, this);
+    //sim_velocity  = nh.advertise<geometry_msgs::Twist>("/base_controller/command", 100);
+    sim_velocity = nh.advertise<turtlesim::Velocity>("/turtle1/command_velocity", 100);
+    //pose_listener = nh.subscribe("/pose", 10, &RobotThread::callback, this);
+    pose_listener = nh.subscribe("/turtle1/pose", 10, &RobotThread::callback, this);
     scan_listener = nh.subscribe("/scan", 1000, &RobotThread::scanCallBack, this);
     start();
     return true;
 }//set up the ros toys.
 
 /** For a real robot **/
-void RobotThread::callback(nav_msgs::Odometry msg)
+/*void RobotThread::callback(nav_msgs::Odometry msg)
 {
     m_xPos = msg.pose.pose.position.x;
     m_yPos = msg.pose.pose.position.y;
@@ -47,16 +47,16 @@ void RobotThread::callback(nav_msgs::Odometry msg)
 
     //ROS_INFO("Pose: (%f, %f, %f)", m_xPos, m_yPos, m_aPos);
     Q_EMIT newPose(m_xPos, m_yPos, m_aPos);
-}//callback method to update the robot's position.
+}//callback method to update the robot's position.*/
 
-/** void RobotThread::callback(turtlesim::Pose msg)
+void RobotThread::callback(turtlesim::Pose msg)
 {
     m_xPos = msg.x;
     m_yPos = msg.y;
     m_aPos = msg.theta;
 
-    Q_EMIT newPose();
-}*/
+    Q_EMIT newPose(m_xPos, m_yPos, m_aPos);
+}
 
 void RobotThread::scanCallBack(sensor_msgs::LaserScan scan)
 {
@@ -113,15 +113,15 @@ void RobotThread::run()
         ss << command.toStdString();
 
         msg.data = ss.str();
-        /**
+        
         turtlesim::Velocity cmd_msg;
         cmd_msg.angular = m_angle;
-        cmd_msg.linear = m_speed;// sim robots **/
+        cmd_msg.linear = m_speed;// sim robots 
 
         /** For Use with real robots: **/
-        geometry_msgs::Twist cmd_msg;
+        /*geometry_msgs::Twist cmd_msg;
         cmd_msg.linear.x = m_speed;
-        cmd_msg.angular.z = m_angle;
+        cmd_msg.angular.z = m_angle;*/
 
         cmd_publisher.publish(msg);
         sim_velocity.publish(cmd_msg);
