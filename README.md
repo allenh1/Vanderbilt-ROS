@@ -10,6 +10,18 @@ Maintainer:
 
 Hunter Allen <Hunter.allen@Vanderbilt.edu>
 
+Mathematical Scan Correction:
+============
+This project can be found within the curvature_extraction package, replacing the GeometricMapping package. 
+
+To use, run these commands in order in separate terminal tabs. 
+
+1. roscore
+2. rosrun nodelet nodelet manager __me:=openni_manager
+3. roslaunch curvature_extraction pointcloud_to_laser.launch
+4. rosparam set use_sim_time true && roslaunch hector_slam_no_odom.launch
+
+If you are using a bag file, run it with the "--clock" argument. 
 
 TCP-Command:
 ============
